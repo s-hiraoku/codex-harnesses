@@ -18,7 +18,7 @@ Then edit it down. Keep only durable project guidance, stable verification comma
 
 Skills are directories that contain `SKILL.md`.
 
-Depending on your Codex setup, either copy selected skills into your configured Codex skills directory or keep them in a project-local skills directory that your environment loads.
+Codex environments may load skills differently. If your environment supports a global skills directory, copy selected skills there. If not, keep them project-local and reference them from your project guidance.
 
 ```sh
 cp -R skills/feature-implementation /path/to/codex-skills/
@@ -40,6 +40,8 @@ python3 hooks/stop-verify/hook.py
 ```
 
 Hook registration depends on your Codex environment. Treat these scripts as the deterministic payload that a lifecycle hook can call.
+
+For the boundary between payload scripts and environment-specific registration, see `docs/codex-config.md`.
 
 ## Use Policies
 
@@ -89,4 +91,3 @@ Strict mode fails when project files are detected but no supported verification 
 6. Update docs and ledger entries when behavior changes.
 7. Run `bash scripts/verify.sh` before finalizing.
 8. Report changed files, checks, risks, and next steps.
-

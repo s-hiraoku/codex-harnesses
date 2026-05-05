@@ -40,6 +40,7 @@ Copy one template from `templates/agents/` into a project as `AGENTS.md`, then e
 Keep project guidance durable. Avoid adding one-off task instructions that belong in an issue, prompt, or ledger entry.
 
 For concrete copy commands and setup guidance, see `docs/usage.md`.
+For notes on Codex environment configuration boundaries, see `docs/codex-config.md`.
 
 ## Using Skills
 
