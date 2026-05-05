@@ -39,6 +39,8 @@ Copy one template from `templates/agents/` into a project as `AGENTS.md`, then e
 
 Keep project guidance durable. Avoid adding one-off task instructions that belong in an issue, prompt, or ledger entry.
 
+For concrete copy commands and setup guidance, see `docs/usage.md`.
+
 ## Using Skills
 
 Skills live under `skills/<name>/SKILL.md`. Each skill contains frontmatter with `name` and `description`, followed by a reusable workflow.
@@ -102,3 +104,5 @@ This repository does not:
 ## Current Status
 
 This is the first usable version. The repository contains templates and examples designed to be copied, adapted, and tightened for real projects.
+
+The next layer of usefulness is in `examples/`, which shows minimal target-project layouts for common adoption paths.

@@ -1,11 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+STRICT_MODE="${CODEX_HARNESSES_STRICT:-0}"
+MISSING_CHECKS=0
+
+mark_missing_check() {
+  local message="$1"
+  echo "${message}"
+  if [[ "${STRICT_MODE}" == "1" ]]; then
+    MISSING_CHECKS=1
+  fi
+}
+
 run_if_script_exists() {
   local script_name="$1"
 
   if ! command -v npm >/dev/null 2>&1; then
-    echo "npm not found; skipping package.json script checks"
+    mark_missing_check "npm not found; skipping package.json script checks"
     return
   fi
 
@@ -39,7 +50,7 @@ run_python_checks() {
   fi
 
   if [[ "${ran_check}" -eq 0 ]]; then
-    echo "pyproject.toml detected, but no supported Python checks were available"
+    mark_missing_check "pyproject.toml detected, but no supported Python checks were available"
   fi
 }
 
@@ -60,11 +71,15 @@ main() {
   fi
 
   if [[ "${detected}" -eq 0 ]]; then
-    echo "No project-specific verification detected"
+    mark_missing_check "No project-specific verification detected"
+  fi
+
+  if [[ "${MISSING_CHECKS}" -ne 0 ]]; then
+    echo "Strict mode failed because no supported verification checks were available"
+    return 1
   fi
 
   echo "Verification script completed"
 }
 
 main "$@"
-

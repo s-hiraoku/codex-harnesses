@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/s-hiraoku/codex-harnesses/schemas/policy.schema.json",
+  "title": "Codex Harness Policy",
+  "type": "object",
+  "required": ["mode", "guards", "verification", "git"],
+  "additionalProperties": false,
+  "properties": {
+    "mode": {
+      "type": "object",
+      "required": ["approval", "sandbox"],
+      "additionalProperties": false,
+      "properties": {
+        "approval": {
+          "type": "string",
+          "enum": ["on-request", "explicit", "always", "never"]
+        },
+        "sandbox": {
+          "type": "string",
+          "enum": ["read-only", "workspace-write", "danger-full-access"]
+        }
+      }
+    },
+    "guards": {
+      "type": "object",
+      "required": ["block_secrets", "block_dangerous_commands", "require_verification_on_stop"],
+      "additionalProperties": false,
+      "properties": {
+        "block_secrets": { "type": "boolean" },
+        "block_dangerous_commands": { "type": "boolean" },
+        "require_verification_on_stop": { "type": "boolean" }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["require_lint", "require_typecheck", "require_tests", "require_build"],
+      "additionalProperties": false,
+      "properties": {
+        "require_lint": { "type": "boolean" },
+        "require_typecheck": { "type": "boolean" },
+        "require_tests": { "type": "boolean" },
+        "require_build": { "type": "boolean" }
+      }
+    },
+    "git": {
+      "type": "object",
+      "required": ["allow_force_push", "allow_reset_hard", "prefer_worktree"],
+      "additionalProperties": false,
+      "properties": {
+        "allow_force_push": { "type": "boolean" },
+        "allow_reset_hard": { "type": "boolean" },
+        "prefer_worktree": { "type": "boolean" }
+      }
+    }
+  }
+}
+
