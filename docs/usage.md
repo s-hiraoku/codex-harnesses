@@ -32,7 +32,7 @@ Use skills for repeated workflows. Do not put repository-specific secrets, crede
 
 ## Configure Hooks
 
-Hooks in this repository are examples. Wire them into your Codex lifecycle only after reviewing and adapting them.
+Hooks in this repository are examples. They do not auto-register with Codex when copied into a project. Wire them into your Codex lifecycle only after reviewing and adapting them.
 
 Typical use:
 
@@ -66,7 +66,7 @@ Copy the `ledger/` templates into the target project when a task may run for a l
 cp -R ledger /path/to/project/ledger
 ```
 
-Update `ledger/current.md` before pausing, after major decisions, and before risky edits. Use `scripts/checkpoint.sh` to append branch, status, and commit context.
+Update `ledger/current.md` before pausing, after major decisions, and before risky edits. Record meaningful check results in `ledger/verification.md` when future sessions or reviewers should trust them. Use `scripts/checkpoint.sh` to append branch, status, and commit context.
 
 ## Run Verification
 
@@ -83,6 +83,25 @@ CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh
 ```
 
 Strict mode fails when project files are detected but no supported verification commands are available.
+
+Run the same script from CI so local and pull request verification stay aligned. A minimal GitHub Actions job looks like:
+
+```yaml
+name: Verify
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh
+```
 
 ## Recommended Workflow for a New Task
 
