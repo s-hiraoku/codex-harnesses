@@ -20,6 +20,7 @@ def skill_files() -> list[Path]:
 def parse_frontmatter(text: str) -> dict[str, str]:
     lines = text.splitlines()
     assert lines and lines[0] == "---", "skill frontmatter must start with ---"
+    assert "---" in lines[1:], "skill frontmatter must end with ---"
     end_index = lines[1:].index("---") + 1
     entries: dict[str, str] = {}
 

@@ -42,6 +42,7 @@ Keep project guidance durable. Avoid adding one-off task instructions that belon
 For concrete copy commands and setup guidance, see `docs/usage.md`.
 For notes on Codex environment configuration boundaries, see `docs/codex-config.md`.
 For a step-by-step adoption pass, see `docs/adoption-checklist.md`.
+For long-running task memory patterns, see `docs/task-ledger-patterns.md`.
 
 ## Using Skills
 
