@@ -12,7 +12,7 @@ It should not become a task tracker or a dumping ground for temporary instructio
 
 Skills are reusable workflows. A skill belongs in `skills/<name>/SKILL.md` and should include frontmatter with `name` and `description`.
 
-Use skills for repeated task types such as feature work, bug fixing, refactoring, release checks, and documentation updates.
+Use skills for repeated task types such as feature work, bug fixing, refactoring, release checks, documentation updates, code review, and post-PR follow-up.
 
 ## MCP
 
@@ -37,4 +37,3 @@ The task ledger is resumable task memory. It records current state, decisions, r
 ## Verification
 
 Verification is the repeatable lint, typecheck, test, and build loop. Prefer commands that fail loudly and deterministically over instructions that rely on the model remembering to check.
-

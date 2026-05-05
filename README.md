@@ -71,6 +71,9 @@ Use skills when a task pattern repeats:
 - release readiness checks
 - documentation updates
 - code review
+- post-PR CI and review follow-up
+
+After opening a PR, run the `pr-guardian` workflow by default to monitor checks and address actionable feedback until the PR is mergeable or a blocker is documented.
 
 Install or copy the skills that match your Codex setup. Keep each skill focused on workflow, expected verification, and final reporting.
 
