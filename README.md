@@ -55,6 +55,7 @@ Use skills when a task pattern repeats:
 - safe refactoring
 - release readiness checks
 - documentation updates
+- code review
 
 Install or copy the skills that match your Codex setup. Keep each skill focused on workflow, expected verification, and final reporting.
 

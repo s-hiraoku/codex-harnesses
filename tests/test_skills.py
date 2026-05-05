@@ -10,6 +10,7 @@ REQUIRED_SKILL_NAMES = {
     "refactor-safely",
     "release-check",
     "docs-updater",
+    "review",
 }
 
 
