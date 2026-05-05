@@ -3,9 +3,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
+.venv/
 .DS_Store
 node_modules/
 dist/
 build/
 coverage/
-

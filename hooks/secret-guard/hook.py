@@ -6,7 +6,6 @@ from __future__ import annotations
 import re
 import sys
 
-
 PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("OpenAI-style API key", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b")),
     ("GitHub token-like string", re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9_]{30,}\b")),

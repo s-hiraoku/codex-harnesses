@@ -14,6 +14,8 @@ cp templates/agents/strict/AGENTS.md /path/to/project/AGENTS.md
 
 Then edit it down. Keep only durable project guidance, stable verification commands, and safety expectations. Temporary task instructions belong in an issue, prompt, or task ledger.
 
+For end-to-end adoption steps, see `docs/adoption-checklist.md`.
+
 ## Install Skills
 
 Skills are directories that contain `SKILL.md`.

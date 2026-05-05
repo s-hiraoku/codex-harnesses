@@ -41,6 +41,7 @@ Keep project guidance durable. Avoid adding one-off task instructions that belon
 
 For concrete copy commands and setup guidance, see `docs/usage.md`.
 For notes on Codex environment configuration boundaries, see `docs/codex-config.md`.
+For a step-by-step adoption pass, see `docs/adoption-checklist.md`.
 
 ## Using Skills
 
@@ -106,4 +107,4 @@ This repository does not:
 
 This is the first usable version. The repository contains templates and examples designed to be copied, adapted, and tightened for real projects.
 
-The next layer of usefulness is in `examples/`, which shows minimal target-project layouts for common adoption paths.
+The next layer of usefulness is in `examples/`, which shows minimal, frontend, Next.js, and strict target-project layouts for common adoption paths.
