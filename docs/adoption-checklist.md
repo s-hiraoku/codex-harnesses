@@ -31,6 +31,8 @@ Copy only what you need. A small accurate harness is better than a broad stale o
 - [ ] Test blocked and allowed cases locally.
 - [ ] Document that hooks are examples unless hardened for the project.
 
+See `hook-hardening.md` before relying on example hooks in important repositories.
+
 ## 5. Add Policy
 
 - [ ] Copy a policy from `policies/`.
@@ -57,4 +59,3 @@ Copy only what you need. A small accurate harness is better than a broad stale o
 - [ ] Check whether Codex had enough durable guidance.
 - [ ] Check whether verification ran at the right time.
 - [ ] Remove any harness files that were not useful.
-

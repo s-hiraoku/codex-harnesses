@@ -82,6 +82,8 @@ The `ledger/` templates help long-running tasks survive context loss and handoff
 
 Use `scripts/checkpoint.sh` to append a timestamped checkpoint to `ledger/current.md`.
 
+For operating patterns, see `docs/task-ledger-patterns.md`.
+
 ## Suggested Workflow
 
 1. Start with a small `AGENTS.md`.

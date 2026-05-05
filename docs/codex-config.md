@@ -22,6 +22,8 @@ The hook scripts in this repository are payload scripts. They read stdin or run 
 
 Registration is intentionally not hard-coded here. A target Codex environment should map lifecycle events to these scripts using its supported configuration mechanism.
 
+For production hardening guidance, see `hook-hardening.md`.
+
 Useful payloads:
 
 - `hooks/secret-guard/hook.py`: scan proposed text for likely secrets
@@ -47,4 +49,3 @@ For long-running work, update the ledger before pausing and after decisions, ris
 ## Verification
 
 `scripts/verify.sh` is intended to be copied into a target project and adapted. In this repository, CI runs it in strict mode so missing verification tooling does not look like a passing test run.
-
