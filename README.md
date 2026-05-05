@@ -6,6 +6,16 @@ Codex should not be expected to succeed by intelligence alone.
 
 This repository provides reusable examples for project guidance, task workflows, deterministic lifecycle checks, safety policies, task ledgers, and verification loops. It is a harness collection, not a multi-agent router.
 
+## Quick Start
+
+1. Pick a starting shape from `examples/`.
+2. Copy the matching `AGENTS.md`, `scripts/verify.sh`, policy, and ledger files into your project.
+3. Replace generic verification commands with real project commands.
+4. Add only the skills and hooks that match repeated work.
+5. Run one small real task through the harness and tighten anything that was vague.
+
+For a detailed adoption pass, see `docs/adoption-checklist.md`.
+
 ## Why Harnesses
 
 Long-running software work fails when context drifts, verification is skipped, safety rules are vague, or project conventions live only in chat history. Harnesses move the important parts into durable files and deterministic checks.
@@ -70,6 +80,8 @@ Included examples:
 - `stop-verify`: runs `scripts/verify.sh` from the repository root.
 
 Adapt them before relying on them in high-risk environments.
+
+For production hardening guidance, see `docs/hook-hardening.md`.
 
 ## Using Task Ledgers
 
