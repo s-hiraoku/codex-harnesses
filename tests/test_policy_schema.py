@@ -45,3 +45,4 @@ def test_all_policy_examples_are_discovered() -> None:
 
     assert {path.name for path in paths} >= {"default.yaml", "strict.yaml", "experimental.yaml"}
     assert ROOT / "examples/strict-repo/policies/strict.yaml" in paths
+    assert ROOT / "examples/nextjs-project/policies/default.yaml" in paths
