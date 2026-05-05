@@ -70,6 +70,16 @@ main() {
     run_python_checks
   fi
 
+  if [[ -f mkdocs.yml ]]; then
+    detected=1
+    if command -v mkdocs >/dev/null 2>&1; then
+      echo "Running mkdocs build --strict"
+      mkdocs build --strict
+    else
+      mark_missing_check "mkdocs.yml detected, but mkdocs was not available"
+    fi
+  fi
+
   if [[ "${detected}" -eq 0 ]]; then
     mark_missing_check "No project-specific verification detected"
   fi

@@ -14,6 +14,8 @@ This repository provides reusable examples for project guidance, task workflows,
 4. Add only the skills and hooks that match repeated work.
 5. Run one small real task through the harness and tighten anything that was vague.
 
+The GitHub Pages user guide lives in `docs/` and is built with MkDocs. Once Pages is enabled with GitHub Actions as the source, it publishes to [s-hiraoku.github.io/codex-harnesses](https://s-hiraoku.github.io/codex-harnesses/).
+
 For a detailed adoption pass, see `docs/adoption-checklist.md`.
 
 ## Why Harnesses

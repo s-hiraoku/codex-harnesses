@@ -6,6 +6,7 @@ __pycache__/
 .venv/
 .DS_Store
 node_modules/
+site/
 dist/
 build/
 coverage/
