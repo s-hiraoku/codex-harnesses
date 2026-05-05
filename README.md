@@ -1,5 +1,8 @@
 # codex-harnesses
 
+[![Verify](https://github.com/s-hiraoku/codex-harnesses/actions/workflows/verify.yml/badge.svg)](https://github.com/s-hiraoku/codex-harnesses/actions/workflows/verify.yml)
+[![GitHub Pages](https://github.com/s-hiraoku/codex-harnesses/actions/workflows/pages.yml/badge.svg)](https://github.com/s-hiraoku/codex-harnesses/actions/workflows/pages.yml)
+
 `codex-harnesses` is a collection of practical harnesses for long-running, reliable, safe, and high-quality Codex-driven software development.
 
 Codex should not be expected to succeed by intelligence alone.

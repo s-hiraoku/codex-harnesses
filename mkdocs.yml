@@ -16,6 +16,7 @@ nav:
       - Usage: usage.md
       - Adoption Checklist: adoption-checklist.md
       - Examples: examples.md
+      - Release Readiness: release-readiness.md
   - Concepts:
       - Philosophy: philosophy.md
       - Harness Model: harness-model.md
