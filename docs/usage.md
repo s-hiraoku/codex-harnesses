@@ -84,7 +84,7 @@ CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh
 
 Strict mode fails when project files are detected but no supported verification commands are available.
 
-Run the same script from CI so local and pull request verification stay aligned. A minimal GitHub Actions job looks like:
+Run the same script from CI so local and pull request verification stay aligned. Install the tools that `scripts/verify.sh` expects before running strict mode. A minimal Python-based GitHub Actions job looks like:
 
 ```yaml
 name: Verify
@@ -99,8 +99,19 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install verification dependencies
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Run repository verification
+        run: CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh
 ```
 
 ## Recommended Workflow for a New Task
