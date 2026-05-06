@@ -6,7 +6,12 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = [ROOT / "scripts/verify.sh", ROOT / "scripts/checkpoint.sh"]
+SCRIPTS = [
+    ROOT / "scripts/verify.sh",
+    ROOT / "scripts/checkpoint.sh",
+    ROOT / "scripts/install.sh",
+    ROOT / "scripts/skills.sh",
+]
 
 
 def test_root_scripts_are_executable_and_valid_bash() -> None:
@@ -33,3 +38,57 @@ def test_checkpoint_appends_git_context(tmp_path: Path) -> None:
     ledger = (repo / "ledger/current.md").read_text()
     assert "Latest commit: no commit" in ledger
     assert "Short status:" in ledger
+
+
+def test_install_script_deploys_selected_harness_files(tmp_path: Path) -> None:
+    target = tmp_path / "project"
+    target.mkdir()
+
+    subprocess.run(
+        [
+            "bash",
+            str(ROOT / "scripts/install.sh"),
+            "--target",
+            str(target),
+            "--agents",
+            "frontend",
+            "--skills",
+            "feature-implementation,review",
+            "--ledger",
+            "--policy",
+            "default",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert (target / "AGENTS.md").is_file()
+    assert "Frontend" in (target / "AGENTS.md").read_text()
+    assert (target / "scripts/verify.sh").is_file()
+    assert (target / "policies/codex.yaml").is_file()
+    assert (target / "ledger/current.md").is_file()
+    assert (target / "skills/feature-implementation/SKILL.md").is_file()
+    assert (target / "skills/review/SKILL.md").is_file()
+
+
+def test_skills_script_installs_named_skills(tmp_path: Path) -> None:
+    target = tmp_path / "codex-skills"
+
+    subprocess.run(
+        [
+            "bash",
+            str(ROOT / "scripts/skills.sh"),
+            "--target",
+            str(target),
+            "bug-fix",
+            "docs-updater",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert (target / "bug-fix/SKILL.md").is_file()
+    assert (target / "docs-updater/SKILL.md").is_file()
+    assert not (target / "review/SKILL.md").exists()

@@ -1,18 +1,35 @@
 # Usage
 
-This repository is meant to be copied from, not installed as a framework.
+This repository is meant to be deployed from selectively, not installed as a framework.
 
 Pick the harness pieces that match your project, place them close to the code they govern, and adapt them until they describe real commands and real risk boundaries.
 
-## Copy an AGENTS.md Template
+## Deploy a Project Harness
 
-Choose a template from `templates/agents/` and copy it into the target repository as `AGENTS.md`.
+Use `scripts/install.sh` from a local checkout of this repository:
 
 ```sh
-cp templates/agents/strict/AGENTS.md /path/to/project/AGENTS.md
+scripts/install.sh --target /path/to/project --agents strict --skills feature-implementation,bug-fix,review --ledger --policy default
 ```
 
-Then edit it down. Keep only durable project guidance, stable verification commands, and safety expectations. Temporary task instructions belong in an issue, prompt, or task ledger.
+With GitHub CLI:
+
+```sh
+gh repo clone s-hiraoku/codex-harnesses /tmp/codex-harnesses
+/tmp/codex-harnesses/scripts/install.sh --target /path/to/project --agents strict --skills feature-implementation,bug-fix,review --ledger --policy default
+```
+
+The installer is intentionally small. It copies selected files into the target project, skips existing files by default, and supports `--dry-run` and `--force`.
+
+Common options:
+
+```sh
+scripts/install.sh --target . --agents frontend --skills all --ledger --policy default
+scripts/install.sh --target . --agents library --no-verify --skills release-check,docs-updater
+scripts/install.sh --target . --hooks secret-guard,dangerous-command-guard
+```
+
+Then edit the deployed files down. Keep only durable project guidance, stable verification commands, and safety expectations. Temporary task instructions belong in an issue, prompt, or task ledger.
 
 For end-to-end adoption steps, see `docs/adoption-checklist.md`.
 
@@ -20,12 +37,10 @@ For end-to-end adoption steps, see `docs/adoption-checklist.md`.
 
 Skills are directories that contain `SKILL.md`.
 
-Codex environments may load skills differently. If your environment supports a global skills directory, copy selected skills there. If not, keep them project-local and reference them from your project guidance.
+Codex environments may load skills differently. If your environment supports a global skills directory, install selected skills there. If not, keep them project-local and reference them from your project guidance.
 
 ```sh
-cp -R skills/feature-implementation /path/to/codex-skills/
-cp -R skills/bug-fix /path/to/codex-skills/
-cp -R skills/review /path/to/codex-skills/
+scripts/skills.sh --target /path/to/codex-skills feature-implementation bug-fix review
 ```
 
 Use skills for repeated workflows. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
@@ -50,27 +65,27 @@ For the boundary between payload scripts and environment-specific registration, 
 
 Policy files in `policies/` are human-readable examples for approval, sandboxing, guards, verification, and git behavior.
 
-Copy one into the target project and adapt it:
+Install one into the target project and adapt it:
 
 ```sh
-cp policies/default.yaml /path/to/project/policies/codex.yaml
+scripts/install.sh --target /path/to/project --no-agents --no-verify --policy default
 ```
 
 The policy schema in `schemas/policy.schema.json` can be used by editors or validation tooling.
 
 ## Use the Task Ledger
 
-Copy the `ledger/` templates into the target project when a task may run for a long time or be resumed later.
+Install the `ledger/` templates into the target project when a task may run for a long time or be resumed later.
 
 ```sh
-cp -R ledger /path/to/project/ledger
+scripts/install.sh --target /path/to/project --no-agents --no-verify --ledger
 ```
 
 Update `ledger/current.md` before pausing, after major decisions, and before risky edits. Use `scripts/checkpoint.sh` to append branch, status, and commit context.
 
 ## Run Verification
 
-Copy `scripts/verify.sh` into the target project, then adapt it to the project commands.
+Deploy `scripts/verify.sh` into the target project, then adapt it to the project commands.
 
 ```sh
 bash scripts/verify.sh

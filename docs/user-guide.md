@@ -16,7 +16,7 @@ Use this separation:
 
 Each layer should do one job. Do not use `AGENTS.md` as a task ledger, do not use skills as project memory, and do not treat example hooks as production security controls without hardening.
 
-## What to Copy First
+## What to Deploy First
 
 For most projects, start with:
 
@@ -31,7 +31,7 @@ Add hooks only after you have reviewed and tested the payload scripts.
 ## Recommended Adoption Path
 
 1. Pick an example project shape from [Examples](examples.md).
-2. Copy the relevant files into your target repository.
+2. Run `scripts/install.sh` to deploy the relevant files into your target repository.
 3. Replace generic commands with real project commands.
 4. Run `bash scripts/verify.sh`.
 5. Run one small real task through Codex.
@@ -46,6 +46,12 @@ Add hooks only after you have reviewed and tested the payload scripts.
 - Strict repository: use when safety, review, and verification expectations should be conservative.
 
 See [Examples](examples.md) for the full list.
+
+For example:
+
+```sh
+scripts/install.sh --target /path/to/project --agents strict --skills feature-implementation,bug-fix,review --ledger --policy default
+```
 
 ## Daily Workflow
 
@@ -77,4 +83,3 @@ For production use, read [Hook Hardening](hook-hardening.md).
 For long-running tasks, the ledger is the recovery point. It should record the current goal, decisions, risks, verification results, and the exact next step.
 
 Read [Task Ledger Patterns](task-ledger-patterns.md) before using Codex for multi-hour or multi-session work.
-
