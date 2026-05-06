@@ -66,6 +66,7 @@ Skills live under `skills/<name>/SKILL.md`. Each skill contains frontmatter with
 Use skills when a task pattern repeats:
 
 - feature implementation
+- goal management for long-running or PR-bound work
 - bug fixing
 - safe refactoring
 - release readiness checks
