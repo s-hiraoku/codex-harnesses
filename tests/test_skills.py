@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
 REQUIRED_SKILL_NAMES = {
     "feature-implementation",
+    "goal-manager",
     "bug-fix",
     "refactor-safely",
     "release-check",

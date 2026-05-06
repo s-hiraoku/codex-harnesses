@@ -24,12 +24,13 @@ Codex environments may load skills differently. If your environment supports a g
 
 ```sh
 cp -R skills/feature-implementation /path/to/codex-skills/
+cp -R skills/goal-manager /path/to/codex-skills/
 cp -R skills/bug-fix /path/to/codex-skills/
 cp -R skills/review /path/to/codex-skills/
 cp -R skills/pr-guardian /path/to/codex-skills/
 ```
 
-Use skills for repeated workflows. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Use skills for repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ## Configure Hooks
 
