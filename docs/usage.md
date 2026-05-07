@@ -40,14 +40,22 @@ Skills are directories that contain `SKILL.md`.
 Codex environments may load skills differently. If your environment supports a global skills directory, install selected skills there. If not, keep them project-local and reference them from your project guidance.
 
 ```sh
+<<<<<<< codex/deployable-harness-installer
 scripts/skills.sh --target /path/to/codex-skills feature-implementation bug-fix review
+=======
+cp -R skills/feature-implementation /path/to/codex-skills/
+cp -R skills/goal-manager /path/to/codex-skills/
+cp -R skills/bug-fix /path/to/codex-skills/
+cp -R skills/review /path/to/codex-skills/
+cp -R skills/pr-guardian /path/to/codex-skills/
+>>>>>>> main
 ```
 
-Use skills for repeated workflows. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Use skills for repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ## Configure Hooks
 
-Hooks in this repository are examples. Wire them into your Codex lifecycle only after reviewing and adapting them.
+Hooks in this repository are examples. They do not auto-register with Codex when copied into a project. Wire them into your Codex lifecycle only after reviewing and adapting them.
 
 Typical use:
 
@@ -81,7 +89,7 @@ Install the `ledger/` templates into the target project when a task may run for 
 scripts/install.sh --target /path/to/project --no-agents --no-verify --ledger
 ```
 
-Update `ledger/current.md` before pausing, after major decisions, and before risky edits. Use `scripts/checkpoint.sh` to append branch, status, and commit context.
+Update `ledger/current.md` before pausing, after major decisions, and before risky edits. Record meaningful check results in `ledger/verification.md` when future sessions or reviewers should trust them. Use `scripts/checkpoint.sh` to append branch, status, and commit context.
 
 ## Run Verification
 
@@ -98,6 +106,36 @@ CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh
 ```
 
 Strict mode fails when project files are detected but no supported verification commands are available.
+
+Run the same script from CI so local and pull request verification stay aligned. Install the tools that `scripts/verify.sh` expects before running strict mode. A minimal Python-based GitHub Actions job looks like:
+
+```yaml
+name: Verify
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install verification dependencies
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Run repository verification
+        run: CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh
+```
 
 ## Recommended Workflow for a New Task
 

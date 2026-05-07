@@ -15,7 +15,9 @@ Use this checklist before announcing, tagging, or broadly sharing this repositor
 - [ ] Quick Start points users to examples and adoption docs.
 - [ ] User guide builds with `mkdocs build --strict`.
 - [ ] Hook examples clearly state they are not production-ready security controls.
+- [ ] Hook docs clearly distinguish payload scripts from lifecycle registration.
 - [ ] Ledger docs explain how to resume long-running work.
+- [ ] Ledger docs explain when updates are required versus optional.
 - [ ] Contribution guidelines match the repository scope.
 
 ## Harness Assets
@@ -29,6 +31,7 @@ Use this checklist before announcing, tagging, or broadly sharing this repositor
 ## Verification
 
 - [ ] `CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh` passes locally.
+- [ ] Pull request CI runs the same `scripts/verify.sh` command in strict mode.
 - [ ] GitHub Actions `Verify` passes on `main`.
 - [ ] GitHub Actions `Publish GitHub Pages` passes on `main`.
 - [ ] GitHub Pages renders the user guide correctly.
@@ -47,4 +50,3 @@ When introducing the repository, describe it as:
 > A copyable, tested harness collection for helping Codex run long tasks safely, with durable guidance, reusable skills, deterministic hooks, task ledgers, policies, examples, and verification loops.
 
 Avoid positioning it as a multi-agent router or a replacement for project-specific tests, review, sandboxing, or security tooling.
-

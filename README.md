@@ -79,11 +79,15 @@ Skills live under `skills/<name>/SKILL.md`. Each skill contains frontmatter with
 Use skills when a task pattern repeats:
 
 - feature implementation
+- goal management for long-running or PR-bound work
 - bug fixing
 - safe refactoring
 - release readiness checks
 - documentation updates
 - code review
+- post-PR CI and review follow-up
+
+After opening a PR, run the `pr-guardian` workflow by default to monitor checks and address actionable feedback until the PR is mergeable or a blocker is documented.
 
 Install the skills that match your Codex setup. Keep each skill focused on workflow, expected verification, and final reporting.
 
@@ -96,6 +100,7 @@ scripts/skills.sh --target /path/to/codex-skills feature-implementation bug-fix 
 ## Using Hooks
 
 Hooks are deterministic enforcement points. The examples in `hooks/` are intentionally small and are not guaranteed production-ready integrations.
+They are payload scripts, not automatic Codex lifecycle registration. Copying this repository does not make them run by itself; the target Codex environment must explicitly wire each script to the lifecycle event that should call it.
 
 Included examples:
 
@@ -117,6 +122,7 @@ The `ledger/` templates help long-running tasks survive context loss and handoff
 - `verification.md`: commands run and outcomes.
 
 Use `scripts/checkpoint.sh` to append a timestamped checkpoint to `ledger/current.md`.
+For small one-shot edits, a final verification summary may be enough. For larger, security-sensitive, risky, or interrupted work, update the ledger as part of the workflow so future sessions can continue from recorded state instead of chat history.
 
 For operating patterns, see `docs/task-ledger-patterns.md`.
 
@@ -131,7 +137,7 @@ For operating patterns, see `docs/task-ledger-patterns.md`.
 7. Run `scripts/verify.sh` before finalizing.
 8. Summarize changed files, verification, risks, and next steps.
 
-The included GitHub Actions workflow runs the same repository verification script on pushes to `main` and on pull requests.
+The included GitHub Actions workflow runs the same repository verification script on pushes to `main` and on pull requests. When copying this harness into another repository, keep local and CI verification aligned by running the project-adapted `scripts/verify.sh` from CI as well.
 
 ## Non-Goals
 

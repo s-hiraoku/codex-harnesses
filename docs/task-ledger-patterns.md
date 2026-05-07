@@ -4,6 +4,8 @@ The task ledger keeps long-running Codex work resumable. Hooks stop accidents. T
 
 Use the ledger for task state that must survive context loss, handoff, interruption, or a long verification loop.
 
+For small, low-risk edits, the final response may be enough. For larger, security-sensitive, risky, or interrupted work, treat ledger updates as part of the task rather than optional cleanup.
+
 ## What Belongs in the Ledger
 
 Put these in the ledger:
@@ -85,6 +87,17 @@ Record:
 
 Do not record every tiny command. Record checks that future work should trust or revisit.
 
+Good verification entries are exact enough to rerun:
+
+```md
+### 2026-05-05 14:30
+
+- Command: `CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh`
+- Scope: repository-level docs, hooks, policies, examples, and scripts
+- Result: passed
+- Notes: ran before opening PR
+```
+
 ## Checkpoint Pattern
 
 Run `scripts/checkpoint.sh` before pausing, after major milestones, and before risky edits.
@@ -121,4 +134,3 @@ Before handing work to another session or human reviewer, add:
 - exact next step
 
 Good handoff entries are short, concrete, and command-oriented.
-

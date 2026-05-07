@@ -27,6 +27,7 @@ Deploy only what you need. A small accurate harness is better than a broad stale
 ## 4. Wire Hooks Carefully
 
 - [ ] Review hook payload scripts before registration.
+- [ ] Confirm that copying the hook file alone does not register it with Codex.
 - [ ] Decide which lifecycle event should call each hook.
 - [ ] Test blocked and allowed cases locally.
 - [ ] Document that hooks are examples unless hardened for the project.
@@ -44,6 +45,7 @@ See `hook-hardening.md` before relying on example hooks in important repositorie
 
 - [ ] Deploy `ledger/` or create a project-local `.codex/tasks/current.md`.
 - [ ] Record current goal, progress, blockers, and next step.
+- [ ] Decide when ledger updates are required, such as large, risky, security-sensitive, or interrupted tasks.
 - [ ] Add checkpoints before pauses and after risky edits.
 
 ## 7. Make Verification Real
@@ -51,7 +53,7 @@ See `hook-hardening.md` before relying on example hooks in important repositorie
 - [ ] Deploy or adapt `scripts/verify.sh`.
 - [ ] Ensure lint, typecheck, test, and build commands match the project.
 - [ ] Run verification locally.
-- [ ] Add CI that runs verification in strict mode.
+- [ ] Add CI that runs the same verification script in strict mode.
 
 ## 8. First Task Trial
 
