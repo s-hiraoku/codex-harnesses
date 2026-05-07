@@ -30,6 +30,23 @@ fail() {
   exit 1
 }
 
+canonical_existing_path() {
+  local path="$1"
+  local dir
+
+  [[ -e "${path}" ]] || return 1
+  dir="$(cd "$(dirname "${path}")" && pwd -P)"
+  printf '%s/%s\n' "${dir}" "$(basename "${path}")"
+}
+
+same_existing_path() {
+  local left="$1"
+  local right="$2"
+
+  [[ -e "${left}" && -e "${right}" ]] || return 1
+  [[ "$(canonical_existing_path "${left}")" == "$(canonical_existing_path "${right}")" ]]
+}
+
 skill_args=()
 while [[ "$#" -gt 0 ]]; do
   case "$1" in
@@ -77,6 +94,11 @@ for skill in "${skill_names[@]}"; do
   src="${ROOT}/skills/${skill}"
   dest="${TARGET}/${skill}"
   [[ -f "${src}/SKILL.md" ]] || fail "unknown skill: ${skill}"
+
+  if same_existing_path "${src}" "${dest}"; then
+    echo "skip same path ${dest}"
+    continue
+  fi
 
   if [[ -e "${dest}" && "${FORCE}" -ne 1 ]]; then
     echo "skip existing ${dest}"

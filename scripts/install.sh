@@ -49,6 +49,23 @@ log() {
   echo "$*"
 }
 
+canonical_existing_path() {
+  local path="$1"
+  local dir
+
+  [[ -e "${path}" ]] || return 1
+  dir="$(cd "$(dirname "${path}")" && pwd -P)"
+  printf '%s/%s\n' "${dir}" "$(basename "${path}")"
+}
+
+same_existing_path() {
+  local left="$1"
+  local right="$2"
+
+  [[ -e "${left}" && -e "${right}" ]] || return 1
+  [[ "$(canonical_existing_path "${left}")" == "$(canonical_existing_path "${right}")" ]]
+}
+
 ensure_known_name() {
   local kind="$1"
   local name="$2"
@@ -83,6 +100,11 @@ copy_file() {
   local src="$1"
   local dest="$2"
 
+  if same_existing_path "${src}" "${dest}"; then
+    log "skip same path ${dest}"
+    return
+  fi
+
   if [[ -e "${dest}" && "${FORCE}" -ne 1 ]]; then
     log "skip existing ${dest}"
     return
@@ -100,6 +122,11 @@ copy_file() {
 copy_dir() {
   local src="$1"
   local dest="$2"
+
+  if same_existing_path "${src}" "${dest}"; then
+    log "skip same path ${dest}"
+    return
+  fi
 
   if [[ -e "${dest}" && "${FORCE}" -ne 1 ]]; then
     log "skip existing ${dest}"

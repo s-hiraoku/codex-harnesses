@@ -92,3 +92,58 @@ def test_skills_script_installs_named_skills(tmp_path: Path) -> None:
     assert (target / "bug-fix/SKILL.md").is_file()
     assert (target / "docs-updater/SKILL.md").is_file()
     assert not (target / "review/SKILL.md").exists()
+
+
+def test_install_script_force_skips_same_source_and_destination(tmp_path: Path) -> None:
+    repo = tmp_path / "repo"
+    shutil.copytree(ROOT, repo, ignore=shutil.ignore_patterns(".git", ".venv", ".pytest_cache"))
+
+    result = subprocess.run(
+        [
+            "bash",
+            "scripts/install.sh",
+            "--target",
+            ".",
+            "--no-agents",
+            "--verify",
+            "--ledger",
+            "--skills",
+            "bug-fix",
+            "--hooks",
+            "secret-guard",
+            "--force",
+        ],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert "skip same path" in result.stdout
+    assert (repo / "scripts/verify.sh").is_file()
+    assert (repo / "ledger/current.md").is_file()
+    assert (repo / "skills/bug-fix/SKILL.md").is_file()
+    assert (repo / "hooks/secret-guard/hook.py").is_file()
+
+
+def test_skills_script_force_skips_same_source_and_destination(tmp_path: Path) -> None:
+    repo = tmp_path / "repo"
+    shutil.copytree(ROOT, repo, ignore=shutil.ignore_patterns(".git", ".venv", ".pytest_cache"))
+
+    result = subprocess.run(
+        [
+            "bash",
+            "scripts/skills.sh",
+            "--target",
+            "skills",
+            "--force",
+            "bug-fix",
+        ],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert "skip same path" in result.stdout
+    assert (repo / "skills/bug-fix/SKILL.md").is_file()
