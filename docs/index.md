@@ -4,7 +4,7 @@
 
 Codex should not be expected to succeed by intelligence alone.
 
-This site explains how to use the repository as a copyable harness kit:
+This site explains how to use the repository as a selectively deployable harness kit:
 
 - durable project guidance with `AGENTS.md`
 - reusable workflows with skills
@@ -27,4 +27,3 @@ If you are adopting the harnesses in a project:
 Harnesses keep important behavior out of chat history. They make project guidance, repeated workflows, safety checks, task memory, and verification visible, versioned, reviewable, and testable.
 
 This repository is not a multi-agent router. It is a harness collection.
-
