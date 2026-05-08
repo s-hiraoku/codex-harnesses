@@ -11,6 +11,7 @@ SCRIPTS = [
     ROOT / "scripts/checkpoint.sh",
     ROOT / "scripts/install.sh",
     ROOT / "scripts/skills.sh",
+    ROOT / "scripts/evaluate-skill.sh",
 ]
 
 
@@ -92,6 +93,42 @@ def test_skills_script_installs_named_skills(tmp_path: Path) -> None:
     assert (target / "bug-fix/SKILL.md").is_file()
     assert (target / "docs-updater/SKILL.md").is_file()
     assert not (target / "review/SKILL.md").exists()
+
+
+def test_evaluate_skill_script_creates_evaluation_pack(tmp_path: Path) -> None:
+    output = tmp_path / "evaluations"
+
+    result = subprocess.run(
+        [
+            "bash",
+            str(ROOT / "scripts/evaluate-skill.sh"),
+            "--output",
+            str(output),
+            "skills/feature-implementation",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    run_dir = Path(result.stdout.strip().removeprefix("created "))
+    assert run_dir.is_dir()
+    assert run_dir.parent == output / "feature-implementation"
+    assert (run_dir / "README.md").is_file()
+    assert (run_dir / "iteration-0-structural-review.md").is_file()
+    assert (run_dir / "scenarios.md").is_file()
+    assert (run_dir / "executor-prompt.md").is_file()
+    assert (run_dir / "results.md").is_file()
+    assert (run_dir / "failure-pattern-ledger.md").is_file()
+
+    executor_prompt = (run_dir / "executor-prompt.md").read_text()
+    scenarios = (run_dir / "scenarios.md").read_text()
+    results = (run_dir / "results.md").read_text()
+    assert "skills/feature-implementation/SKILL.md" in executor_prompt
+    assert "○ / × / partial" in executor_prompt
+    assert "Unclear points (structured)" in executor_prompt
+    assert "Hold-out scenario: convergence check only" in scenarios
+    assert "Hold-out scenario run:" in results
 
 
 def test_install_script_force_skips_same_source_and_destination(tmp_path: Path) -> None:
