@@ -37,21 +37,45 @@ For end-to-end adoption steps, see `docs/adoption-checklist.md`.
 
 Skills are directories that contain `SKILL.md`.
 
-Codex environments may load skills differently. If your environment supports a global skills directory, install selected skills there. If not, keep them project-local and reference them from your project guidance.
+Prefer installing skills with a skill-aware installer so source metadata and target agent paths are handled consistently.
+
+With GitHub CLI:
 
 ```sh
-<<<<<<< codex/deployable-harness-installer
-scripts/skills.sh --target /path/to/codex-skills feature-implementation bug-fix review
-=======
+gh skill preview s-hiraoku/codex-harnesses feature-implementation
+gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses bug-fix --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses review --agent codex --scope project
+```
+
+Use `--scope user` instead of `--scope project` when the skills should be available across projects.
+
+With the Skills CLI:
+
+```sh
+npx skills add s-hiraoku/codex-harnesses --list
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill bug-fix
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill review
+```
+
+Use `--global` for user-wide installation:
+
+```sh
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation --global
+```
+
+If your environment cannot use either installer, copy selected skill directories manually:
+
+```sh
 cp -R skills/feature-implementation /path/to/codex-skills/
 cp -R skills/goal-manager /path/to/codex-skills/
 cp -R skills/bug-fix /path/to/codex-skills/
 cp -R skills/review /path/to/codex-skills/
 cp -R skills/pr-guardian /path/to/codex-skills/
->>>>>>> main
 ```
 
-Use skills for repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the skills that match repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ## Configure Hooks
 

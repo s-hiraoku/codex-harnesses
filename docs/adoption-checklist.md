@@ -20,7 +20,8 @@ Deploy only what you need. A small accurate harness is better than a broad stale
 
 ## 3. Choose Skills
 
-- [ ] Install only the skills that match repeated work.
+- [ ] Install only the skills that match repeated work with `gh skill install` or `npx skills add`.
+- [ ] Preview or inspect skill contents before installing them.
 - [ ] Keep skills focused on workflow, verification, and reporting.
 - [ ] Keep project-specific state out of skills.
 
