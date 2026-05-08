@@ -89,13 +89,22 @@ Use skills when a task pattern repeats:
 
 After opening a PR, run the `pr-guardian` workflow by default to monitor checks and address actionable feedback until the PR is mergeable or a blocker is documented.
 
-Install the skills that match your Codex setup. Keep each skill focused on workflow, expected verification, and final reporting.
+Install only the skills that match your repeated work. Keep each skill focused on workflow, expected verification, and final reporting.
 
-For skills only, use:
+With GitHub CLI:
 
 ```sh
-scripts/skills.sh --target /path/to/codex-skills feature-implementation bug-fix review
+gh skill preview s-hiraoku/codex-harnesses feature-implementation
+gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
 ```
+
+Or with the Skills CLI:
+
+```sh
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
+```
+
+Use `--scope user` with `gh skill install` or `--global` with `npx skills add` for user-wide installation. Repeat the command for other skills such as `bug-fix`, `review`, `refactor-safely`, `release-check`, and `docs-updater`.
 
 ## Using Hooks
 
