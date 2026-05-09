@@ -9,6 +9,7 @@ Pick the harness pieces that match your project, place them close to the code th
 Choose a template from `templates/agents/` and copy it into the target repository as `AGENTS.md`.
 
 ```sh
+mkdir -p /path/to/project/scripts /path/to/project/policies
 cp templates/agents/strict/AGENTS.md /path/to/project/AGENTS.md
 cp scripts/verify.sh /path/to/project/scripts/verify.sh
 cp -R ledger /path/to/project/ledger
