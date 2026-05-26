@@ -88,9 +88,10 @@ cp -R skills/goal-manager /path/to/codex-skills/
 cp -R skills/bug-fix /path/to/codex-skills/
 cp -R skills/review /path/to/codex-skills/
 cp -R skills/pr-guardian /path/to/codex-skills/
+cp -R skills/meta-packager /path/to/codex-skills/
 ```
 
-Install or copy only the skills that match repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the skills that match repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ## Configure Hooks
 

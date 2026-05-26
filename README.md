@@ -82,8 +82,11 @@ Use skills when a task pattern repeats:
 - documentation updates
 - code review
 - post-PR CI and review follow-up
+- meta-analysis that packages repeated Codex work into reusable assets
 
 After opening a PR, run the `pr-guardian` workflow by default to monitor checks and address actionable feedback until the PR is mergeable or a blocker is documented.
+
+Run the `meta-packager` workflow after enough real Codex sessions have accumulated to identify repeated work. It inspects recent sessions, memories, and existing assets, then creates only high-confidence skills, subagents, or automations.
 
 Install only the skills that match your repeated work. Keep each skill focused on workflow, expected verification, and final reporting.
 
@@ -122,7 +125,7 @@ npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, and `pr-guardian`.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
 
 ## Using Hooks
 
