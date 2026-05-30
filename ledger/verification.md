@@ -34,6 +34,27 @@ Use this file to record meaningful verification runs.
 - Result: passed
 - Notes: `ruff check .`, 16 pytest tests, and `mkdocs build --strict` all passed after adding setup and dependency installation steps to the CI example.
 
+### 2026-05-09 08:23 JST
+
+- Command: `pytest tests/test_skills.py tests/test_scripts.py`
+- Scope: empirical-prompt-tuning skill registration and skill evaluation pack script
+- Result: passed
+- Notes: 10 targeted tests passed.
+
+### 2026-05-09 08:24 JST
+
+- Command: `bash scripts/verify.sh`
+- Scope: repository-level verification with system Python
+- Result: failed
+- Notes: `ruff check .` passed, but pytest collection failed importing `rpds` through `jsonschema` because the installed wheel was `x86_64` while the interpreter needed `arm64e` or `arm64`.
+
+### 2026-05-09 08:25 JST
+
+- Command: `PATH=.venv/bin:$PATH CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh`
+- Scope: repository-level ruff, pytest, and MkDocs strict build
+- Result: passed
+- Notes: `ruff check .`, 21 pytest tests, and `mkdocs build --strict` all passed with the repo-local venv.
+
 ### 2026-05-26 12:08:00 JST
 
 - Command: `bash scripts/verify.sh`
@@ -54,3 +75,24 @@ Use this file to record meaningful verification runs.
 - Scope: PR #7 review feedback fixes
 - Result: passed
 - Notes: `ruff check .`, 18 pytest tests, and `mkdocs build --strict` all passed after clarifying verification-log timestamps.
+
+### 2026-05-31 07:46 JST
+
+- Command: `PATH=.venv/bin:$PATH pytest tests/test_scripts.py tests/test_skills.py`
+- Scope: PR #6 conflict resolution and `evaluate-skill.sh` unique run-directory fix
+- Result: passed
+- Notes: 9 targeted tests passed after preserving the `meta-packager` and `empirical-prompt-tuning` skill registrations.
+
+### 2026-05-31 07:47 JST
+
+- Command: `PATH=.venv/bin:$PATH CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh`
+- Scope: repository-level verification after PR #6 conflict resolution
+- Result: failed
+- Notes: `.venv` did not exist in this worktree yet, so the command fell back to system Python and failed importing the incompatible `rpds` wheel.
+
+### 2026-05-31 07:48 JST
+
+- Command: `PATH=.venv/bin:$PATH CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh`
+- Scope: repository-level verification after PR #6 conflict resolution
+- Result: passed
+- Notes: Created `.venv`, installed `requirements-dev.txt`, then `ruff check .`, 20 pytest tests, and `mkdocs build --strict` all passed.

@@ -127,6 +127,18 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implement
 
 Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
 
+### Evaluating Skills
+
+Use `empirical-prompt-tuning` after creating or substantially revising a skill. It evaluates the instruction with fresh executors, fixed scenarios, and a failure-pattern ledger so changes are based on observed ambiguity instead of author preference.
+
+Generate an evaluation pack for a target skill:
+
+```sh
+scripts/evaluate-skill.sh skills/feature-implementation
+```
+
+The pack is written under `ledger/skill-evaluations/<skill>/<timestamp>/` with scenario, executor prompt, results, and failure-ledger templates. Fill in baseline scenarios plus a hold-out convergence scenario, dispatch a fresh executor per baseline scenario, then record the metrics and apply one theme of fixes per iteration.
+
 ## Using Hooks
 
 Hooks are deterministic enforcement points. The examples in `hooks/` are intentionally small and are not guaranteed production-ready integrations.

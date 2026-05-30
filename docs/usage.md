@@ -93,6 +93,24 @@ cp -R skills/meta-packager /path/to/codex-skills/
 
 Install or copy only the skills that match repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
+### Evaluate a Skill
+
+Use `empirical-prompt-tuning` when a skill is new, substantially revised, or important enough that subjective review is not enough. Start by generating an evaluation pack:
+
+```sh
+scripts/evaluate-skill.sh skills/feature-implementation
+```
+
+The generated files live under `ledger/skill-evaluations/<skill>/<timestamp>/` by default:
+
+- `iteration-0-structural-review.md`: description/body consistency checks.
+- `scenarios.md`: baseline scenarios plus a hold-out convergence scenario with `[critical]` requirements.
+- `executor-prompt.md`: prompt template for fresh executors.
+- `results.md`: iteration metrics and fix proposals.
+- `failure-pattern-ledger.md`: recurring ambiguity patterns.
+
+Keep the scenario requirements fixed after the first executor run, and reserve the hold-out scenario for convergence checking. Apply one theme of fixes, generate or start a new run, and repeat until the empirical-prompt-tuning stopping criteria are met.
+
 ## Configure Hooks
 
 Hooks in this repository are examples. They do not auto-register with Codex when copied into a project. Wire them into your Codex lifecycle only after reviewing and adapting them.
