@@ -90,8 +90,9 @@ description="$(extract_frontmatter_value description "${skill_file}")"
 require_section "Workflow" "${skill_file}"
 
 timestamp="$(date -u '+%Y%m%dT%H%M%SZ')"
-run_dir="${OUTPUT_ROOT}/${skill_name}/${timestamp}"
-mkdir -p "${run_dir}"
+run_parent="${OUTPUT_ROOT}/${skill_name}"
+mkdir -p "${run_parent}"
+run_dir="$(mktemp -d "${run_parent}/${timestamp}.XXXXXX")"
 
 cat >"${run_dir}/README.md" <<EOF
 # ${skill_name} empirical prompt tuning

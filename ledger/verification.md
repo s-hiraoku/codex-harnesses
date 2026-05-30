@@ -54,3 +54,45 @@ Use this file to record meaningful verification runs.
 - Scope: repository-level ruff, pytest, and MkDocs strict build
 - Result: passed
 - Notes: `ruff check .`, 21 pytest tests, and `mkdocs build --strict` all passed with the repo-local venv.
+
+### 2026-05-26 12:08:00 JST
+
+- Command: `bash scripts/verify.sh`
+- Scope: repository-level verification for `meta-packager` skill and docs updates
+- Result: failed
+- Notes: `ruff check .` passed, then `pytest` failed during collection because the system Python loaded an incompatible `rpds` wheel (`x86_64` instead of `arm64e` or `arm64`).
+
+### 2026-05-26 12:08:30 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification for `meta-packager` skill and docs updates
+- Result: passed
+- Notes: `ruff check .`, 18 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv. Re-ran after recording this ledger entry; the same command passed on the final tree.
+
+### 2026-05-31 00:44 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: PR #7 review feedback fixes
+- Result: passed
+- Notes: `ruff check .`, 18 pytest tests, and `mkdocs build --strict` all passed after clarifying verification-log timestamps.
+
+### 2026-05-31 07:46 JST
+
+- Command: `PATH=.venv/bin:$PATH pytest tests/test_scripts.py tests/test_skills.py`
+- Scope: PR #6 conflict resolution and `evaluate-skill.sh` unique run-directory fix
+- Result: passed
+- Notes: 9 targeted tests passed after preserving the `meta-packager` and `empirical-prompt-tuning` skill registrations.
+
+### 2026-05-31 07:47 JST
+
+- Command: `PATH=.venv/bin:$PATH CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh`
+- Scope: repository-level verification after PR #6 conflict resolution
+- Result: failed
+- Notes: `.venv` did not exist in this worktree yet, so the command fell back to system Python and failed importing the incompatible `rpds` wheel.
+
+### 2026-05-31 07:48 JST
+
+- Command: `PATH=.venv/bin:$PATH CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh`
+- Scope: repository-level verification after PR #6 conflict resolution
+- Result: passed
+- Notes: Created `.venv`, installed `requirements-dev.txt`, then `ruff check .`, 20 pytest tests, and `mkdocs build --strict` all passed.

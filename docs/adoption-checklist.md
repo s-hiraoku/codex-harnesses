@@ -9,18 +9,18 @@ Use this checklist when adding Codex harnesses to an existing project.
 - [ ] Next.js project: inspect `examples/nextjs-project`
 - [ ] Strict repository: inspect `examples/strict-repo`
 
-Deploy only what you need. A small accurate harness is better than a broad stale one.
+Copy only what you need. A small accurate harness is better than a broad stale one.
 
 ## 2. Add Durable Guidance
 
-- [ ] Deploy an `AGENTS.md` template into the target repository with `scripts/install.sh`.
+- [ ] Copy an `AGENTS.md` template into the target repository.
 - [ ] Replace generic commands with real project commands.
 - [ ] Remove instructions that are temporary or issue-specific.
 - [ ] Add safety expectations for destructive commands, secrets, and git operations.
 
 ## 3. Choose Skills
 
-- [ ] Install only the skills that match repeated work with `gh skill install` or `npx skills add`.
+- [ ] Install only the skills that match repeated work with APM, `gh skill install`, or `npx skills add`.
 - [ ] Preview or inspect skill contents before installing them.
 - [ ] Keep skills focused on workflow, verification, and reporting.
 - [ ] Keep project-specific state out of skills.
@@ -37,21 +37,21 @@ See `hook-hardening.md` before relying on example hooks in important repositorie
 
 ## 5. Add Policy
 
-- [ ] Deploy a policy from `policies/`.
+- [ ] Copy a policy from `policies/`.
 - [ ] Validate it against `schemas/policy.schema.json`.
 - [ ] Make approval, sandboxing, verification, and git behavior explicit.
 - [ ] Decide which parts are guidance and which parts are enforced.
 
 ## 6. Add a Task Ledger
 
-- [ ] Deploy `ledger/` or create a project-local `.codex/tasks/current.md`.
+- [ ] Copy `ledger/` or create a project-local `.codex/tasks/current.md`.
 - [ ] Record current goal, progress, blockers, and next step.
 - [ ] Decide when ledger updates are required, such as large, risky, security-sensitive, or interrupted tasks.
 - [ ] Add checkpoints before pauses and after risky edits.
 
 ## 7. Make Verification Real
 
-- [ ] Deploy or adapt `scripts/verify.sh`.
+- [ ] Copy or adapt `scripts/verify.sh`.
 - [ ] Ensure lint, typecheck, test, and build commands match the project.
 - [ ] Run verification locally.
 - [ ] Add CI that runs the same verification script in strict mode.

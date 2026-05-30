@@ -10,10 +10,11 @@ The reusable unit is a directory containing `SKILL.md`.
 
 Recommended options:
 
+- Use APM with `s-hiraoku/codex-harnesses/skills/<skill>` entries in `apm.yml` when project setup should be reproducible for a team.
 - Use `gh skill install s-hiraoku/codex-harnesses <skill> --agent codex --scope project` for project-local Codex skills.
 - Use `gh skill install s-hiraoku/codex-harnesses <skill> --agent codex --scope user` for user-wide Codex skills.
 - Use `npx skills add s-hiraoku/codex-harnesses --agent codex --skill <skill>` as the npm-based installer path.
-- If neither installer is available, copy selected skill directories manually into the skills directory supported by your Codex environment.
+- If none of these installers are available, copy selected skill directories manually into the skills directory supported by your Codex environment.
 
 Avoid putting project secrets, temporary task state, or repository-specific credentials in skills.
 

@@ -14,6 +14,7 @@ REQUIRED_SKILL_NAMES = {
     "review",
     "pr-guardian",
     "empirical-prompt-tuning",
+    "meta-packager",
 }
 
 

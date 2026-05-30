@@ -11,23 +11,19 @@ This repository provides reusable examples for project guidance, task workflows,
 
 ## Quick Start
 
-1. Clone or download this repository.
-2. Run `scripts/install.sh` against your project with the template, skills, policy, and ledger pieces you need.
-3. Replace generic verification commands with real project commands.
-4. Add only the hooks that match repeated work and have been reviewed.
-5. Run one small real task through the harness and tighten anything that was vague.
+1. Pick a starting shape from `examples/`.
+2. Copy the matching `AGENTS.md`, `scripts/verify.sh`, policy, and ledger files into your project.
+3. Install only the skills that match repeated work with APM, `gh skill`, or `npx skills`.
+4. Replace generic verification commands with real project commands.
+5. Add only the hooks that match repeated work and have been reviewed.
+6. Run one small real task through the harness and tighten anything that was vague.
 
-Example:
-
-```sh
-scripts/install.sh --target /path/to/project --agents strict --skills feature-implementation,bug-fix,review --ledger --policy default
-```
-
-With GitHub CLI:
+For skills, use one of the recommended installer paths:
 
 ```sh
-gh repo clone s-hiraoku/codex-harnesses /tmp/codex-harnesses
-/tmp/codex-harnesses/scripts/install.sh --target /path/to/project --agents strict --skills feature-implementation,bug-fix,review --ledger --policy default
+apm install s-hiraoku/codex-harnesses/skills/feature-implementation
+gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
 ```
 
 The GitHub Pages user guide lives in `docs/` and is built with MkDocs. Once Pages is enabled with GitHub Actions as the source, it publishes to [s-hiraoku.github.io/codex-harnesses](https://s-hiraoku.github.io/codex-harnesses/).
@@ -57,9 +53,9 @@ Use this repository to help Codex:
 - `ledger/`: resumable task memory for long-running work.
 - `scripts/`: verification and checkpoint utilities.
 
-## Deploying Harness Files
+## Using AGENTS.md Templates
 
-Use `scripts/install.sh` to deploy selected harness files into a project, then edit them down to match the project.
+Copy one template from `templates/agents/` into a project as `AGENTS.md`, then edit it down to match the project.
 
 - `strict`: conservative guidance for important repositories.
 - `frontend`: frontend-specific expectations for UI, accessibility, and verification.
@@ -67,7 +63,7 @@ Use `scripts/install.sh` to deploy selected harness files into a project, then e
 
 Keep project guidance durable. Avoid adding one-off task instructions that belong in an issue, prompt, or ledger entry.
 
-For concrete deployment commands and setup guidance, see `docs/usage.md`.
+For concrete setup guidance, see `docs/usage.md`.
 For notes on Codex environment configuration boundaries, see `docs/codex-config.md`.
 For a step-by-step adoption pass, see `docs/adoption-checklist.md`.
 For long-running task memory patterns, see `docs/task-ledger-patterns.md`.
@@ -86,25 +82,50 @@ Use skills when a task pattern repeats:
 - documentation updates
 - code review
 - post-PR CI and review follow-up
+- meta-analysis that packages repeated Codex work into reusable assets
 
 After opening a PR, run the `pr-guardian` workflow by default to monitor checks and address actionable feedback until the PR is mergeable or a blocker is documented.
 
+Run the `meta-packager` workflow after enough real Codex sessions have accumulated to identify repeated work. It inspects recent sessions, memories, and existing assets, then creates only high-confidence skills, subagents, or automations.
+
 Install only the skills that match your repeated work. Keep each skill focused on workflow, expected verification, and final reporting.
 
-With GitHub CLI:
+Recommended install methods:
+
+1. APM, for teams that want one project manifest:
+
+```yaml
+# apm.yml
+name: your-project
+version: 1.0.0
+dependencies:
+  apm:
+    - s-hiraoku/codex-harnesses/skills/feature-implementation
+    - s-hiraoku/codex-harnesses/skills/bug-fix
+    - s-hiraoku/codex-harnesses/skills/review
+```
+
+```sh
+apm install
+```
+
+2. GitHub CLI, for installing a named skill directly:
 
 ```sh
 gh skill preview s-hiraoku/codex-harnesses feature-implementation
 gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
 ```
 
-Or with the Skills CLI:
+Use `--scope user` instead of `--scope project` when the skills should be available across projects.
+
+3. Skills CLI, for an npm-based installer path:
 
 ```sh
+npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
 ```
 
-Use `--scope user` with `gh skill install` or `--global` with `npx skills add` for user-wide installation. Repeat the command for other skills such as `bug-fix`, `review`, `refactor-safely`, `release-check`, and `docs-updater`.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
 
 ### Evaluating Skills
 
