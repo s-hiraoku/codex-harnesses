@@ -34,16 +34,23 @@ Use this file to record meaningful verification runs.
 - Result: passed
 - Notes: `ruff check .`, 16 pytest tests, and `mkdocs build --strict` all passed after adding setup and dependency installation steps to the CI example.
 
-### 2026-05-26 12:08 JST
+### 2026-05-26 12:08:00 JST
 
 - Command: `bash scripts/verify.sh`
 - Scope: repository-level verification for `meta-packager` skill and docs updates
 - Result: failed
 - Notes: `ruff check .` passed, then `pytest` failed during collection because the system Python loaded an incompatible `rpds` wheel (`x86_64` instead of `arm64e` or `arm64`).
 
-### 2026-05-26 12:08 JST
+### 2026-05-26 12:08:30 JST
 
 - Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
 - Scope: repository-level verification for `meta-packager` skill and docs updates
 - Result: passed
 - Notes: `ruff check .`, 18 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv. Re-ran after recording this ledger entry; the same command passed on the final tree.
+
+### 2026-05-31 00:44 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: PR #7 review feedback fixes
+- Result: passed
+- Notes: `ruff check .`, 18 pytest tests, and `mkdocs build --strict` all passed after clarifying verification-log timestamps.
