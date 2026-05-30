@@ -9,7 +9,6 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = [
     ROOT / "scripts/verify.sh",
     ROOT / "scripts/checkpoint.sh",
-    ROOT / "scripts/install.sh",
     ROOT / "scripts/skills.sh",
 ]
 
@@ -40,38 +39,6 @@ def test_checkpoint_appends_git_context(tmp_path: Path) -> None:
     assert "Short status:" in ledger
 
 
-def test_install_script_deploys_selected_harness_files(tmp_path: Path) -> None:
-    target = tmp_path / "project"
-    target.mkdir()
-
-    subprocess.run(
-        [
-            "bash",
-            str(ROOT / "scripts/install.sh"),
-            "--target",
-            str(target),
-            "--agents",
-            "frontend",
-            "--skills",
-            "feature-implementation,review",
-            "--ledger",
-            "--policy",
-            "default",
-        ],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-
-    assert (target / "AGENTS.md").is_file()
-    assert "Frontend" in (target / "AGENTS.md").read_text()
-    assert (target / "scripts/verify.sh").is_file()
-    assert (target / "policies/codex.yaml").is_file()
-    assert (target / "ledger/current.md").is_file()
-    assert (target / "skills/feature-implementation/SKILL.md").is_file()
-    assert (target / "skills/review/SKILL.md").is_file()
-
-
 def test_skills_script_installs_named_skills(tmp_path: Path) -> None:
     target = tmp_path / "codex-skills"
 
@@ -92,38 +59,6 @@ def test_skills_script_installs_named_skills(tmp_path: Path) -> None:
     assert (target / "bug-fix/SKILL.md").is_file()
     assert (target / "docs-updater/SKILL.md").is_file()
     assert not (target / "review/SKILL.md").exists()
-
-
-def test_install_script_force_skips_same_source_and_destination(tmp_path: Path) -> None:
-    repo = tmp_path / "repo"
-    shutil.copytree(ROOT, repo, ignore=shutil.ignore_patterns(".git", ".venv", ".pytest_cache"))
-
-    result = subprocess.run(
-        [
-            "bash",
-            "scripts/install.sh",
-            "--target",
-            ".",
-            "--no-agents",
-            "--verify",
-            "--ledger",
-            "--skills",
-            "bug-fix",
-            "--hooks",
-            "secret-guard",
-            "--force",
-        ],
-        cwd=repo,
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-
-    assert "skip same path" in result.stdout
-    assert (repo / "scripts/verify.sh").is_file()
-    assert (repo / "ledger/current.md").is_file()
-    assert (repo / "skills/bug-fix/SKILL.md").is_file()
-    assert (repo / "hooks/secret-guard/hook.py").is_file()
 
 
 def test_skills_script_force_skips_same_source_and_destination(tmp_path: Path) -> None:

@@ -13,6 +13,7 @@ REQUIRED_SKILL_NAMES = {
     "docs-updater",
     "review",
     "pr-guardian",
+    "meta-packager",
 }
 
 

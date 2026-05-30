@@ -1,35 +1,31 @@
 # Usage
 
-This repository is meant to be deployed from selectively, not installed as a framework.
+This repository is meant to be copied from selectively, not installed as a framework.
 
 Pick the harness pieces that match your project, place them close to the code they govern, and adapt them until they describe real commands and real risk boundaries.
 
-## Deploy a Project Harness
+## Copy a Project Harness
 
-Use `scripts/install.sh` from a local checkout of this repository:
-
-```sh
-scripts/install.sh --target /path/to/project --agents strict --skills feature-implementation,bug-fix,review --ledger --policy default
-```
-
-With GitHub CLI:
+Choose a template from `templates/agents/` and copy it into the target repository as `AGENTS.md`.
 
 ```sh
-gh repo clone s-hiraoku/codex-harnesses /tmp/codex-harnesses
-/tmp/codex-harnesses/scripts/install.sh --target /path/to/project --agents strict --skills feature-implementation,bug-fix,review --ledger --policy default
+mkdir -p /path/to/project/scripts /path/to/project/policies
+cp templates/agents/strict/AGENTS.md /path/to/project/AGENTS.md
+cp scripts/verify.sh /path/to/project/scripts/verify.sh
+cp -R ledger /path/to/project/ledger
+cp policies/default.yaml /path/to/project/policies/codex.yaml
 ```
 
-The installer is intentionally small. It copies selected files into the target project, skips existing files by default, and supports `--dry-run` and `--force`.
+Copy only what the target project needs:
 
-Common options:
+- `templates/agents/strict/AGENTS.md` for conservative repositories
+- `templates/agents/frontend/AGENTS.md` for UI-heavy projects
+- `templates/agents/library/AGENTS.md` for package/library work
+- `scripts/verify.sh` when the project needs a shared verification entrypoint
+- `ledger/` when work may be long-running or resumed later
+- `policies/` when approval, sandboxing, and verification expectations need to be explicit
 
-```sh
-scripts/install.sh --target . --agents frontend --skills all --ledger --policy default
-scripts/install.sh --target . --agents library --no-verify --skills release-check,docs-updater
-scripts/install.sh --target . --hooks secret-guard,dangerous-command-guard
-```
-
-Then edit the deployed files down. Keep only durable project guidance, stable verification commands, and safety expectations. Temporary task instructions belong in an issue, prompt, or task ledger.
+Then edit the copied files down. Keep only durable project guidance, stable verification commands, and safety expectations. Temporary task instructions belong in an issue, prompt, or task ledger.
 
 For end-to-end adoption steps, see `docs/adoption-checklist.md`.
 
@@ -37,9 +33,28 @@ For end-to-end adoption steps, see `docs/adoption-checklist.md`.
 
 Skills are directories that contain `SKILL.md`.
 
-Prefer installing skills with a skill-aware installer so source metadata and target agent paths are handled consistently.
+Prefer one of these three installer paths so source metadata and target agent paths are handled consistently.
 
-With GitHub CLI:
+### APM
+
+Use APM when a team wants project setup declared in a versioned manifest.
+
+```yaml
+# apm.yml
+name: your-project
+version: 1.0.0
+dependencies:
+  apm:
+    - s-hiraoku/codex-harnesses/skills/feature-implementation
+    - s-hiraoku/codex-harnesses/skills/bug-fix
+    - s-hiraoku/codex-harnesses/skills/review
+```
+
+```sh
+apm install
+```
+
+### GitHub CLI
 
 ```sh
 gh skill preview s-hiraoku/codex-harnesses feature-implementation
@@ -50,7 +65,7 @@ gh skill install s-hiraoku/codex-harnesses review --agent codex --scope project
 
 Use `--scope user` instead of `--scope project` when the skills should be available across projects.
 
-With the Skills CLI:
+### Skills CLI
 
 ```sh
 npx skills add s-hiraoku/codex-harnesses --list
@@ -65,7 +80,7 @@ Use `--global` for user-wide installation:
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation --global
 ```
 
-If your environment cannot use either installer, copy selected skill directories manually:
+If your environment cannot use these installers, copy selected skill directories manually:
 
 ```sh
 cp -R skills/feature-implementation /path/to/codex-skills/
@@ -73,9 +88,10 @@ cp -R skills/goal-manager /path/to/codex-skills/
 cp -R skills/bug-fix /path/to/codex-skills/
 cp -R skills/review /path/to/codex-skills/
 cp -R skills/pr-guardian /path/to/codex-skills/
+cp -R skills/meta-packager /path/to/codex-skills/
 ```
 
-Install or copy only the skills that match repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the skills that match repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ## Configure Hooks
 
@@ -97,27 +113,27 @@ For the boundary between payload scripts and environment-specific registration, 
 
 Policy files in `policies/` are human-readable examples for approval, sandboxing, guards, verification, and git behavior.
 
-Install one into the target project and adapt it:
+Copy one into the target project and adapt it:
 
 ```sh
-scripts/install.sh --target /path/to/project --no-agents --no-verify --policy default
+cp policies/default.yaml /path/to/project/policies/codex.yaml
 ```
 
 The policy schema in `schemas/policy.schema.json` can be used by editors or validation tooling.
 
 ## Use the Task Ledger
 
-Install the `ledger/` templates into the target project when a task may run for a long time or be resumed later.
+Copy the `ledger/` templates into the target project when a task may run for a long time or be resumed later.
 
 ```sh
-scripts/install.sh --target /path/to/project --no-agents --no-verify --ledger
+cp -R ledger /path/to/project/ledger
 ```
 
 Update `ledger/current.md` before pausing, after major decisions, and before risky edits. Record meaningful check results in `ledger/verification.md` when future sessions or reviewers should trust them. Use `scripts/checkpoint.sh` to append branch, status, and commit context.
 
 ## Run Verification
 
-Deploy `scripts/verify.sh` into the target project, then adapt it to the project commands.
+Copy `scripts/verify.sh` into the target project, then adapt it to the project commands.
 
 ```sh
 bash scripts/verify.sh

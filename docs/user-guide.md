@@ -16,7 +16,7 @@ Use this separation:
 
 Each layer should do one job. Do not use `AGENTS.md` as a task ledger, do not use skills as project memory, and do not treat example hooks as production security controls without hardening.
 
-## What to Deploy First
+## What to Copy First
 
 For most projects, start with:
 
@@ -31,12 +31,13 @@ Add hooks only after you have reviewed and tested the payload scripts.
 ## Recommended Adoption Path
 
 1. Pick an example project shape from [Examples](examples.md).
-2. Run `scripts/install.sh` to deploy the relevant files into your target repository.
-3. Replace generic commands with real project commands.
-4. Run `bash scripts/verify.sh`.
-5. Run one small real task through Codex.
-6. Update `AGENTS.md`, ledger templates, and verification commands based on what was unclear.
-7. Add CI and strict verification.
+2. Copy the relevant harness files into your target repository.
+3. Install repeated-work skills with APM, `gh skill`, or `npx skills`.
+4. Replace generic commands with real project commands.
+5. Run `bash scripts/verify.sh`.
+6. Run one small real task through Codex.
+7. Update `AGENTS.md`, ledger templates, and verification commands based on what was unclear.
+8. Add CI and strict verification.
 
 ## Choosing a Starting Example
 
@@ -47,11 +48,44 @@ Add hooks only after you have reviewed and tested the payload scripts.
 
 See [Examples](examples.md) for the full list.
 
-For example:
+## Installing Skills
+
+Use one of these three installer paths instead of a repository-specific shell installer.
+
+APM is the best fit when a team wants project setup declared in a versioned manifest:
+
+```yaml
+# apm.yml
+name: your-project
+version: 1.0.0
+dependencies:
+  apm:
+    - s-hiraoku/codex-harnesses/skills/feature-implementation
+    - s-hiraoku/codex-harnesses/skills/bug-fix
+    - s-hiraoku/codex-harnesses/skills/review
+```
 
 ```sh
-scripts/install.sh --target /path/to/project --agents strict --skills feature-implementation,bug-fix,review --ledger --policy default
+apm install
 ```
+
+GitHub CLI is useful when installing one skill at a time:
+
+```sh
+gh skill preview s-hiraoku/codex-harnesses feature-implementation
+gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
+```
+
+Use `--scope user` for user-wide installation.
+
+The Skills CLI is useful when an npm-based command is easier in the environment:
+
+```sh
+npx skills add s-hiraoku/codex-harnesses --list
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
+```
+
+Use `--global` for user-wide installation. Install only the skills that match repeated work.
 
 ## Daily Workflow
 
