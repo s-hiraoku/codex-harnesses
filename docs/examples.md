@@ -22,6 +22,7 @@ Use this for UI-heavy projects that need:
 - frontend-focused `AGENTS.md`
 - a `scripts/verify.sh` placeholder for lint, typecheck, tests, and build
 - browser and viewport verification expectations
+- optional `frontend-design` skill usage for substantial UI layout, typography, color, and usability work
 
 Replace the placeholder verification script with the project’s real package manager commands.
 
@@ -54,4 +55,3 @@ It includes:
 Start with the smallest example that covers the real risk.
 
 Do not copy every harness file by default. A small accurate harness is better than a large stale one.
-

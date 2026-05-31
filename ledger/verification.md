@@ -13,6 +13,20 @@ Use this file to record meaningful verification runs.
 
 ## Runs
 
+### 2026-05-31 16:32 JST
+
+- Command: `PATH=/private/tmp/codex-harnesses-verify-venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification after rebasing `codex/frontend-design-harness` onto `origin/main` and resolving `docs/usage.md`
+- Result: passed
+- Notes: `ruff check .`, 20 pytest tests, and `mkdocs build --strict` passed.
+
+### 2026-05-31 12:41 JST
+
+- Command: `PATH=/private/tmp/codex-harnesses-verify-venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level ruff, pytest, and MkDocs strict build after adding the `frontend-design` skill
+- Result: passed
+- Notes: Created a temporary venv under `/private/tmp` and installed `requirements-dev.txt` because the user-level `pytest` used an incompatible `rpds` wheel. `ruff check .`, 20 pytest tests, and `mkdocs build --strict` passed.
+
 ### 2026-05-05 11:54 JST
 
 - Command: `CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh`
