@@ -5,6 +5,7 @@ Use this template for frontend applications and UI-heavy projects.
 ## Expectations
 
 - Follow existing component, styling, routing, and state-management patterns.
+- Use the `frontend-design` skill for substantial UI, layout, typography, color, or responsive changes.
 - Keep UI controls accessible and keyboard usable.
 - Avoid layout shifts, overlapping text, and viewport-specific breakage.
 - Use real browser verification for meaningful UI changes.
@@ -19,4 +20,3 @@ Use this template for frontend applications and UI-heavy projects.
 ## Final Response
 
 Summarize UI changes, files touched, verification, and any unresolved visual risks.
-

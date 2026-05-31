@@ -59,6 +59,7 @@ apm install
 ```sh
 gh skill preview s-hiraoku/codex-harnesses feature-implementation
 gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses frontend-design --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses bug-fix --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses review --agent codex --scope project
 ```
@@ -70,6 +71,7 @@ Use `--scope user` instead of `--scope project` when the skills should be availa
 ```sh
 npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill bug-fix
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill review
 ```
@@ -84,6 +86,7 @@ If your environment cannot use these installers, copy selected skill directories
 
 ```sh
 cp -R skills/feature-implementation /path/to/codex-skills/
+cp -R skills/frontend-design /path/to/codex-skills/
 cp -R skills/goal-manager /path/to/codex-skills/
 cp -R skills/bug-fix /path/to/codex-skills/
 cp -R skills/review /path/to/codex-skills/
@@ -91,7 +94,7 @@ cp -R skills/pr-guardian /path/to/codex-skills/
 cp -R skills/meta-packager /path/to/codex-skills/
 ```
 
-Install or copy only the skills that match repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the skills that match repeated workflows. Use `frontend-design` for substantial UI layout, typography, color, usability, or responsive work. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ### Evaluate a Skill
 

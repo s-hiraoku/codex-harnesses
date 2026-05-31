@@ -75,6 +75,7 @@ Skills live under `skills/<name>/SKILL.md`. Each skill contains frontmatter with
 Use skills when a task pattern repeats:
 
 - feature implementation
+- frontend design and UI usability work
 - goal management for long-running or PR-bound work
 - bug fixing
 - safe refactoring
@@ -114,6 +115,7 @@ apm install
 ```sh
 gh skill preview s-hiraoku/codex-harnesses feature-implementation
 gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses frontend-design --agent codex --scope project
 ```
 
 Use `--scope user` instead of `--scope project` when the skills should be available across projects.
@@ -123,6 +125,7 @@ Use `--scope user` instead of `--scope project` when the skills should be availa
 ```sh
 npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
 ```
 
 Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
