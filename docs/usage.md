@@ -29,80 +29,41 @@ Then edit the copied files down. Keep only durable project guidance, stable veri
 
 For end-to-end adoption steps, see `docs/adoption-checklist.md`.
 
-## Install Skills
+## Install The Plugin
 
-Skills are directories that contain `SKILL.md`.
+The reusable workflows are packaged in `plugins/codex-harnesses` and exposed by `marketplace.json`.
 
-Prefer one of these three installer paths so source metadata and target agent paths are handled consistently.
-
-### APM
-
-Use APM when a team wants project setup declared in a versioned manifest.
-
-```yaml
-# apm.yml
-name: your-project
-version: 1.0.0
-dependencies:
-  apm:
-    - s-hiraoku/codex-harnesses/skills/feature-implementation
-    - s-hiraoku/codex-harnesses/skills/bug-fix
-    - s-hiraoku/codex-harnesses/skills/review
-```
+For a local checkout, add the repository as a marketplace root:
 
 ```sh
-apm install
+codex plugin marketplace add /path/to/codex-harnesses
 ```
 
-### GitHub CLI
+Then install `codex-harnesses` from the Codex plugin marketplace UI.
+
+If plugin installation is unavailable in your environment, copy selected skill directories manually from `plugins/codex-harnesses/skills/`:
 
 ```sh
-gh skill preview s-hiraoku/codex-harnesses feature-implementation
-gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
-gh skill install s-hiraoku/codex-harnesses bug-fix --agent codex --scope project
-gh skill install s-hiraoku/codex-harnesses review --agent codex --scope project
+cp -R plugins/codex-harnesses/skills/feature-implementation /path/to/codex-skills/
+cp -R plugins/codex-harnesses/skills/goal-manager /path/to/codex-skills/
+cp -R plugins/codex-harnesses/skills/bug-fix /path/to/codex-skills/
+cp -R plugins/codex-harnesses/skills/review /path/to/codex-skills/
+cp -R plugins/codex-harnesses/skills/pr-guardian /path/to/codex-skills/
+cp -R plugins/codex-harnesses/skills/meta-packager /path/to/codex-skills/
 ```
 
-Use `--scope user` instead of `--scope project` when the skills should be available across projects.
-
-### Skills CLI
-
-```sh
-npx skills add s-hiraoku/codex-harnesses --list
-npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
-npx skills add s-hiraoku/codex-harnesses --agent codex --skill bug-fix
-npx skills add s-hiraoku/codex-harnesses --agent codex --skill review
-```
-
-Use `--global` for user-wide installation:
-
-```sh
-npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation --global
-```
-
-If your environment cannot use these installers, copy selected skill directories manually:
-
-```sh
-cp -R skills/feature-implementation /path/to/codex-skills/
-cp -R skills/goal-manager /path/to/codex-skills/
-cp -R skills/bug-fix /path/to/codex-skills/
-cp -R skills/review /path/to/codex-skills/
-cp -R skills/pr-guardian /path/to/codex-skills/
-cp -R skills/meta-packager /path/to/codex-skills/
-```
-
-Install or copy only the skills that match repeated workflows. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the workflows that match repeated work. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ## Configure Hooks
 
-Hooks in this repository are examples. They do not auto-register with Codex when copied into a project. Wire them into your Codex lifecycle only after reviewing and adapting them.
+Hooks in this repository are examples included in the plugin source. They do not auto-register with Codex when copied into a project. Wire them into your Codex lifecycle only after reviewing and adapting them.
 
 Typical use:
 
 ```sh
-printf '%s\n' "$TEXT_TO_SCAN" | python3 hooks/secret-guard/hook.py
-printf '%s\n' "$COMMAND_TO_SCAN" | python3 hooks/dangerous-command-guard/hook.py
-python3 hooks/stop-verify/hook.py
+printf '%s\n' "$TEXT_TO_SCAN" | python3 plugins/codex-harnesses/hooks/secret-guard/hook.py
+printf '%s\n' "$COMMAND_TO_SCAN" | python3 plugins/codex-harnesses/hooks/dangerous-command-guard/hook.py
+python3 plugins/codex-harnesses/hooks/stop-verify/hook.py
 ```
 
 Hook registration depends on your Codex environment. Treat these scripts as the deterministic payload that a lifecycle hook can call.

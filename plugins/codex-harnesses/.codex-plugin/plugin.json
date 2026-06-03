@@ -1,0 +1,32 @@
+{
+  "name": "codex-harnesses",
+  "version": "0.1.0",
+  "description": "Reusable Codex harness workflows, examples, and safety guidance for reliable software development.",
+  "author": {
+    "name": "s-hiraoku"
+  },
+  "homepage": "https://s-hiraoku.github.io/codex-harnesses/",
+  "repository": "https://github.com/s-hiraoku/codex-harnesses",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "harness",
+    "skills",
+    "verification",
+    "safety"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Harnesses",
+    "shortDescription": "Reusable workflows and harness guidance for Codex",
+    "longDescription": "Codex Harnesses provides focused task workflows for implementation, bug fixing, reviews, refactoring, release checks, documentation updates, PR follow-up, and packaging repeated work. It also includes conservative harness examples for verification, safety policies, hooks, and task ledgers.",
+    "developerName": "s-hiraoku",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://s-hiraoku.github.io/codex-harnesses/",
+    "defaultPrompt": "Use the appropriate Codex Harnesses workflow for this task."
+  }
+}

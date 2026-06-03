@@ -10,8 +10,7 @@ This is not a production-ready secret scanner. It detects a small set of common 
 ## Usage
 
 ```sh
-printf '%s\n' "text to scan" | python3 hooks/secret-guard/hook.py
+printf '%s\n' "text to scan" | python3 plugins/codex-harnesses/hooks/secret-guard/hook.py
 ```
 
 Adapt the patterns and allowlist behavior before using this in high-risk repositories.
-

@@ -10,8 +10,7 @@ This is not a full shell parser and is not production-ready. It exits with:
 ## Usage
 
 ```sh
-printf '%s\n' "git reset --hard" | python3 hooks/dangerous-command-guard/hook.py
+printf '%s\n' "git reset --hard" | python3 plugins/codex-harnesses/hooks/dangerous-command-guard/hook.py
 ```
 
 Use this as a starting point for policy-specific command blocking.
-

@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = ROOT / "skills"
+SKILLS = ROOT / "plugins/codex-harnesses/skills"
 REQUIRED_SKILL_NAMES = {
     "feature-implementation",
     "goal-manager",

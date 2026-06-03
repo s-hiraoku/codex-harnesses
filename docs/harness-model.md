@@ -10,9 +10,13 @@ It should not become a task tracker or a dumping ground for temporary instructio
 
 ## Skills
 
-Skills are reusable workflows. A skill belongs in `skills/<name>/SKILL.md` and should include frontmatter with `name` and `description`.
+Skills are reusable workflows. In this repository they are packaged inside the installable plugin at `plugins/codex-harnesses/skills/<name>/SKILL.md` and should include frontmatter with `name` and `description`.
 
 Use skills for repeated task types such as feature work, bug fixing, refactoring, release checks, documentation updates, code review, and post-PR follow-up.
+
+## Plugin Marketplace
+
+`marketplace.json` exposes `plugins/codex-harnesses` as an installable Codex plugin. The marketplace is the preferred distribution path for the reusable workflows. The rest of the repository remains a copyable harness kit for project-local guidance, policies, ledgers, scripts, and examples.
 
 ## MCP
 
@@ -22,7 +26,7 @@ This repository documents MCP strategy but does not implement an MCP server.
 
 ## Hooks
 
-Hooks are deterministic lifecycle enforcement points. They are useful for blocking likely secrets, stopping dangerous commands, or requiring verification before a session ends.
+Hooks are deterministic lifecycle enforcement points. The plugin includes hook payload examples under `plugins/codex-harnesses/hooks/`. They are useful for blocking likely secrets, stopping dangerous commands, or requiring verification before a session ends.
 
 Hooks should be treated as code, tested like code, and documented with clear failure modes.
 

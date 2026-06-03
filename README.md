@@ -11,23 +11,25 @@ This repository provides reusable examples for project guidance, task workflows,
 
 ## Quick Start
 
-1. Pick a starting shape from `examples/`.
-2. Copy the matching `AGENTS.md`, `scripts/verify.sh`, policy, and ledger files into your project.
-3. Install only the skills that match repeated work with APM, `gh skill`, or `npx skills`.
-4. Replace generic verification commands with real project commands.
-5. Add only the hooks that match repeated work and have been reviewed.
-6. Run one small real task through the harness and tighten anything that was vague.
+1. Add this repository as a Codex plugin marketplace.
+2. Install the `codex-harnesses` plugin from that marketplace.
+3. Pick a starting shape from `examples/`.
+4. Copy the matching `AGENTS.md`, `scripts/verify.sh`, policy, and ledger files into your project.
+5. Replace generic verification commands with real project commands.
+6. Add only the hook examples that match repeated work and have been reviewed.
+7. Run one small real task through the harness and tighten anything that was vague.
 
-For skills, use one of the recommended installer paths:
+For a local checkout, add the marketplace root:
 
 ```sh
-apm install s-hiraoku/codex-harnesses/skills/feature-implementation
-gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
-npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
+codex plugin marketplace add /path/to/codex-harnesses
 ```
+
+The marketplace manifest is `marketplace.json`, and it exposes `plugins/codex-harnesses`.
 
 The GitHub Pages user guide lives in `docs/` and is built with MkDocs. Once Pages is enabled with GitHub Actions as the source, it publishes to [s-hiraoku.github.io/codex-harnesses](https://s-hiraoku.github.io/codex-harnesses/).
 
+For plugin installation details, see `docs/plugin-marketplace.md`.
 For a detailed adoption pass, see `docs/adoption-checklist.md`.
 
 ## Why Harnesses
@@ -46,9 +48,11 @@ Use this repository to help Codex:
 ## Harness Model
 
 - `AGENTS.md`: durable project guidance that should stay small and practical.
-- `skills/`: reusable task workflows, each in a directory with `SKILL.md`.
+- `marketplace.json`: Codex marketplace manifest for installing the plugin.
+- `plugins/codex-harnesses/`: installable Codex plugin containing reusable workflows and examples.
+- `plugins/codex-harnesses/skills/`: reusable task workflows, each in a directory with `SKILL.md`.
 - MCP: the layer for external tools and knowledge access.
-- `hooks/`: deterministic scripts that run during the Codex lifecycle.
+- `plugins/codex-harnesses/hooks/`: deterministic example scripts that can be wired into the Codex lifecycle.
 - `policies/`: permission and safety rule examples.
 - `ledger/`: resumable task memory for long-running work.
 - `scripts/`: verification and checkpoint utilities.
@@ -68,9 +72,9 @@ For notes on Codex environment configuration boundaries, see `docs/codex-config.
 For a step-by-step adoption pass, see `docs/adoption-checklist.md`.
 For long-running task memory patterns, see `docs/task-ledger-patterns.md`.
 
-## Using Skills
+## Using The Plugin
 
-Skills live under `skills/<name>/SKILL.md`. Each skill contains frontmatter with `name` and `description`, followed by a reusable workflow.
+The installable plugin lives at `plugins/codex-harnesses` and is exposed by `marketplace.json`. Skills live under `plugins/codex-harnesses/skills/<name>/SKILL.md`. Each skill contains frontmatter with `name` and `description`, followed by a reusable workflow.
 
 Use skills when a task pattern repeats:
 
@@ -88,48 +92,11 @@ After opening a PR, run the `pr-guardian` workflow by default to monitor checks 
 
 Run the `meta-packager` workflow after enough real Codex sessions have accumulated to identify repeated work. It inspects recent sessions, memories, and existing assets, then creates only high-confidence skills, subagents, or automations.
 
-Install only the skills that match your repeated work. Keep each skill focused on workflow, expected verification, and final reporting.
-
-Recommended install methods:
-
-1. APM, for teams that want one project manifest:
-
-```yaml
-# apm.yml
-name: your-project
-version: 1.0.0
-dependencies:
-  apm:
-    - s-hiraoku/codex-harnesses/skills/feature-implementation
-    - s-hiraoku/codex-harnesses/skills/bug-fix
-    - s-hiraoku/codex-harnesses/skills/review
-```
-
-```sh
-apm install
-```
-
-2. GitHub CLI, for installing a named skill directly:
-
-```sh
-gh skill preview s-hiraoku/codex-harnesses feature-implementation
-gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
-```
-
-Use `--scope user` instead of `--scope project` when the skills should be available across projects.
-
-3. Skills CLI, for an npm-based installer path:
-
-```sh
-npx skills add s-hiraoku/codex-harnesses --list
-npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
-```
-
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
+Install the `codex-harnesses` plugin from the marketplace and enable only the workflows that match repeated work. Keep each skill focused on workflow, expected verification, and final reporting.
 
 ## Using Hooks
 
-Hooks are deterministic enforcement points. The examples in `hooks/` are intentionally small and are not guaranteed production-ready integrations.
+Hooks are deterministic enforcement points. The examples in `plugins/codex-harnesses/hooks/` are intentionally small and are not guaranteed production-ready integrations.
 They are payload scripts, not automatic Codex lifecycle registration. Copying this repository does not make them run by itself; the target Codex environment must explicitly wire each script to the lifecycle event that should call it.
 
 Included examples:

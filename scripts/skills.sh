@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+PLUGIN_SKILLS="${ROOT}/plugins/codex-harnesses/skills"
 
 TARGET="${CODEX_SKILLS_DIR:-}"
 SKILLS="all"
@@ -12,7 +13,7 @@ usage() {
   cat <<'USAGE'
 Usage: scripts/skills.sh [options] [skill ...]
 
-Install codex-harnesses skills into a skills directory.
+Install codex-harnesses plugin skills into a skills directory.
 
 Options:
   --target DIR       Destination skills directory. Defaults to CODEX_SKILLS_DIR, then ./.codex/skills.
@@ -84,14 +85,14 @@ skill_names=()
 if [[ "${SKILLS}" == "all" ]]; then
   while IFS= read -r path; do
     skill_names+=("$(basename "${path}")")
-  done < <(find "${ROOT}/skills" -mindepth 1 -maxdepth 1 -type d | sort)
+  done < <(find "${PLUGIN_SKILLS}" -mindepth 1 -maxdepth 1 -type d | sort)
 else
   IFS=',' read -ra skill_names <<<"${SKILLS}"
 fi
 
 for skill in "${skill_names[@]}"; do
   [[ -n "${skill}" ]] || fail "empty skill name"
-  src="${ROOT}/skills/${skill}"
+  src="${PLUGIN_SKILLS}/${skill}"
   dest="${TARGET}/${skill}"
   [[ -f "${src}/SKILL.md" ]] || fail "unknown skill: ${skill}"
 

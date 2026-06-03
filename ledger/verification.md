@@ -54,3 +54,24 @@ Use this file to record meaningful verification runs.
 - Scope: PR #7 review feedback fixes
 - Result: passed
 - Notes: `ruff check .`, 18 pytest tests, and `mkdocs build --strict` all passed after clarifying verification-log timestamps.
+
+### 2026-06-04 07:20 JST
+
+- Command: `/usr/local/bin/python3 /Users/hiraoku.shinichi/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py plugins/codex-harnesses`
+- Scope: Codex plugin manifest validation for marketplace packaging
+- Result: passed
+- Notes: Plugin validation passed for `plugins/codex-harnesses`.
+
+### 2026-06-04 07:20 JST
+
+- Command: `bash scripts/verify.sh`
+- Scope: repository-level verification for plugin marketplace packaging
+- Result: failed
+- Notes: `ruff check .` passed, then `pytest` failed during collection because the system Python loaded an incompatible `rpds` wheel (`x86_64` instead of `arm64e` or `arm64`).
+
+### 2026-06-04 07:20 JST
+
+- Command: `PATH=/tmp/codex-harnesses-verify-venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification for plugin marketplace packaging
+- Result: passed
+- Notes: `ruff check .`, 20 pytest tests, and `mkdocs build --strict` all passed using a temporary venv with `requirements-dev.txt`.

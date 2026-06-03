@@ -4,17 +4,15 @@ Codex configuration details can vary by environment. This repository should avoi
 
 Use this document to separate reusable harness files from environment-specific wiring.
 
-## Skills
+## Plugin And Skills
 
-The reusable unit is a directory containing `SKILL.md`.
+The reusable unit is the `codex-harnesses` plugin exposed by `marketplace.json`.
 
 Recommended options:
 
-- Use APM with `s-hiraoku/codex-harnesses/skills/<skill>` entries in `apm.yml` when project setup should be reproducible for a team.
-- Use `gh skill install s-hiraoku/codex-harnesses <skill> --agent codex --scope project` for project-local Codex skills.
-- Use `gh skill install s-hiraoku/codex-harnesses <skill> --agent codex --scope user` for user-wide Codex skills.
-- Use `npx skills add s-hiraoku/codex-harnesses --agent codex --skill <skill>` as the npm-based installer path.
-- If none of these installers are available, copy selected skill directories manually into the skills directory supported by your Codex environment.
+- Use `codex plugin marketplace add /path/to/codex-harnesses` for a local checkout.
+- Install `codex-harnesses` from the Codex plugin marketplace UI.
+- If plugin installation is unavailable, copy selected skill directories from `plugins/codex-harnesses/skills/` into the skills directory supported by your Codex environment.
 
 Avoid putting project secrets, temporary task state, or repository-specific credentials in skills.
 
@@ -28,9 +26,9 @@ For production hardening guidance, see `hook-hardening.md`.
 
 Useful payloads:
 
-- `hooks/secret-guard/hook.py`: scan proposed text for likely secrets
-- `hooks/dangerous-command-guard/hook.py`: scan proposed shell commands for obvious danger
-- `hooks/stop-verify/hook.py`: run `scripts/verify.sh` before stopping
+- `plugins/codex-harnesses/hooks/secret-guard/hook.py`: scan proposed text for likely secrets
+- `plugins/codex-harnesses/hooks/dangerous-command-guard/hook.py`: scan proposed shell commands for obvious danger
+- `plugins/codex-harnesses/hooks/stop-verify/hook.py`: run `scripts/verify.sh` before stopping
 
 ## Policies
 

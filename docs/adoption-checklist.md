@@ -18,9 +18,10 @@ Copy only what you need. A small accurate harness is better than a broad stale o
 - [ ] Remove instructions that are temporary or issue-specific.
 - [ ] Add safety expectations for destructive commands, secrets, and git operations.
 
-## 3. Choose Skills
+## 3. Install The Plugin
 
-- [ ] Install only the skills that match repeated work with APM, `gh skill install`, or `npx skills add`.
+- [ ] Add the repository marketplace with `codex plugin marketplace add /path/to/codex-harnesses`.
+- [ ] Install the `codex-harnesses` plugin from the marketplace.
 - [ ] Preview or inspect skill contents before installing them.
 - [ ] Keep skills focused on workflow, verification, and reporting.
 - [ ] Keep project-specific state out of skills.

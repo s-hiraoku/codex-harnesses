@@ -6,6 +6,7 @@ Codex should not be expected to succeed by intelligence alone.
 
 This site explains how to use the repository as a selectively deployable harness kit:
 
+- installable Codex plugin distribution through `marketplace.json`
 - durable project guidance with `AGENTS.md`
 - reusable workflows with skills
 - deterministic enforcement with hooks
@@ -18,9 +19,10 @@ This site explains how to use the repository as a selectively deployable harness
 If you are adopting the harnesses in a project:
 
 1. Read the [User Guide](user-guide.md).
-2. Pick a starting shape from [Examples](examples.md).
-3. Follow the [Adoption Checklist](adoption-checklist.md).
-4. Run one small real task through the harness before expanding it.
+2. Install the plugin from the [Plugin Marketplace](plugin-marketplace.md).
+3. Pick a starting shape from [Examples](examples.md).
+4. Follow the [Adoption Checklist](adoption-checklist.md).
+5. Run one small real task through the harness before expanding it.
 
 ## Core Idea
 

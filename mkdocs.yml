@@ -13,6 +13,7 @@ nav:
   - Home: index.md
   - User Guide:
       - Overview: user-guide.md
+      - Plugin Marketplace: plugin-marketplace.md
       - Usage: usage.md
       - Adoption Checklist: adoption-checklist.md
       - Examples: examples.md

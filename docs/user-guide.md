@@ -32,7 +32,7 @@ Add hooks only after you have reviewed and tested the payload scripts.
 
 1. Pick an example project shape from [Examples](examples.md).
 2. Copy the relevant harness files into your target repository.
-3. Install repeated-work skills with APM, `gh skill`, or `npx skills`.
+3. Install the `codex-harnesses` plugin from the marketplace.
 4. Replace generic commands with real project commands.
 5. Run `bash scripts/verify.sh`.
 6. Run one small real task through Codex.
@@ -48,44 +48,15 @@ Add hooks only after you have reviewed and tested the payload scripts.
 
 See [Examples](examples.md) for the full list.
 
-## Installing Skills
+## Installing The Plugin
 
-Use one of these three installer paths instead of a repository-specific shell installer.
-
-APM is the best fit when a team wants project setup declared in a versioned manifest:
-
-```yaml
-# apm.yml
-name: your-project
-version: 1.0.0
-dependencies:
-  apm:
-    - s-hiraoku/codex-harnesses/skills/feature-implementation
-    - s-hiraoku/codex-harnesses/skills/bug-fix
-    - s-hiraoku/codex-harnesses/skills/review
-```
+Add this repository as a Codex plugin marketplace, then install `codex-harnesses` from the marketplace UI:
 
 ```sh
-apm install
+codex plugin marketplace add /path/to/codex-harnesses
 ```
 
-GitHub CLI is useful when installing one skill at a time:
-
-```sh
-gh skill preview s-hiraoku/codex-harnesses feature-implementation
-gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
-```
-
-Use `--scope user` for user-wide installation.
-
-The Skills CLI is useful when an npm-based command is easier in the environment:
-
-```sh
-npx skills add s-hiraoku/codex-harnesses --list
-npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
-```
-
-Use `--global` for user-wide installation. Install only the skills that match repeated work.
+The plugin exposes repeated-work skills such as `feature-implementation`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Install only the workflows that match repeated work.
 
 ## Daily Workflow
 

@@ -70,7 +70,7 @@ def test_skills_script_force_skips_same_source_and_destination(tmp_path: Path) -
             "bash",
             "scripts/skills.sh",
             "--target",
-            "skills",
+            "plugins/codex-harnesses/skills",
             "--force",
             "bug-fix",
         ],
@@ -81,4 +81,4 @@ def test_skills_script_force_skips_same_source_and_destination(tmp_path: Path) -
     )
 
     assert "skip same path" in result.stdout
-    assert (repo / "skills/bug-fix/SKILL.md").is_file()
+    assert (repo / "plugins/codex-harnesses/skills/bug-fix/SKILL.md").is_file()

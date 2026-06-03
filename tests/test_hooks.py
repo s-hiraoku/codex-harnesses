@@ -18,27 +18,38 @@ def run_hook(path: str, text: str) -> subprocess.CompletedProcess[str]:
 
 
 def test_secret_guard_allows_plain_text() -> None:
-    result = run_hook("hooks/secret-guard/hook.py", "ordinary project notes")
+    result = run_hook(
+        "plugins/codex-harnesses/hooks/secret-guard/hook.py",
+        "ordinary project notes",
+    )
 
     assert result.returncode == 0
 
 
 def test_secret_guard_blocks_openai_style_key() -> None:
-    result = run_hook("hooks/secret-guard/hook.py", "OPENAI_API_KEY=sk-123456789012345678901234")
+    result = run_hook(
+        "plugins/codex-harnesses/hooks/secret-guard/hook.py",
+        "OPENAI_API_KEY=sk-123456789012345678901234",
+    )
 
     assert result.returncode == 2
     assert "likely secret" in result.stderr
 
 
 def test_dangerous_command_guard_allows_safe_command() -> None:
-    result = run_hook("hooks/dangerous-command-guard/hook.py", "git status --short")
+    result = run_hook(
+        "plugins/codex-harnesses/hooks/dangerous-command-guard/hook.py",
+        "git status --short",
+    )
 
     assert result.returncode == 0
 
 
 def test_dangerous_command_guard_blocks_hard_reset() -> None:
-    result = run_hook("hooks/dangerous-command-guard/hook.py", "git reset --hard")
+    result = run_hook(
+        "plugins/codex-harnesses/hooks/dangerous-command-guard/hook.py",
+        "git reset --hard",
+    )
 
     assert result.returncode == 2
     assert "dangerous command" in result.stderr
-
