@@ -30,6 +30,35 @@ Useful payloads:
 - `plugins/codex-harnesses/hooks/dangerous-command-guard/hook.py`: scan proposed shell commands for obvious danger
 - `plugins/codex-harnesses/hooks/stop-verify/hook.py`: run `scripts/verify.sh` before stopping
 
+## MCP Servers
+
+MCP server registration belongs to the target Codex environment. Keep reusable harness files limited to recommended tool categories, reviewed examples, and safety expectations.
+
+Recommended examples:
+
+- Excalidraw for editable architecture sketches, flow diagrams, wireframes, and visual explanations.
+
+For Excalidraw, `@scofieldfree/excalidraw-mcp` can be registered in Codex CLI with:
+
+```sh
+codex mcp add excalidraw -- npx -y @scofieldfree/excalidraw-mcp
+```
+
+For environments that use JSON MCP configuration, the equivalent shape is:
+
+```json
+{
+  "mcpServers": {
+    "excalidraw": {
+      "command": "npx",
+      "args": ["-y", "@scofieldfree/excalidraw-mcp"]
+    }
+  }
+}
+```
+
+Do not put MCP credentials, personal endpoints, generated diagram data, or temporary server paths in this repository.
+
 ## Policies
 
 Policy files are examples of approval, sandboxing, guards, verification, and git expectations. They are useful as:

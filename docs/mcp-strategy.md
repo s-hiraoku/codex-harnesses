@@ -18,6 +18,12 @@ Official documentation, internal runbooks, API references, architecture decision
 
 Browser automation, UI inspection, screenshots, accessibility checks, and end-to-end flow verification.
 
+## Visual Collaboration and Diagramming
+
+Diagramming tools such as Excalidraw are useful MCP targets when a task needs editable architecture sketches, flow diagrams, wireframes, or visual explanations.
+
+Prefer maintained MCP servers over ad hoc image generation when the diagram should remain inspectable and editable. For Excalidraw, the `@scofieldfree/excalidraw-mcp` package is a practical local stdio option for MCP-capable Codex environments. Keep registration details in the target Codex environment rather than in reusable harness files.
+
 ## Local Repo Tools
 
 Search, build tools, test runners, linters, typecheckers, dependency analyzers, and code generation commands.
@@ -29,4 +35,3 @@ Long-running task state, decisions, risks, verification history, and handoff sum
 ## Boundary
 
 MCP should provide access. It should not silently enforce policy. Enforcement belongs in hooks, sandboxing, review, and deterministic verification.
-

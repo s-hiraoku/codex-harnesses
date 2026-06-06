@@ -75,3 +75,10 @@ Use this file to record meaningful verification runs.
 - Scope: repository-level verification for plugin marketplace packaging
 - Result: passed
 - Notes: `ruff check .`, 20 pytest tests, and `mkdocs build --strict` all passed using a temporary venv with `requirements-dev.txt`.
+
+### 2026-06-06 09:07 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification for Excalidraw MCP documentation updates
+- Result: passed
+- Notes: `ruff check .`, 20 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.

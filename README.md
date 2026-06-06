@@ -51,7 +51,7 @@ Use this repository to help Codex:
 - `marketplace.json`: Codex marketplace manifest for installing the plugin.
 - `plugins/codex-harnesses/`: installable Codex plugin containing reusable workflows and examples.
 - `plugins/codex-harnesses/skills/`: reusable task workflows, each in a directory with `SKILL.md`.
-- MCP: the layer for external tools and knowledge access.
+- MCP: the layer for external tools and knowledge access, including diagramming tools such as Excalidraw.
 - `plugins/codex-harnesses/hooks/`: deterministic example scripts that can be wired into the Codex lifecycle.
 - `policies/`: permission and safety rule examples.
 - `ledger/`: resumable task memory for long-running work.
