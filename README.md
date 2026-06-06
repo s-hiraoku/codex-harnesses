@@ -86,6 +86,7 @@ Use skills when a task pattern repeats:
 - documentation updates
 - code review
 - post-PR CI and review follow-up
+- Excalidraw blog diagram creation and export
 - meta-analysis that packages repeated Codex work into reusable assets
 
 After opening a PR, run the `pr-guardian` workflow by default to monitor checks and address actionable feedback until the PR is mergeable or a blocker is documented.

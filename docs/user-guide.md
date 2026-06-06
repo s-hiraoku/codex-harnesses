@@ -56,7 +56,7 @@ Add this repository as a Codex plugin marketplace, then install `codex-harnesses
 codex plugin marketplace add /path/to/codex-harnesses
 ```
 
-The plugin exposes repeated-work skills such as `feature-implementation`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Install only the workflows that match repeated work.
+The plugin exposes repeated-work skills such as `feature-implementation`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, `excalidraw-blog-diagrams`, and `meta-packager`. Install only the workflows that match repeated work.
 
 ## Daily Workflow
 

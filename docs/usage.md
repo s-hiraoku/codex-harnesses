@@ -49,10 +49,11 @@ cp -R plugins/codex-harnesses/skills/goal-manager /path/to/codex-skills/
 cp -R plugins/codex-harnesses/skills/bug-fix /path/to/codex-skills/
 cp -R plugins/codex-harnesses/skills/review /path/to/codex-skills/
 cp -R plugins/codex-harnesses/skills/pr-guardian /path/to/codex-skills/
+cp -R plugins/codex-harnesses/skills/excalidraw-blog-diagrams /path/to/codex-skills/
 cp -R plugins/codex-harnesses/skills/meta-packager /path/to/codex-skills/
 ```
 
-Install or copy only the workflows that match repeated work. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the workflows that match repeated work. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `excalidraw-blog-diagrams` when creating readable Excalidraw source diagrams and article-ready SVG or PNG exports for technical posts. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ## Configure Hooks
 

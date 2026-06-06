@@ -1,0 +1,10 @@
+interface:
+  display_name: "Excalidraw Blog Diagrams"
+  short_description: "Readable blog diagrams with Excalidraw MCP"
+  default_prompt: "Use $excalidraw-blog-diagrams to create a readable diagram for this blog post."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "excalidraw"
+      description: "Excalidraw MCP server for creating and exporting editable diagrams"
