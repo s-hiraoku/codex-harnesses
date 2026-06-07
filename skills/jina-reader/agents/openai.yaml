@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jina Reader"
+  short_description: "Read difficult public URLs with Jina"
+  default_prompt: "Use $jina-reader to fetch readable Markdown from this public URL."

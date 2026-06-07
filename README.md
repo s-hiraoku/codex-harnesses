@@ -82,6 +82,7 @@ Use skills when a task pattern repeats:
 - release readiness checks
 - documentation updates
 - code review
+- reading public URLs that normal tools cannot parse cleanly with Jina Reader
 - post-PR CI and review follow-up
 - meta-analysis that packages repeated Codex work into reusable assets
 
@@ -128,7 +129,7 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implement
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
 
 ### Evaluating Skills
 

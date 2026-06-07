@@ -7,6 +7,7 @@ SKILLS = ROOT / "skills"
 REQUIRED_SKILL_NAMES = {
     "feature-implementation",
     "frontend-design",
+    "jina-reader",
     "goal-manager",
     "bug-fix",
     "refactor-safely",
