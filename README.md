@@ -76,6 +76,7 @@ Use skills when a task pattern repeats:
 
 - feature implementation
 - frontend design and UI usability work
+- implementation delivery from plan to merge-ready PR
 - goal management for long-running or PR-bound work
 - bug fixing
 - safe refactoring
@@ -83,6 +84,7 @@ Use skills when a task pattern repeats:
 - documentation updates
 - code review
 - reading public URLs that normal tools cannot parse cleanly with Jina Reader
+- image-generated UI direction before frontend implementation
 - post-PR CI and review follow-up
 - meta-analysis that packages repeated Codex work into reusable assets
 
@@ -117,6 +119,7 @@ apm install
 gh skill preview s-hiraoku/codex-harnesses feature-implementation
 gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses frontend-design --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses implement-to-merge-ready --agent codex --scope project
 ```
 
 Use `--scope user` instead of `--scope project` when the skills should be available across projects.
@@ -127,9 +130,10 @@ Use `--scope user` instead of `--scope project` when the skills should be availa
 npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merge-ready
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
 
 ### Evaluating Skills
 
