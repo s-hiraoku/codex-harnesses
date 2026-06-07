@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement to Merge Ready"
+  short_description: "Plan, implement, verify, PR, and stabilize."
+  default_prompt: "Use $implement-to-merge-ready to implement this change, open a ready-for-review PR, and bring it as close to mergeable as possible."

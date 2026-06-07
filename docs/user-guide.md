@@ -74,6 +74,7 @@ GitHub CLI is useful when installing one skill at a time:
 ```sh
 gh skill preview s-hiraoku/codex-harnesses feature-implementation
 gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses implement-to-merge-ready --agent codex --scope project
 ```
 
 Use `--scope user` for user-wide installation.
@@ -83,9 +84,10 @@ The Skills CLI is useful when an npm-based command is easier in the environment:
 ```sh
 npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merge-ready
 ```
 
-Use `--global` for user-wide installation. Install only the skills that match repeated work.
+Use `--global` for user-wide installation. Install only the skills that match repeated work, such as `implement-to-merge-ready` for implementation tasks that should continue through PR creation and merge-readiness follow-up.
 
 ## Daily Workflow
 

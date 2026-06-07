@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI ImageGen Director"
+  short_description: "Use Image Gen to direct polished frontend UI"
+  default_prompt: "Use $ui-imagegen-director to create a strong UI visual direction with Image Gen, implement it in code, and verify it in the browser."
