@@ -62,6 +62,7 @@ gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex 
 gh skill install s-hiraoku/codex-harnesses frontend-design --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses bug-fix --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses review --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses jina-reader --agent codex --scope project
 ```
 
 Use `--scope user` instead of `--scope project` when the skills should be available across projects.
@@ -74,6 +75,7 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implement
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill bug-fix
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill review
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill jina-reader
 ```
 
 Use `--global` for user-wide installation:
@@ -90,11 +92,12 @@ cp -R skills/frontend-design /path/to/codex-skills/
 cp -R skills/goal-manager /path/to/codex-skills/
 cp -R skills/bug-fix /path/to/codex-skills/
 cp -R skills/review /path/to/codex-skills/
+cp -R skills/jina-reader /path/to/codex-skills/
 cp -R skills/pr-guardian /path/to/codex-skills/
 cp -R skills/meta-packager /path/to/codex-skills/
 ```
 
-Install or copy only the skills that match repeated workflows. Use `frontend-design` for substantial UI layout, typography, color, usability, or responsive work. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the skills that match repeated workflows. Use `frontend-design` for substantial UI layout, typography, color, usability, or responsive work. Use `jina-reader` when public URLs need Jina Reader to recover LLM-friendly Markdown from pages normal tools cannot parse cleanly. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ### Evaluate a Skill
 
