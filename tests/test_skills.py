@@ -9,6 +9,7 @@ REQUIRED_SKILL_NAMES = {
     "frontend-design",
     "implement-to-merge-ready",
     "jina-reader",
+    "kaizen-loop",
     "goal-manager",
     "ui-imagegen-director",
     "bug-fix",

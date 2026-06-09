@@ -77,6 +77,7 @@ Use skills when a task pattern repeats:
 - feature implementation
 - frontend design and UI usability work
 - implementation delivery from plan to merge-ready PR
+- continuous product evaluation and approved improvement loops
 - goal management for long-running or PR-bound work
 - bug fixing
 - safe refactoring
@@ -120,6 +121,7 @@ gh skill preview s-hiraoku/codex-harnesses feature-implementation
 gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses frontend-design --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses implement-to-merge-ready --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses kaizen-loop --agent codex --scope project
 ```
 
 Use `--scope user` instead of `--scope project` when the skills should be available across projects.
@@ -131,9 +133,10 @@ npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merge-ready
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
 
 ### Evaluating Skills
 
