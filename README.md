@@ -133,7 +133,7 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merge-ready
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`.
 
 ### Evaluating Skills
 

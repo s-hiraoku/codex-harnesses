@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jina Read URL"
+  short_description: "Read public URLs through Jina Reader"
+  default_prompt: "Use $jina-read-url to read and summarize this public URL."
