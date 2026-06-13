@@ -110,3 +110,17 @@ Use this file to record meaningful verification runs.
 - Scope: repository-level verification after PR #6 conflict resolution
 - Result: passed
 - Notes: Created `.venv`, installed `requirements-dev.txt`, then `ruff check .`, 20 pytest tests, and `mkdocs build --strict` all passed.
+
+### 2026-06-10 10:34 JST
+
+- Command: `bash scripts/verify.sh`
+- Scope: repository-level verification for `jina-read-url` skill addition
+- Result: failed
+- Notes: `ruff check .` passed, then `pytest` failed during collection because the system Python loaded an incompatible `rpds` wheel (`x86_64` instead of `arm64e` or `arm64`).
+
+### 2026-06-10 10:34 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification for `jina-read-url` skill addition
+- Result: passed
+- Notes: `ruff check .`, 20 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.

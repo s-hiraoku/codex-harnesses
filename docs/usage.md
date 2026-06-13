@@ -65,6 +65,7 @@ gh skill install s-hiraoku/codex-harnesses ui-imagegen-director --agent codex --
 gh skill install s-hiraoku/codex-harnesses bug-fix --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses review --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses jina-reader --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses jina-read-url --agent codex --scope project
 ```
 
 Use `--scope user` instead of `--scope project` when the skills should be available across projects.
@@ -80,6 +81,7 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill ui-imagegen-direc
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill bug-fix
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill review
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill jina-reader
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill jina-read-url
 ```
 
 Use `--global` for user-wide installation:
@@ -99,11 +101,12 @@ cp -R skills/goal-manager /path/to/codex-skills/
 cp -R skills/bug-fix /path/to/codex-skills/
 cp -R skills/review /path/to/codex-skills/
 cp -R skills/jina-reader /path/to/codex-skills/
+cp -R skills/jina-read-url /path/to/codex-skills/
 cp -R skills/pr-guardian /path/to/codex-skills/
 cp -R skills/meta-packager /path/to/codex-skills/
 ```
 
-Install or copy only the skills that match repeated workflows. Use `implement-to-merge-ready` when an implementation request should run from plan and goal setup through tests, review, PR creation, and merge-readiness follow-up. Use `frontend-design` for substantial UI layout, typography, color, usability, or responsive work, and `ui-imagegen-director` when image-generated UI direction should guide frontend implementation. Use `jina-reader` when public URLs need Jina Reader to recover LLM-friendly Markdown from pages normal tools cannot parse cleanly. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the skills that match repeated workflows. Use `implement-to-merge-ready` when an implementation request should run from plan and goal setup through tests, review, PR creation, and merge-readiness follow-up. Use `frontend-design` for substantial UI layout, typography, color, usability, or responsive work, and `ui-imagegen-director` when image-generated UI direction should guide frontend implementation. Use `jina-reader` when public URLs need Jina Reader to recover LLM-friendly Markdown from pages normal tools cannot parse cleanly, and `jina-read-url` when the repeated task is simply to turn one public URL into readable Markdown and a concise summary in a ChatGPT-like workflow. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work and package only high-confidence repeated patterns as reusable skills, subagents, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 ### Evaluate a Skill
 
