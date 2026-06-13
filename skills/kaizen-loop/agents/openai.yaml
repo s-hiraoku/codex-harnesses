@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kaizen Loop"
+  short_description: "Evaluate, approve, improve, and PR."
+  default_prompt: "Use $kaizen-loop to evaluate this product, propose improvements, and implement approved changes through merge-ready PRs."

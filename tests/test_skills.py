@@ -10,6 +10,7 @@ REQUIRED_SKILL_NAMES = {
     "implement-to-merge-ready",
     "jina-read-url",
     "jina-reader",
+    "kaizen-loop",
     "goal-manager",
     "ui-imagegen-director",
     "bug-fix",
