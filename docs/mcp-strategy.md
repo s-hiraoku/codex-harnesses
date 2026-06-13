@@ -30,3 +30,4 @@ Long-running task state, decisions, risks, verification history, and handoff sum
 
 MCP should provide access. It should not silently enforce policy. Enforcement belongs in hooks, sandboxing, review, and deterministic verification.
 
+For a disabled-by-default starter configuration and per-server notes, see [MCP Recipes](mcp-recipes.md).

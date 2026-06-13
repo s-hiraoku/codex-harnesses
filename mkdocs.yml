@@ -25,6 +25,7 @@ nav:
       - Safety Model: safety-model.md
       - Hook Hardening: hook-hardening.md
       - MCP Strategy: mcp-strategy.md
+      - MCP Recipes: mcp-recipes.md
       - Codex Configuration: codex-config.md
 
 markdown_extensions:

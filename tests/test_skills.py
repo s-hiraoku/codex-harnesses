@@ -21,6 +21,11 @@ REQUIRED_SKILL_NAMES = {
     "pr-guardian",
     "empirical-prompt-tuning",
     "meta-packager",
+    "security-review",
+    "tdd",
+    "simplify",
+    "deslop",
+    "fix-ci",
 }
 
 

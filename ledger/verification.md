@@ -13,6 +13,34 @@ Use this file to record meaningful verification runs.
 
 ## Runs
 
+### 2026-06-13 11:17 JST
+
+- Command: `PATH=.venv/bin:$PATH pytest tests/test_hooks.py`
+- Scope: targeted regression test for `cost-ceiling-guard` persistence after PR #14 review feedback
+- Result: passed
+- Notes: 10 hook tests passed, including the new assertion that consecutive hook processes persist `count == 2`.
+
+### 2026-06-13 11:17 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification after addressing PR #14 review feedback
+- Result: passed
+- Notes: `ruff check .`, 28 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.
+
+### 2026-06-13 11:13 JST
+
+- Command: `bash scripts/verify.sh`
+- Scope: repository-level verification after importing selected Claude harness skills, MCP recipes, and hook examples
+- Result: failed
+- Notes: `ruff check .` passed after line-length fixes, then `pytest` failed during collection because the system Python loaded an incompatible `rpds` wheel (`x86_64` instead of `arm64e` or `arm64`).
+
+### 2026-06-13 11:13 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification after importing selected Claude harness skills, MCP recipes, and hook examples
+- Result: passed
+- Notes: `ruff check .`, 27 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.
+
 ### 2026-05-31 16:32 JST
 
 - Command: `PATH=/private/tmp/codex-harnesses-verify-venv/bin:$PATH bash scripts/verify.sh`
