@@ -84,6 +84,10 @@ Use skills when a task pattern repeats:
 - release readiness checks
 - documentation updates
 - code review
+- security review
+- test-driven development
+- CI repair
+- simplification and deslop cleanup after implementation
 - reading public URLs that normal tools cannot parse cleanly with Jina Reader
 - image-generated UI direction before frontend implementation
 - post-PR CI and review follow-up
@@ -136,7 +140,13 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merg
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `security-review`, `tdd`, `fix-ci`, `simplify`, `deslop`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
+
+## Using MCP Recipes
+
+This repository includes a disabled-by-default MCP starter recipe at `mcp/recipes/curated.mcp.json` with entries for GitHub, Playwright, Context7, Serena, Sequential Thinking, and Sentry.
+
+Copy it into a target project's MCP configuration and move only the servers you need from `_disabled` into `mcpServers`. See `docs/mcp-recipes.md` for auth, permission, and usage notes.
 
 ### Evaluating Skills
 
@@ -159,6 +169,10 @@ Included examples:
 
 - `secret-guard`: blocks likely secrets in stdin.
 - `dangerous-command-guard`: blocks obviously dangerous shell commands in stdin.
+- `branch-protection-guard`: blocks direct git writes to protected branches.
+- `prompt-injection-detector`: flags common prompt-injection phrases in stdin.
+- `mcp-tool-allowlist`: blocks MCP tool names outside an explicit allowlist.
+- `cost-ceiling-guard`: caps cumulative tool calls in a rolling window.
 - `stop-verify`: runs `scripts/verify.sh` from the repository root.
 
 Adapt them before relying on them in high-risk environments.

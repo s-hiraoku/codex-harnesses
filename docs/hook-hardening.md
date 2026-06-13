@@ -46,6 +46,42 @@ The example `dangerous-command-guard` is not a shell parser. Before relying on i
 
 Use sandboxing and approval policy alongside command guards. A command hook should not be the only protection against destructive edits.
 
+## Branch Protection Hardening
+
+The example `branch-protection-guard` blocks direct pushes and commits on common protected branch names. Before relying on it:
+
+- align protected branch names with the repository's actual branch rules
+- decide who may use the bypass environment variable and when
+- test detached HEAD, worktrees, and repositories without a current branch
+- keep GitHub branch protection enabled as the source of truth
+
+## Prompt Injection Detector Hardening
+
+The example `prompt-injection-detector` catches naive hostile phrases. Before relying on it:
+
+- tune patterns for the sources your agent reads
+- add allowlists for security tests and documentation examples
+- avoid treating a heuristic match as proof of compromise
+- pair it with source-aware review before using fetched content as instructions
+
+## MCP Allowlist Hardening
+
+The example `mcp-tool-allowlist` blocks MCP tools that are not explicitly listed. Before relying on it:
+
+- allow read-only tool patterns first
+- add write tools only for sessions that need them
+- keep server enablement and tool allowlisting in separate reviewable files
+- document the credential scope used by each enabled server
+
+## Cost Ceiling Hardening
+
+The example `cost-ceiling-guard` is a runaway-loop brake, not an accounting system. Before relying on it:
+
+- set a project-appropriate ceiling
+- decide whether the ledger is per user, repository, or automation account
+- document how to reset or raise the ceiling
+- ensure the hook still lets the agent write a final status when blocked
+
 ## Stop Verify Hardening
 
 The example `stop-verify` runs `scripts/verify.sh`. Before relying on it:
@@ -78,4 +114,3 @@ Keep the test cases close to the hook. When a hook protects a project-specific r
 - Keep hooks small and deterministic.
 - Version hook changes with the repository they protect.
 - Review hook changes like security-sensitive code.
-
