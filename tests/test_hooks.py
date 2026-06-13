@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -81,3 +82,16 @@ def test_cost_ceiling_guard_blocks_after_ceiling(tmp_path, monkeypatch) -> None:
 
     assert result.returncode == 2
     assert "cost ceiling" in result.stderr
+
+
+def test_cost_ceiling_guard_persists_every_increment(tmp_path, monkeypatch) -> None:
+    ledger = tmp_path / "cost-ledger.json"
+    monkeypatch.setenv("CODEX_HARNESSES_COST_CEILING", "100")
+    monkeypatch.setenv("CODEX_HARNESSES_COST_PATH", str(ledger))
+
+    first = run_hook("hooks/cost-ceiling-guard/hook.py", "")
+    second = run_hook("hooks/cost-ceiling-guard/hook.py", "")
+
+    assert first.returncode == 0
+    assert second.returncode == 0
+    assert json.loads(ledger.read_text())["count"] == 2

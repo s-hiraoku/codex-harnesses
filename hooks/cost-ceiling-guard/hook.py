@@ -12,7 +12,6 @@ from pathlib import Path
 
 DEFAULT_CEILING = 5000
 WINDOW_SECONDS = 24 * 60 * 60
-WRITE_EVERY = 10
 
 
 def ledger_path() -> Path:
@@ -63,9 +62,7 @@ def main() -> int:
         data = fresh_window()
 
     data["count"] += 1
-    near_ceiling = data["count"] >= ceiling - 100
-    if data["count"] == 1 or data["count"] % WRITE_EVERY == 0 or near_ceiling:
-        save_ledger(path, data)
+    save_ledger(path, data)
 
     if data["count"] > ceiling:
         print(
