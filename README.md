@@ -136,7 +136,7 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merg
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
 
 ### Evaluating Skills
 

@@ -8,6 +8,7 @@ REQUIRED_SKILL_NAMES = {
     "feature-implementation",
     "frontend-design",
     "implement-to-merge-ready",
+    "jina-read-url",
     "jina-reader",
     "kaizen-loop",
     "goal-manager",
