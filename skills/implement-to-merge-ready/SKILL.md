@@ -61,6 +61,8 @@ Use this as an orchestration workflow for implementation tasks that should not s
    - Check PR status, required checks, CI runs, review requests, bot comments, and unresolved review threads.
    - Watch CI when practical. On failure, inspect logs, reproduce locally when possible, make the smallest fix, push, and re-check.
    - Address actionable human, bot, and agent feedback. Explain any feedback intentionally not applied.
+   - Do not treat the PR as merge-ready while any required check, bot review, or review status is still pending. Wait and re-check after checks/reviews appear; if a bot such as CodeRabbit remains pending after a reasonable watch window, report the PR as "CI passed, bot review pending" rather than complete or merge-ready.
+   - Before finalizing, perform a thread-aware review check when available and report the count of unresolved current review threads. If any current thread remains unresolved, continue addressing it or report the exact blocker.
    - Leave the PR in a state where required checks pass and no known actionable review feedback remains, or report the exact blocker.
    - Do not merge unless the user explicitly asks and the repo policy permits it.
 
@@ -95,4 +97,7 @@ Include:
 - local checks run and results
 - PR URL, branch, and CI/review status
 - fixes made after PR creation
+- unresolved current review-thread count
 - remaining blockers, risks, or pending checks
+
+If any check or bot review is pending, say so explicitly and do not call the PR merge-ready.
