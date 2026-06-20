@@ -92,6 +92,17 @@ Use `--global` for user-wide installation:
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation --global
 ```
 
+### Companion Skills for Vercel Frontends
+
+For React, Next.js, and Vercel-hosted frontend work, install Vercel's official skills alongside the local harness skills:
+
+```sh
+npx skills add vercel-labs/agent-skills --global --agent codex --skill vercel-react-best-practices vercel-composition-patterns vercel-react-view-transitions web-design-guidelines
+npx skills add vercel-labs/next-skills --global --agent codex --skill next-best-practices
+```
+
+Use `vercel-react-best-practices` for React and Next.js performance patterns, `vercel-composition-patterns` for component APIs, `vercel-react-view-transitions` for React view transition work, and `web-design-guidelines` for UI, accessibility, and UX review. Add `next-cache-components` or `next-upgrade` from `vercel-labs/next-skills` only for projects that need those specific Next.js workflows.
+
 If your environment cannot use these installers, copy selected skill directories manually:
 
 ```sh

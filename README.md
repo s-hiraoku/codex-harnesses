@@ -142,6 +142,15 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
 
 Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `security-review`, `tdd`, `fix-ci`, `simplify`, `deslop`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
 
+For Vercel or Next.js frontend projects, pair this harness with Vercel's official frontend skills instead of copying them into this repository:
+
+```sh
+npx skills add vercel-labs/agent-skills --global --agent codex --skill vercel-react-best-practices vercel-composition-patterns vercel-react-view-transitions web-design-guidelines
+npx skills add vercel-labs/next-skills --global --agent codex --skill next-best-practices
+```
+
+Add `next-cache-components` or `next-upgrade` from `vercel-labs/next-skills` only when that project is actively using Next.js 16 cache components or running a framework upgrade.
+
 ## Using MCP Recipes
 
 This repository includes a disabled-by-default MCP starter recipe at `mcp/recipes/curated.mcp.json` with entries for GitHub, Playwright, Context7, Serena, Sequential Thinking, and Sentry.
