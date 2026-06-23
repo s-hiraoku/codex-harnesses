@@ -95,7 +95,7 @@ Use skills when a task pattern repeats:
 
 After opening a PR, run the `pr-guardian` workflow by default to monitor checks and address actionable feedback until the PR is mergeable or a blocker is documented.
 
-Run the `meta-packager` workflow after enough real Codex sessions have accumulated to identify repeated work. It inspects recent sessions, memories, and existing assets, then creates only high-confidence skills, subagents, or automations.
+Run the `meta-packager` workflow after enough real Codex sessions have accumulated to identify repeated work. It inspects recent sessions, memories, and existing assets, then proposes the smallest useful skill, subagent, hook, or automation. Create only explicitly approved high-confidence items.
 
 Install only the skills that match your repeated work. Keep each skill focused on workflow, expected verification, and final reporting.
 
@@ -141,6 +141,15 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
 ```
 
 Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `security-review`, `tdd`, `fix-ci`, `simplify`, `deslop`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
+
+For Vercel or Next.js frontend projects, pair this harness with Vercel's official frontend skills instead of copying them into this repository:
+
+```sh
+npx skills add vercel-labs/agent-skills --global --agent codex --skill vercel-react-best-practices vercel-composition-patterns vercel-react-view-transitions web-design-guidelines
+npx skills add vercel-labs/next-skills --global --agent codex --skill next-best-practices
+```
+
+Add `next-cache-components` or `next-upgrade` from `vercel-labs/next-skills` only when that project is actively using Next.js 16 cache components or running a framework upgrade.
 
 ## Using MCP Recipes
 

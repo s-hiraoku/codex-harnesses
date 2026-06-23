@@ -13,6 +13,34 @@ Use this file to record meaningful verification runs.
 
 ## Runs
 
+### 2026-06-23 20:45 JST
+
+- Command: `bash scripts/verify.sh`
+- Scope: repository-level verification after tightening `meta-packager`
+- Result: failed
+- Notes: `ruff check .` passed, then `pytest` failed during collection because the system Python loaded an incompatible `rpds` wheel (`x86_64` instead of `arm64e` or `arm64`).
+
+### 2026-06-23 20:45 JST
+
+- Command: `uvx --with pytest --with pytest-mock --with pytest-asyncio --with anyio --with jsonschema --with pyyaml pytest`
+- Scope: repository-level pytest verification after tightening `meta-packager`
+- Result: passed
+- Notes: 28 pytest tests passed in an isolated `uvx` environment with architecture-compatible dependencies.
+
+### 2026-06-23 20:45 JST
+
+- Command: `uv run --no-project --with pyyaml python /Users/hiraoku.shinichi/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/meta-packager`
+- Scope: skill structure validation for `meta-packager`
+- Result: passed
+- Notes: `Skill is valid!`; `uv` warned that the repository `pyproject.toml` has no `project` table, which is expected for this harness.
+
+### 2026-06-23 20:45 JST
+
+- Command: `uvx --with mkdocs --with mkdocs-material mkdocs build --strict`
+- Scope: documentation build after `meta-packager` README and usage guide updates
+- Result: passed
+- Notes: MkDocs strict build completed successfully; generated `site/` is ignored by git.
+
 ### 2026-06-13 11:17 JST
 
 - Command: `PATH=.venv/bin:$PATH pytest tests/test_hooks.py`
