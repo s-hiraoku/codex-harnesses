@@ -61,7 +61,7 @@ Use this as an orchestration workflow for implementation tasks that should not s
    - Check PR status, required checks, CI runs, review requests, bot comments, and unresolved review threads.
    - Watch CI when practical. On failure, inspect logs, reproduce locally when possible, make the smallest fix, push, and re-check.
    - Collect actionable human, bot, and agent feedback from every available source before deciding the PR is done: unresolved review threads, PR comments, bot review summaries, agent handoff notes, CI annotations, and follow-up messages in the Codex thread.
-   - Use `finish-pr-feedback` when CodeRabbit, Codex, or review automation posts "Actionable comments posted", requested changes, or inline comments after the PR is opened.
+   - Use `pr-guardian` when CodeRabbit, Codex, or review automation posts "Actionable comments posted", requested changes, or inline comments after the PR is opened.
    - Treat each actionable agent finding as a tracked fix item. Implement all such items, re-run the relevant local verification, push the fixes, and re-check the PR.
    - Repeat the feedback pass until no actionable human, bot, or agent feedback remains. A single pass is not enough when new comments can appear after pushing fixes.
    - If feedback conflicts, is incorrect, or cannot be fixed without changing scope, explain that specific item and mark the PR blocked or waiting for user input instead of calling it complete.
@@ -81,7 +81,6 @@ Use narrower skills when available and relevant:
 - `review` for bug-first self-review before publishing.
 - GitHub PR and CI skills or tools for PR creation, check inspection, and review-thread follow-up.
 - `pr-guardian` after the PR is open when the user expects continued monitoring and fixes.
-- `finish-pr-feedback` when CodeRabbit, Codex, or other review automation leaves actionable comments after PR creation.
 
 ## Progress Updates
 
