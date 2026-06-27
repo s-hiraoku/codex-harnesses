@@ -55,6 +55,10 @@ query($owner:String!, $name:String!, $number:Int!) {
       reviewDecision
       mergeStateStatus
       reviewThreads(first:100) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           isResolved
           isOutdated
