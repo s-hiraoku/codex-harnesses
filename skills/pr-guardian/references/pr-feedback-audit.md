@@ -110,6 +110,7 @@ Then re-run the GraphQL thread query and count unresolved actionable current thr
 - `reviewDecision` is `CHANGES_REQUESTED`
 - any required check is pending, skipped unexpectedly, cancelled, or failing
 - `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`
+- an expected CodeRabbit, Codex, or other bot review is still pending
 - CodeRabbit/Codex says actionable comments remain
 - unresolved current review threads contain actionable feedback
 - the PR is draft and the user wanted ready-for-review

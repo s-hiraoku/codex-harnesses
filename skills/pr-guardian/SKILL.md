@@ -37,7 +37,7 @@ Use this workflow by default after opening a pull request, and when an existing 
    - Do not resolve GitHub review threads unless the user explicitly allows write actions beyond commits and comments.
 8. Push fixes and repeat the PR state, CI, and feedback checks.
    - Re-fetch review threads after CodeRabbit, Codex, or other review automation has had time to update.
-   - Continue while `reviewDecision` is `CHANGES_REQUESTED`, required checks are pending or failing, unresolved actionable review threads remain, or `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`.
+   - Continue while `reviewDecision` is `CHANGES_REQUESTED`, required checks are pending or failing, expected bot reviews are pending, unresolved actionable review threads remain, or `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`.
 9. Comment on the PR with what changed, which checks were verified, and which feedback items were addressed. If a suggestion is not applied, explain why.
 
 ## Mergeability gate
@@ -54,6 +54,7 @@ Success requires all of these:
 - `mergeStateStatus` is clean enough for the repository to merge, usually `CLEAN`, `HAS_HOOKS`, or `UNSTABLE` with only non-required failures explicitly documented.
 - `reviewDecision` is not `CHANGES_REQUESTED`.
 - All required checks in `statusCheckRollup` pass.
+- Expected CodeRabbit, Codex, or other bot reviews have completed. If checks pass but an expected bot review is still pending, report `pending external review` instead of merge-ready.
 - All actionable human, bot, CodeRabbit, Codex, or agent review comments are fixed, resolved, or explicitly explained as not applicable in the PR comment.
 - Thread-aware review data shows no unresolved current actionable review threads.
 

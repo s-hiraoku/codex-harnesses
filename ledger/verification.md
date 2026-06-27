@@ -229,3 +229,10 @@ Use this file to record meaningful verification runs.
 - Scope: repository-level verification for merging `finish-pr-feedback` into `pr-guardian`
 - Result: passed
 - Notes: `ruff check .`, 28 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.
+
+### 2026-06-28 08:12 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: PR #22 follow-up for pending bot review mergeability gate
+- Result: passed
+- Notes: `ruff check .`, 28 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.
