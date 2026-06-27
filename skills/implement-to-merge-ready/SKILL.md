@@ -60,7 +60,7 @@ Use this as an orchestration workflow for implementation tasks that should not s
 9. Bring the PR toward merge-ready.
    - Check PR status, required checks, CI runs, review requests, bot comments, and unresolved review threads.
    - Watch CI when practical. On failure, inspect logs, reproduce locally when possible, make the smallest fix, push, and re-check.
-   - Address actionable human, bot, and agent feedback. Explain any feedback intentionally not applied.
+   - Address actionable human, bot, CodeRabbit, Codex, and agent feedback. Use `finish-pr-feedback` when review automation posts "Actionable comments posted", requested changes, or inline comments after the PR is opened.
    - Do not treat the PR as merge-ready while any required check, bot review, or review status is still pending. Wait and re-check after checks/reviews appear; if a bot such as CodeRabbit remains pending after a reasonable watch window, report the PR as "CI passed, bot review pending" rather than complete or merge-ready.
    - Before finalizing, perform a thread-aware review check when available and report the count of unresolved current review threads. If any current thread remains unresolved, continue addressing it or report the exact blocker.
    - Leave the PR in a state where required checks pass and no known actionable review feedback remains, or report the exact blocker.
@@ -77,6 +77,7 @@ Use narrower skills when available and relevant:
 - `review` for bug-first self-review before publishing.
 - GitHub PR and CI skills or tools for PR creation, check inspection, and review-thread follow-up.
 - `pr-guardian` after the PR is open when the user expects continued monitoring and fixes.
+- `finish-pr-feedback` when CodeRabbit, Codex, or other review automation leaves actionable comments after PR creation.
 
 ## Progress Updates
 
