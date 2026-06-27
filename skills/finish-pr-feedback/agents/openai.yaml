@@ -1,0 +1,4 @@
+interface:
+  display_name: "Finish PR Feedback"
+  short_description: "Fix PR review feedback to merge-ready."
+  default_prompt: "Use $finish-pr-feedback to fix all actionable CodeRabbit, Codex, human review, and CI feedback on the current PR."
