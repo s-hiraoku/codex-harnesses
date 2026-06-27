@@ -44,6 +44,7 @@ Use this workflow when a PR already exists and the goal is to recover from incom
 ## Loop Limits
 
 - Default to 5 fix-and-push attempts per PR.
+- Cap each CI or review wait window at 30 minutes, or 30 polling checks at 60-second intervals. If checks are still pending after that, report `pending external review` instead of waiting indefinitely.
 - If the same failure or review comment returns after two fixes, stop broad changes and inspect the underlying assumption before trying again.
 - For cross-repo work, finish and report one PR before moving to the next so context loss still leaves useful progress.
 

@@ -102,7 +102,7 @@ Before reporting success, run:
 
 ```sh
 gh pr view <pr> --json mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews
-gh pr checks <pr> --watch
+gh pr checks <pr> --watch  # Use a 30-minute timeout, or poll with a 30-check cap if checks may hang.
 ```
 
 Then re-run the GraphQL thread query and count unresolved actionable current threads. The PR is not merge-ready if:
