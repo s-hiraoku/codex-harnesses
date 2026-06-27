@@ -13,6 +13,27 @@ Use this file to record meaningful verification runs.
 
 ## Runs
 
+### 2026-06-27 16:05 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification after merging `origin/main` into PR #21 and resolving skill documentation conflicts
+- Result: passed
+- Notes: Initial `bash scripts/verify.sh` run with system Python failed on the known incompatible `rpds` architecture issue; `.venv` run passed `ruff check .`, 28 pytest tests, and `mkdocs build --strict`.
+
+### 2026-06-26 08:29 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification after rebasing the `implement-to-merge-ready` feedback-loop change onto `origin/main`
+- Result: passed
+- Notes: `ruff check .`, 28 pytest tests, and `mkdocs build --strict` passed after resolving the verification-log rebase conflict.
+
+### 2026-06-25 09:43 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification after tightening `implement-to-merge-ready` agent-feedback completion guidance
+- Result: passed
+- Notes: Initial run without a local `.venv` fell back to system Python and failed importing an incompatible `rpds` wheel. Created `.venv`, installed `requirements-dev.txt`, then `ruff check .`, 28 pytest tests, and `mkdocs build --strict` passed.
+
 ### 2026-06-23 20:45 JST
 
 - Command: `bash scripts/verify.sh`

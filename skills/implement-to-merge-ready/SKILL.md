@@ -60,10 +60,14 @@ Use this as an orchestration workflow for implementation tasks that should not s
 9. Bring the PR toward merge-ready.
    - Check PR status, required checks, CI runs, review requests, bot comments, and unresolved review threads.
    - Watch CI when practical. On failure, inspect logs, reproduce locally when possible, make the smallest fix, push, and re-check.
-   - Address actionable human, bot, CodeRabbit, Codex, and agent feedback. Use `finish-pr-feedback` when review automation posts "Actionable comments posted", requested changes, or inline comments after the PR is opened.
+   - Collect actionable human, bot, and agent feedback from every available source before deciding the PR is done: unresolved review threads, PR comments, bot review summaries, agent handoff notes, CI annotations, and follow-up messages in the Codex thread.
+   - Use `finish-pr-feedback` when CodeRabbit, Codex, or review automation posts "Actionable comments posted", requested changes, or inline comments after the PR is opened.
+   - Treat each actionable agent finding as a tracked fix item. Implement all such items, re-run the relevant local verification, push the fixes, and re-check the PR.
+   - Repeat the feedback pass until no actionable human, bot, or agent feedback remains. A single pass is not enough when new comments can appear after pushing fixes.
+   - If feedback conflicts, is incorrect, or cannot be fixed without changing scope, explain that specific item and mark the PR blocked or waiting for user input instead of calling it complete.
    - Do not treat the PR as merge-ready while any required check, bot review, or review status is still pending. Wait and re-check after checks/reviews appear; if a bot such as CodeRabbit remains pending after a reasonable watch window, report the PR as "CI passed, bot review pending" rather than complete or merge-ready.
-   - Before finalizing, perform a thread-aware review check when available and report the count of unresolved current review threads. If any current thread remains unresolved, continue addressing it or report the exact blocker.
-   - Leave the PR in a state where required checks pass and no known actionable review feedback remains, or report the exact blocker.
+   - Before finalizing, perform a thread-aware review check when available and report the count of unresolved current review threads and unresolved actionable agent findings. If either count is nonzero, continue addressing the items or report the exact blocker.
+   - Leave the PR in a state where required checks pass and no known actionable human, bot, or agent feedback remains, or report the exact blocker.
    - Do not merge unless the user explicitly asks and the repo policy permits it.
 
 ## Skill Composition
@@ -99,6 +103,8 @@ Include:
 - PR URL, branch, and CI/review status
 - fixes made after PR creation
 - unresolved current review-thread count
+- unresolved actionable agent-finding count
 - remaining blockers, risks, or pending checks
 
 If any check or bot review is pending, say so explicitly and do not call the PR merge-ready.
+If any actionable agent finding remains unresolved, say so explicitly and do not call the task complete or merge-ready.
