@@ -6,7 +6,6 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
 REQUIRED_SKILL_NAMES = {
     "feature-implementation",
-    "finish-pr-feedback",
     "frontend-design",
     "implement-to-merge-ready",
     "jina-read-url",

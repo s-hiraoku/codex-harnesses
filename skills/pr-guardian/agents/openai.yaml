@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Guardian"
+  short_description: "Fix PR CI and review feedback to merge-ready."
+  default_prompt: "Use $pr-guardian to fix all actionable CI, CodeRabbit, Codex, bot, and human review feedback on the current PR."

@@ -215,3 +215,24 @@ Use this file to record meaningful verification runs.
 - Scope: repository-level verification after PR #12 conflict resolution
 - Result: passed
 - Notes: `ruff check .`, 20 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.
+
+### 2026-06-27 16:11 JST (system Python failed)
+
+- Command: `bash scripts/verify.sh`
+- Scope: repository-level verification for merging `finish-pr-feedback` into `pr-guardian`
+- Result: failed
+- Notes: `ruff check .` passed, then `pytest` failed during collection because the system Python loaded an incompatible `rpds` wheel (`x86_64` instead of `arm64e` or `arm64`).
+
+### 2026-06-27 16:11 JST (venv passed)
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification for merging `finish-pr-feedback` into `pr-guardian`
+- Result: passed
+- Notes: `ruff check .`, 28 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.
+
+### 2026-06-28 08:12 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: PR #22 follow-up for pending bot review mergeability gate
+- Result: passed
+- Notes: `ruff check .`, 28 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.
