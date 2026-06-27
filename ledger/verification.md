@@ -13,6 +13,13 @@ Use this file to record meaningful verification runs.
 
 ## Runs
 
+### 2026-06-27 16:05 JST
+
+- Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: repository-level verification after merging `origin/main` into PR #21 and resolving skill documentation conflicts
+- Result: passed
+- Notes: Initial `bash scripts/verify.sh` run with system Python failed on the known incompatible `rpds` architecture issue; `.venv` run passed `ruff check .`, 28 pytest tests, and `mkdocs build --strict`.
+
 ### 2026-06-26 08:29 JST
 
 - Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`
