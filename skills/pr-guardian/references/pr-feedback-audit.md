@@ -69,7 +69,7 @@ query($owner:String!, $name:String!, $number:Int!) {
           comments(first:20) {
             nodes {
               id
-              databaseId
+              fullDatabaseId
               url
               author { login }
               body
@@ -89,14 +89,14 @@ If there are more than 100 threads, paginate with `pageInfo { hasNextPage endCur
 
 ## Reply To And Resolve Review Threads
 
-Required conversation resolution is satisfied per review thread, not by a single aggregate PR comment. For every current, non-outdated thread that you fix, answer, skip, or prove not applicable:
+Required conversation resolution is satisfied per review thread, not by a single aggregate PR comment. For every unresolved thread that you fix, answer, skip, or prove not applicable, including stale threads that became outdated after a fix:
 
-1. Reply to the specific review comment, using the `databaseId` from the thread query:
+1. Reply to the thread's top-level review comment, using the `fullDatabaseId` from the first comment node in the thread query. GitHub's REST reply endpoint does not support replies to replies, so do not use a later reply comment id here:
 
    ```sh
    gh api \
      --method POST \
-     repos/<owner>/<repo>/pulls/<pr-number>/comments/<comment-database-id>/replies \
+     repos/<owner>/<repo>/pulls/<pr-number>/comments/<top-level-comment-full-database-id>/replies \
      -f body='Fixed in <commit>: <short disposition>. Verified with <command>.'
    ```
 
@@ -135,14 +135,14 @@ gh pr view <pr> --json mergeStateStatus,mergeable,reviewDecision,statusCheckRoll
 gh pr checks <pr> --watch  # Use a 30-minute timeout, or poll with a 30-check cap if checks may hang.
 ```
 
-Then re-run the GraphQL thread query and count unresolved current, non-outdated threads. The PR is not merge-ready if:
+Then re-run the GraphQL thread query and count unresolved threads. The PR is not merge-ready if:
 
 - `reviewDecision` is `CHANGES_REQUESTED`
 - any required check is pending, skipped unexpectedly, cancelled, or failing
 - `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`
 - an expected CodeRabbit, Codex, or other bot review is still pending
 - CodeRabbit/Codex says actionable comments remain
-- any current, non-outdated review thread remains unresolved
+- any review thread remains unresolved, including outdated threads left unresolved after a pushed fix
 - the PR is draft and the user wanted ready-for-review
 
 Allowed final states:

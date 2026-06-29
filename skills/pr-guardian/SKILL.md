@@ -39,7 +39,7 @@ Use this workflow by default after opening a pull request, and when an existing 
    - Do not rely on an aggregate PR comment as a substitute for per-thread disposition; repositories with required conversation resolution stay blocked until each current thread is resolved.
 8. Push fixes and repeat the PR state, CI, and feedback checks.
    - Re-fetch review threads after CodeRabbit, Codex, or other review automation has had time to update.
-   - Continue while `reviewDecision` is `CHANGES_REQUESTED`, required checks are pending or failing, expected bot reviews are pending, any current non-outdated review thread remains unresolved, or `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`.
+   - Continue while `reviewDecision` is `CHANGES_REQUESTED`, required checks are pending or failing, expected bot reviews are pending, any review thread remains unresolved, or `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`.
 9. Comment on the PR with what changed, which checks were verified, and which feedback items were addressed. If a suggestion is not applied, explain why and link to the per-thread reply.
 
 ## Mergeability gate
@@ -58,7 +58,7 @@ Success requires all of these:
 - All required checks in `statusCheckRollup` pass.
 - Expected CodeRabbit, Codex, or other bot reviews have completed. If checks pass but an expected bot review is still pending, report `pending external review` instead of merge-ready.
 - All actionable human, bot, CodeRabbit, Codex, or agent review comments are fixed, answered, or explicitly explained as not applicable in the relevant review thread.
-- Thread-aware review data shows zero unresolved current, non-outdated review threads. If unresolved threads remain because GitHub permissions prevent replying or resolving, report `blocked: unresolved required conversations` with the thread URLs.
+- Thread-aware review data shows zero unresolved review threads, including outdated threads. If unresolved threads remain because GitHub permissions prevent replying or resolving, report `blocked: unresolved required conversations` with the thread URLs.
 
 If `mergeable` is `MERGEABLE` but `mergeStateStatus` remains `BLOCKED`, keep investigating branch protection, unresolved requested changes, required review state, required conversations, or pending checks. Do not report the PR as mergeable until the blocking reason is gone or documented as an external blocker.
 
