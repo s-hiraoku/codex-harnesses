@@ -18,7 +18,7 @@ Use this workflow by default after opening a pull request, and when an existing 
    - Preserve unrelated local changes.
 3. Build a complete PR state and feedback inventory.
    - Read `mergeStateStatus`, `mergeable`, `reviewDecision`, `statusCheckRollup`, `reviews`, `latestReviews`, review requests, PR comments, and `gh pr checks`.
-   - Fetch thread-aware review data when review automation, CodeRabbit, Codex, requested changes, or "Actionable comments posted" summaries appear.
+   - Fetch thread-aware review data when review automation, CodeRabbit, Codex, requested changes, `mergeStateStatus` is `BLOCKED`, or "Actionable comments posted" summaries appear.
    - Use `references/pr-feedback-audit.md` for concrete `gh` and GraphQL commands when thread state, bot comments, CI logs, or cross-repo scanning matter.
 4. Classify every feedback item.
    - `fix`: code, docs, tests, CI, or config change is needed.
@@ -32,13 +32,15 @@ Use this workflow by default after opening a pull request, and when an existing 
    - Keep edits scoped to the PR and trace each change back to a feedback or CI cluster.
    - Add or update tests when the feedback identifies behavior risk.
    - Do not rewrite unrelated user changes or broaden the PR scope.
-7. Handle `respond` and `ignore` items explicitly.
-   - Leave a concise PR comment or review reply when a suggestion is not applied.
-   - Do not resolve GitHub review threads unless the user explicitly allows write actions beyond commits and comments.
+7. Handle every current review thread explicitly.
+   - For `fix` items, reply in the same review thread or directly to the review comment with the fix made and validation run.
+   - For `respond` and `ignore` items, reply in the same review thread or directly to the review comment with the clarification or reason the suggestion is not applicable.
+   - Resolve each addressed GitHub review thread when permissions allow. If GitHub does not allow replying or resolving, report the thread URL as `blocked: unresolved required conversation`.
+   - Do not rely on an aggregate PR comment as a substitute for per-thread disposition; repositories with required conversation resolution stay blocked until each current thread is resolved.
 8. Push fixes and repeat the PR state, CI, and feedback checks.
    - Re-fetch review threads after CodeRabbit, Codex, or other review automation has had time to update.
-   - Continue while `reviewDecision` is `CHANGES_REQUESTED`, required checks are pending or failing, expected bot reviews are pending, unresolved actionable review threads remain, or `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`.
-9. Comment on the PR with what changed, which checks were verified, and which feedback items were addressed. If a suggestion is not applied, explain why.
+   - Continue while `reviewDecision` is `CHANGES_REQUESTED`, required checks are pending or failing, expected bot reviews are pending, any current non-outdated review thread remains unresolved, or `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`.
+9. Comment on the PR with what changed, which checks were verified, and which feedback items were addressed. If a suggestion is not applied, explain why and link to the per-thread reply.
 
 ## Mergeability gate
 
@@ -55,8 +57,8 @@ Success requires all of these:
 - `reviewDecision` is not `CHANGES_REQUESTED`.
 - All required checks in `statusCheckRollup` pass.
 - Expected CodeRabbit, Codex, or other bot reviews have completed. If checks pass but an expected bot review is still pending, report `pending external review` instead of merge-ready.
-- All actionable human, bot, CodeRabbit, Codex, or agent review comments are fixed, resolved, or explicitly explained as not applicable in the PR comment.
-- Thread-aware review data shows no unresolved current actionable review threads.
+- All actionable human, bot, CodeRabbit, Codex, or agent review comments are fixed, answered, or explicitly explained as not applicable in the relevant review thread.
+- Thread-aware review data shows zero unresolved current, non-outdated review threads. If unresolved threads remain because GitHub permissions prevent replying or resolving, report `blocked: unresolved required conversations` with the thread URLs.
 
 If `mergeable` is `MERGEABLE` but `mergeStateStatus` remains `BLOCKED`, keep investigating branch protection, unresolved requested changes, required review state, required conversations, or pending checks. Do not report the PR as mergeable until the blocking reason is gone or documented as an external blocker.
 
@@ -75,7 +77,7 @@ Group by repo when multiple PRs are involved. Include:
 - feedback sources inspected, including CodeRabbit/Codex thread status
 - CI runs watched and final status
 - fixes pushed and commits
-- comments or review feedback addressed, including any suggestions intentionally not applied
+- comments or review feedback addressed, including per-thread replies, resolved thread count, and any suggestions intentionally not applied
 - PR comment posted or drafted
-- unresolved actionable thread count
+- unresolved current review-thread count
 - final state: merge-ready, pending external review, or blocked with reason
