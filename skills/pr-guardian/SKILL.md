@@ -79,5 +79,5 @@ Group by repo when multiple PRs are involved. Include:
 - fixes pushed and commits
 - comments or review feedback addressed, including per-thread replies, resolved thread count, and any suggestions intentionally not applied
 - PR comment posted or drafted
-- unresolved current review-thread count
+- unresolved review-thread count, including outdated threads
 - final state: merge-ready, pending external review, or blocked with reason
