@@ -91,7 +91,7 @@ If there are more than 100 threads, paginate with `pageInfo { hasNextPage endCur
 
 Required conversation resolution is satisfied per review thread, not by a single aggregate PR comment. For every unresolved thread that you fix, answer, skip, or prove not applicable, including stale threads that became outdated after a fix:
 
-1. Reply to the thread's top-level review comment, using the `fullDatabaseId` from the first comment node in the thread query. GitHub's REST reply endpoint does not support replies to replies, so do not use a later reply comment id here:
+1. Reply to the thread's top-level review comment, using the `fullDatabaseId` from the first comment node in the thread query. GitHub's REST reply endpoint does not support replies to replies, so do not use a later reply comment id here. Do this before resolving the thread, including for outdated unresolved threads:
 
    ```sh
    gh api \
@@ -114,6 +114,8 @@ Required conversation resolution is satisfied per review thread, not by a single
    ```
 
 If a thread is not applicable, reply with the reason before resolving it. If GitHub rejects the reply or resolve mutation, keep the thread URL in the blocker report as `blocked: unresolved required conversation`.
+
+Top-level PR comments are not review threads and cannot be resolved with `resolveReviewThread`. When a top-level comment asks for a change, reports a blocker, or asks a question, answer that comment explicitly with a PR comment or review reply disposition so the conversation has an auditable close-out.
 
 ## Identify Agent Feedback
 
@@ -143,6 +145,7 @@ Then re-run the GraphQL thread query and count unresolved threads. The PR is not
 - an expected CodeRabbit, Codex, or other bot review is still pending
 - CodeRabbit/Codex says actionable comments remain
 - any review thread remains unresolved, including outdated threads left unresolved after a pushed fix
+- any actionable top-level PR comment has not been answered with a clear disposition
 - the PR is draft and the user wanted ready-for-review
 
 Allowed final states:
