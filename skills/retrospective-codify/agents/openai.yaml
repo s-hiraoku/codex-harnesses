@@ -1,0 +1,4 @@
+interface:
+  display_name: "Retrospective Codify"
+  short_description: "Turn review feedback into future implementation rules."
+  default_prompt: "Use $retrospective-codify to capture reusable lessons from recent feedback in the project feedback ledger."

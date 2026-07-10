@@ -15,6 +15,7 @@ Put these in the ledger:
 - decisions that affect future edits
 - risks and mitigations
 - verification commands and outcomes
+- reusable review-feedback lessons that future implementation should check
 - blockers and assumptions
 
 Do not put these in the ledger:
@@ -97,6 +98,28 @@ Good verification entries are exact enough to rerun:
 - Result: passed
 - Notes: ran before opening PR
 ```
+
+## Review Feedback Pattern
+
+Use `ledger/review-feedback.md` for review comments, CI failures, bug reports, user corrections, or retrospectives that should affect future implementation.
+
+Do not archive every comment. Keep only reusable patterns with a concrete implementation rule:
+
+```md
+### 2026-07-10 - Example Pattern
+
+- Status: Active
+- Last seen: 2026-07-10
+- Source: PR review
+- Trigger: when touching the same workflow or boundary
+- Issue: the change missed a required edge case
+- Cause: the plan did not include prior reviewer expectations
+- Implementation rule: read this entry before coding and add a targeted check for that edge case
+- Evidence: PR number, file path, or command name
+- Verification: targeted test or review checklist item
+```
+
+Before planning implementation work, skim active entries and carry relevant rules into the plan, tests, and self-review checklist. If feedback recurs, update the existing entry instead of adding a duplicate.
 
 ## Checkpoint Pattern
 

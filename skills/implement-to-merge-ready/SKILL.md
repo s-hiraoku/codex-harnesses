@@ -13,6 +13,7 @@ Use this as an orchestration workflow for implementation tasks that should not s
 
 1. Confirm scope and repository state.
    - Read local instructions such as `AGENTS.md` before editing.
+   - Read active reusable feedback entries such as `ledger/review-feedback.md` when present, and carry relevant rules into the implementation plan.
    - Inspect `git status`, branch, remotes, package scripts, tests, and relevant source structure.
    - Ask only when ambiguity would cause risky or irreversible work.
    - Preserve unrelated user changes.
@@ -25,6 +26,7 @@ Use this as an orchestration workflow for implementation tasks that should not s
 3. Plan the implementation.
    - State a concise plan once enough context is known.
    - Choose the narrowest applicable implementation mode: feature, bug fix, refactor, docs, frontend, backend, or CI repair.
+   - Include any relevant active feedback-ledger rules in the plan, tests, and self-review checklist.
    - Keep the plan reviewable and update it when discoveries change the work.
 
 4. Design UI work before coding when relevant.
@@ -67,6 +69,7 @@ Use this as an orchestration workflow for implementation tasks that should not s
    - If feedback conflicts, is incorrect, or cannot be fixed without changing scope, explain that specific item and mark the PR blocked or waiting for user input instead of calling it complete.
    - Do not treat the PR as merge-ready while any required check, bot review, or review status is still pending. Wait and re-check after checks/reviews appear; if a bot such as CodeRabbit remains pending after a reasonable watch window, report the PR as "CI passed, bot review pending" rather than complete or merge-ready.
    - Before finalizing, perform a thread-aware review check when available and report the count of unresolved current review threads and unresolved actionable agent findings. If either count is nonzero, continue addressing the items or report the exact blocker.
+   - When feedback reveals a reusable implementation lesson, use `retrospective-codify` to update the project feedback ledger before final reporting.
    - Leave the PR in a state where required checks pass and no known actionable human, bot, or agent feedback remains, or report the exact blocker.
    - Do not merge unless the user explicitly asks and the repo policy permits it.
 
@@ -81,6 +84,7 @@ Use narrower skills when available and relevant:
 - `review` for bug-first self-review before publishing.
 - GitHub PR and CI skills or tools for PR creation, check inspection, and review-thread follow-up.
 - `pr-guardian` after the PR is open when the user expects continued monitoring and fixes.
+- `retrospective-codify` after review, CI, user, or agent feedback reveals reusable lessons for future implementation.
 
 ## Progress Updates
 
