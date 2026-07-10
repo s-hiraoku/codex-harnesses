@@ -92,6 +92,7 @@ Use skills when a task pattern repeats:
 - image-generated UI direction before frontend implementation
 - post-PR CI and review follow-up
 - meta-analysis that packages repeated Codex work into reusable assets
+- independent Adviser consultations before consequential decisions and completion
 
 After opening a PR, run the `pr-guardian` workflow by default to monitor checks and address actionable feedback until the PR is mergeable or a blocker is documented.
 
@@ -126,6 +127,7 @@ gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex 
 gh skill install s-hiraoku/codex-harnesses frontend-design --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses implement-to-merge-ready --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses kaizen-loop --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses adviser --agent codex --scope project
 ```
 
 Use `--scope user` instead of `--scope project` when the skills should be available across projects.
@@ -138,9 +140,10 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implement
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merge-ready
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill adviser
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `bug-fix`, `review`, `security-review`, `tdd`, `fix-ci`, `simplify`, `deslop`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `adviser`, `bug-fix`, `review`, `security-review`, `tdd`, `fix-ci`, `simplify`, `deslop`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `adviser` for Claude Code `/advisor`-style independent consultations around important decisions and completion. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
 
 For Vercel or Next.js frontend projects, pair this harness with Vercel's official frontend skills instead of copying them into this repository:
 

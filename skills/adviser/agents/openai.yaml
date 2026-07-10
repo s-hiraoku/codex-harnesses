@@ -1,0 +1,4 @@
+interface:
+  display_name: "Adviser"
+  short_description: "Consult an independent reviewer at key decision points"
+  default_prompt: "Use $adviser to review my approach before I implement it."
