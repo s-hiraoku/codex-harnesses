@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
 REQUIRED_SKILL_NAMES = {
+    "adviser",
     "feature-implementation",
     "frontend-design",
     "implement-to-merge-ready",
