@@ -109,6 +109,7 @@ Do not archive every comment. Keep only reusable patterns with a concrete implem
 ### 2026-07-10 - Example Pattern
 
 - Status: Active
+- Last seen: 2026-07-10
 - Source: PR review
 - Trigger: when touching the same workflow or boundary
 - Issue: the change missed a required edge case

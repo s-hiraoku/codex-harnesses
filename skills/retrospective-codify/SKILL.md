@@ -39,6 +39,7 @@ Use this compact Markdown shape:
 ### YYYY-MM-DD - Short Pattern Name
 
 - Status: Active
+- Last seen: YYYY-MM-DD
 - Source: PR review, CI failure, user correction, bug report, or retrospective
 - Trigger: when this kind of implementation work starts
 - Issue: what went wrong in the concrete task

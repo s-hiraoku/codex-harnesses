@@ -9,6 +9,7 @@ This is not a full comment archive. Keep entries short, deduplicated, and operat
 ### YYYY-MM-DD - Short Pattern Name
 
 - Status: Active
+- Last seen: YYYY-MM-DD
 - Source:
 - Trigger:
 - Issue:
