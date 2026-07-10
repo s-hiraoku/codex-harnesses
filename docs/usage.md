@@ -92,6 +92,22 @@ Use `--global` for user-wide installation:
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation --global
 ```
 
+### Enable automatic Adviser timing
+
+Skill installation alone does not guarantee that Codex will invoke `adviser` on tasks that never mention it. Add this standing instruction to the user-global `~/.codex/AGENTS.md` after installing the skill:
+
+```md
+## Adviser
+
+For consequential work that takes more than a few steps, use the globally installed `$adviser` skill after orientation and before committing to an approach, then use it again after the deliverable is durable and verified but before declaring completion.
+
+Also consult Adviser when material ambiguity blocks a decision, failures recur, the approach stops converging, or a materially different direction is under consideration. Skip ritual consultations for short reactive work whose next action is already dictated by fresh tool output.
+
+Keep the main agent responsible for execution and weigh Adviser output against repository evidence, primary sources, and empirical verification.
+```
+
+This reproduces the native Advisor timing pattern more closely while keeping short mechanical tasks free of unnecessary consultations.
+
 ### Companion Skills for Vercel Frontends
 
 For React, Next.js, and Vercel-hosted frontend work, install Vercel's official skills alongside the local harness skills:
