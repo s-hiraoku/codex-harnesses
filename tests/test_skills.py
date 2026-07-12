@@ -88,6 +88,11 @@ def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
     audit = (SKILLS / "pr-guardian" / "references" / "pr-feedback-audit.md").read_text()
     assert "--json headRefOid,mergeStateStatus" in audit
     assert "      headRefOid" in audit
-    assert "kaizen-loop guardian run <pr-number>" in text
+    assert (
+        "kaizen-loop guardian run <pr-number> --project <project-slug> --json"
+        in text
+    )
+    assert "Keep that session open and poll it until the guardian exits" in text
+    assert "immediately starts the next monitor/review cycle in the same guardian run" in text
     assert "Never leave a guardian child process running" in text
     assert "`gh pr checks --watch` is only a CI watcher" in text

@@ -236,3 +236,10 @@ Use this file to record meaningful verification runs.
 - Scope: PR #22 follow-up for pending bot review mergeability gate
 - Result: passed
 - Notes: `ruff check .`, 28 pytest tests, and `mkdocs build --strict` all passed using the repo-local virtualenv.
+
+### 2026-07-12 23:24 JST
+
+- Command: `PATH=/Volumes/SSD/ghq/github.com/s-hiraoku/codex-harnesses/.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: PR #33 review feedback fixes for durable guardian runner documentation and contract tests
+- Result: passed
+- Notes: `ruff check .`, 29 pytest tests, and `mkdocs build --strict` all passed using the existing repo-local virtualenv.

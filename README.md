@@ -147,6 +147,23 @@ Use `--global` for user-wide installation. Repeat the chosen command for other s
 
 Installing `adviser` makes it available but does not make every task invoke it. To reproduce native Advisor-style timing automatically, add the standing instruction shown in [docs/usage.md](docs/usage.md#enable-automatic-adviser-timing) to the user-global `~/.codex/AGENTS.md`.
 
+### Run PR Guardian durably
+
+If the `kaizen-loop` CLI is installed, initialize it from the target repository and use `kaizen-loop list --json` to find the registered project slug:
+
+```sh
+kaizen-loop init --agent codex
+kaizen-loop list --json
+```
+
+Confirm that `kaizen-loop guardian run --help` is available, then start PR monitoring with the PR number and the slug returned as a key under `projects`:
+
+```sh
+kaizen-loop guardian run <pr-number> --project <project-slug> --json
+```
+
+Keep the command attached and poll until it exits. It monitors CI and review activity across repeated fix-and-push cycles; `gh pr checks --watch` covers CI only and is not a substitute.
+
 For Vercel or Next.js frontend projects, pair this harness with Vercel's official frontend skills instead of copying them into this repository:
 
 ```sh
