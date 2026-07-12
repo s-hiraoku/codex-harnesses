@@ -9,56 +9,61 @@ Use this workflow by default after opening a pull request, and when an existing 
 
 ## Workflow
 
-1. Resolve the target PRs.
+1. Bootstrap GitHub access before doing any PR work.
+   - Resolve a usable GitHub CLI as `GH_BIN`: try `command -v gh`, the active Nix user profiles (`$HOME/.nix-profile/bin/gh` and `$HOME/.local/state/nix/profiles/profile/bin/gh`), `/run/current-system/sw/bin/gh`, then platform fallbacks such as `/opt/homebrew/bin/gh` and `/usr/local/bin/gh`. Use the resolved absolute path for every command in this workflow; desktop and sandboxed agent shells may intentionally sanitize the user's interactive `PATH`.
+   - Run `"$GH_BIN" auth status` and a read-only `"$GH_BIN" api user --jq .login`. A missing executable, failed authentication, or insufficient repository access is a concrete blocker. Report the exact failed command and stderr; never silently skip the audit or claim merge-readiness.
+2. Resolve the target PRs.
    - Use explicit repo or PR URLs when provided.
    - Otherwise identify the current branch PR, branch, remote, and expected base branch.
    - If the user asks for "each repo" or "all repos", scan the relevant workspace repositories, list open PRs, and process one repo at a time.
-2. Load local repo context before edits.
+   - If the user says a PR is still blocked, still remains, or points at a repository PR list, enumerate the open PRs in the relevant repositories and process every PR that is `BLOCKED`, has unresolved review threads, or has actionable bot/human feedback. Do not stop after fixing only the current checkout's branch.
+3. Load local repo context before edits.
    - Read local instructions such as `AGENTS.md`, package scripts, branch status, and PR metadata.
    - Preserve unrelated local changes.
-3. Build a complete PR state and feedback inventory.
+4. Build a complete PR state and feedback inventory.
    - Read `mergeStateStatus`, `mergeable`, `reviewDecision`, `statusCheckRollup`, `reviews`, `latestReviews`, review requests, PR comments, and `gh pr checks`.
    - Always fetch thread-aware review data before claiming success. Flat PR comments are not enough because CodeRabbit, Codex, and human actionable feedback is often in inline review threads.
-   - Use `references/pr-feedback-audit.md` for concrete `gh` and GraphQL commands when thread state, bot comments, CI logs, or cross-repo scanning matter.
-4. Classify every feedback item.
+   - Do not treat an earlier PR Guardian summary comment as current evidence. A bot review can arrive after that comment, so every resume must re-fetch PR state, comments, reviews, latest reviews, and review threads from GitHub.
+   - Read `references/pr-feedback-audit.md` and execute its thread-aware GraphQL query on every target PR before deciding that no feedback remains. Paginate `reviewThreads`, REST review comments, issue comments, check runs, and check-run annotations until every `hasNextPage`/`Link: rel="next"` is exhausted. Summaries and the first 100 nodes are not a complete audit.
+5. Classify every feedback item.
    - `fix`: code, docs, tests, CI, or config change is needed.
    - `respond`: a reviewer asked for clarification and no code change is appropriate.
    - `ignore`: duplicate, outdated, already resolved, or demonstrably wrong.
    - `blocked`: credentials, product decision, external service, or maintainer action is required.
-5. Start or continue CI monitoring.
+6. Start or continue CI monitoring.
    - Use `gh run watch` for the relevant workflow run when practical.
    - If CI fails, inspect failing jobs and logs, reproduce locally when practical, and make the smallest fix.
-6. Implement all `fix` items.
+7. Implement all `fix` items.
    - Keep edits scoped to the PR and trace each change back to a feedback or CI cluster.
    - Add or update tests when the feedback identifies behavior risk.
    - Do not rewrite unrelated user changes or broaden the PR scope.
-7. Handle every current review thread explicitly.
+8. Handle every current review thread explicitly.
    - Required conversation resolution is per GitHub review thread, not per PR. The merge gate "all comments must be resolved" is satisfied only when every unresolved `reviewThreads` node has been replied to or intentionally handled and then resolved.
    - For `fix` items, reply in the same review thread or directly to the review comment with the fix made and validation run.
    - For `respond` and `ignore` items, reply in the same review thread or directly to the review comment with the clarification or reason the suggestion is not applicable.
    - Reply before resolving. Use the thread's first review comment `fullDatabaseId` for the REST reply endpoint, then resolve the thread with the GraphQL `reviewThreads.nodes[].id`.
    - Resolve each addressed GitHub review thread, including outdated unresolved threads, when permissions allow. If GitHub does not allow replying or resolving, report the thread URL as `blocked: unresolved required conversation`.
    - Do not rely on an aggregate PR comment as a substitute for per-thread disposition; repositories with required conversation resolution stay blocked until each current thread is resolved.
-8. Push fixes and repeat the PR state, CI, and feedback checks.
+9. Push fixes and repeat the PR state, CI, and feedback checks.
    - Re-fetch review threads after CodeRabbit, Codex, or other review automation has had time to update.
    - If CodeRabbit, Codex, or another expected review bot is `pending`, `in_progress`, or says it is still processing changes after a push, keep waiting within the review wait window. Any unresolved-thread count gathered while a review bot is still processing is provisional and must not be reported as the final conversation state.
    - After every expected review bot reaches a terminal state, re-fetch thread-aware review data before replying, resolving, posting a final PR update, or reporting success. New bot comments can appear after CI is already green.
    - Continue while `reviewDecision` is `CHANGES_REQUESTED`, required checks are pending or failing, expected bot reviews are pending, any review thread remains unresolved, any actionable top-level PR comment lacks a clear disposition, or `mergeStateStatus` is `BLOCKED`, `DIRTY`, `UNKNOWN`, or `BEHIND`.
-9. Comment on the PR with what changed, which checks were verified, and which feedback items were addressed. If a suggestion is not applied, explain why and link to the per-thread reply.
+10. Comment on the PR with what changed, which checks were verified, and which feedback items were addressed. If a suggestion is not applied, explain why and link to the per-thread reply. If no fixes were needed, claim merge-readiness only after the same final gate below passes; otherwise name the remaining blocker.
 
 ## Mergeability gate
 
 Before finalizing, run a final state check such as:
 
 ```sh
-gh pr view <pr> --json mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments
-gh pr checks <pr> --watch
+"$GH_BIN" pr view <pr> --json isDraft,mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews,reviewRequests
+"$GH_BIN" pr checks <pr> --watch
 ```
 
 Also re-run the thread-aware GraphQL query and count unresolved review threads:
 
 ```sh
-gh api graphql \
+"$GH_BIN" api graphql \
   -f owner='<owner>' \
   -f name='<repo>' \
   -F number=<number> \
@@ -92,12 +97,12 @@ query($owner:String!, $name:String!, $number:Int!, $cursor:String) {
 If `pageInfo.hasNextPage` is true, paginate before counting unresolved threads. For each unresolved thread that has been handled, reply and resolve:
 
 ```sh
-gh api \
+"$GH_BIN" api \
   --method POST \
   repos/<owner>/<repo>/pulls/<pr-number>/comments/<top-level-comment-full-database-id>/replies \
   -f body='Fixed in <commit>: <short disposition>. Verified with <command>.'
 
-gh api graphql \
+"$GH_BIN" api graphql \
   -f threadId='<review-thread-id>' \
   -f query='
 mutation($threadId:ID!) {
@@ -109,6 +114,8 @@ mutation($threadId:ID!) {
 
 Success requires all of these:
 
+- `isDraft` is false. When the user owns the PR and requested merge-readiness, convert a draft with `"$GH_BIN" pr ready`; otherwise report the permission or author decision as a blocker.
+- `mergeable` is exactly `MERGEABLE`, after retrying transient `UNKNOWN` while GitHub recomputes it.
 - `mergeStateStatus` is clean enough for the repository to merge, usually `CLEAN`, `HAS_HOOKS`, or `UNSTABLE` with only non-required failures explicitly documented.
 - `reviewDecision` is not `CHANGES_REQUESTED`.
 - All required checks in `statusCheckRollup` pass.

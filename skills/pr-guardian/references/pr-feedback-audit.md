@@ -2,6 +2,8 @@
 
 Use these commands when a PR may have unresolved CodeRabbit, Codex, human review, or CI feedback. Prefer explicit PR URLs; otherwise run from the repo checkout.
 
+First resolve and authenticate `GH_BIN` as required by `SKILL.md`. In every command below, invoke `"$GH_BIN"` wherever the example says `gh`; the bare name is only shorthand and must not be assumed to be on `PATH`.
+
 ## Resolve PRs
 
 Current branch PR:
