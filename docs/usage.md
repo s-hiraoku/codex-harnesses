@@ -99,14 +99,14 @@ Skill installation alone does not guarantee that Codex will invoke `adviser` on 
 ```md
 ## Adviser
 
-For consequential work that takes more than a few steps, use the globally installed `$adviser` skill after orientation and before committing to an approach, then use it again after the deliverable is durable and verified but before declaring completion.
+For consequential work that takes more than a few steps, consider the globally installed `$adviser` skill at important decision points. Typical high-value checkpoints are after orientation but before committing to an approach, and after the deliverable is durable and verified but before declaring completion. These are defaults, not a fixed call quota.
 
 Also consult Adviser when material ambiguity blocks a decision, failures recur, the approach stops converging, or a materially different direction is under consideration. Skip ritual consultations for short reactive work whose next action is already dictated by fresh tool output.
 
-Keep the main agent responsible for execution and weigh Adviser output against repository evidence, primary sources, and empirical verification.
+Keep the main agent responsible for execution and weigh Adviser output against repository evidence, primary sources, and empirical verification. Do not assume the fallback reviewer received a complete transcript or uses a stronger model; report those capabilities only when verified.
 ```
 
-This reproduces the native Advisor timing pattern more closely while keeping short mechanical tasks free of unnecessary consultations.
+This reproduces the native Advisor timing pattern more closely while keeping timing model-driven and short mechanical tasks free of unnecessary consultations. The skill emulates the workflow, not native server-side transcript delivery, billing, caching, or UI.
 
 ### Companion Skills for Vercel Frontends
 
