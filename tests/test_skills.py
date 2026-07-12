@@ -85,3 +85,6 @@ def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
         "A rate limit, timeout, or missing current-head terminal review is "
         "`pending external review`"
     ) in text
+    audit = (SKILLS / "pr-guardian" / "references" / "pr-feedback-audit.md").read_text()
+    assert "--json headRefOid,mergeStateStatus" in audit
+    assert "      headRefOid" in audit

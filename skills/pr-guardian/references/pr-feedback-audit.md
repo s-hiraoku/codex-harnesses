@@ -9,7 +9,7 @@ First resolve and authenticate `GH_BIN` as required by `SKILL.md`. In every comm
 Current branch PR:
 
 ```sh
-"$GH_BIN" pr view --json number,url,headRefName,baseRefName,isDraft,author
+"$GH_BIN" pr view --json number,url,headRefName,headRefOid,baseRefName,isDraft,author
 ```
 
 Open PRs in the current repo:
@@ -29,7 +29,7 @@ For each repo path, `cd` into it and run the open PR command. Prioritize PRs who
 ## Read PR State
 
 ```sh
-"$GH_BIN" pr view <pr> --json number,url,title,headRefName,baseRefName,isDraft,mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews,reviewRequests
+"$GH_BIN" pr view <pr> --json number,url,title,headRefName,headRefOid,baseRefName,isDraft,mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews,reviewRequests
 "$GH_BIN" pr checks <pr>
 ```
 
@@ -54,6 +54,7 @@ query($owner:String!, $name:String!, $number:Int!, $cursor:String) {
   repository(owner:$owner, name:$name) {
     pullRequest(number:$number) {
       url
+      headRefOid
       reviewDecision
       mergeStateStatus
       reviewThreads(first:100, after:$cursor) {
@@ -135,7 +136,7 @@ Treat outdated threads as non-actionable only after checking whether the same po
 Before reporting success, run:
 
 ```sh
-"$GH_BIN" pr view <pr> --json mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews
+"$GH_BIN" pr view <pr> --json headRefOid,mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews
 "$GH_BIN" pr checks <pr> --watch  # Use a 30-minute timeout, or poll with a 30-check cap if checks may hang.
 ```
 
