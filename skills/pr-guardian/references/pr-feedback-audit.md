@@ -9,13 +9,13 @@ First resolve and authenticate `GH_BIN` as required by `SKILL.md`. In every comm
 Current branch PR:
 
 ```sh
-gh pr view --json number,url,headRefName,baseRefName,isDraft,author
+"$GH_BIN" pr view --json number,url,headRefName,baseRefName,isDraft,author
 ```
 
 Open PRs in the current repo:
 
 ```sh
-gh pr list --state open --json number,url,headRefName,baseRefName,isDraft,author,updatedAt,title
+"$GH_BIN" pr list --state open --json number,url,headRefName,baseRefName,isDraft,author,updatedAt,title
 ```
 
 Workspace scan from an org folder:
@@ -29,15 +29,15 @@ For each repo path, `cd` into it and run the open PR command. Prioritize PRs who
 ## Read PR State
 
 ```sh
-gh pr view <pr> --json number,url,title,headRefName,baseRefName,isDraft,mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews,reviewRequests
-gh pr checks <pr>
+"$GH_BIN" pr view <pr> --json number,url,title,headRefName,baseRefName,isDraft,mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews,reviewRequests
+"$GH_BIN" pr checks <pr>
 ```
 
 Inspect failing logs:
 
 ```sh
-gh run list --branch <head-branch> --limit 10
-gh run view <run-id> --log-failed
+"$GH_BIN" run list --branch <head-branch> --limit 10
+"$GH_BIN" run view <run-id> --log-failed
 ```
 
 ## Fetch Thread-Aware Review Data
@@ -45,7 +45,7 @@ gh run view <run-id> --log-failed
 Flat PR comments are not enough for CodeRabbit or Codex because actionable feedback is often in inline review threads. Use GraphQL:
 
 ```sh
-gh api graphql \
+"$GH_BIN" api graphql \
   -f owner='<owner>' \
   -f name='<repo>' \
   -F number=<number> \
@@ -135,8 +135,8 @@ Treat outdated threads as non-actionable only after checking whether the same po
 Before reporting success, run:
 
 ```sh
-gh pr view <pr> --json mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews
-gh pr checks <pr> --watch  # Use a 30-minute timeout, or poll with a 30-check cap if checks may hang.
+"$GH_BIN" pr view <pr> --json mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews
+"$GH_BIN" pr checks <pr> --watch  # Use a 30-minute timeout, or poll with a 30-check cap if checks may hang.
 ```
 
 Then re-run the GraphQL thread query and count unresolved threads. The PR is not merge-ready if:
