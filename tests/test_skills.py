@@ -70,3 +70,12 @@ def test_skills_contain_workflow_and_final_report() -> None:
 
         assert "## Workflow" in text
         assert "## Final Report" in text
+
+
+def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
+    text = (SKILLS / "pr-guardian" / "SKILL.md").read_text()
+
+    assert "review `commit.oid` equals the pinned head SHA" in text
+    assert "discard all earlier review-completion and quiet-period evidence" in text
+    assert "fetch the head SHA, checks, merge state, review decision, comments, reviews, and all review threads twice" in text
+    assert "A rate limit, timeout, or missing current-head terminal review is `pending external review`" in text
