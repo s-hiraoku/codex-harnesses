@@ -75,7 +75,10 @@ def test_skills_contain_workflow_and_final_report() -> None:
 def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
     text = (SKILLS / "pr-guardian" / "SKILL.md").read_text()
 
-    assert "review `commit.oid` equals the pinned head SHA" in text
+    assert "terminal review `commit_id` equals the pinned head SHA" in text
+    assert "`gh pr view --json reviews` is not commit-SHA evidence" in text
+    assert "Treat `success` as a convergence checkpoint" in text
+    assert "reactivate a same-head PR" in text
     assert "discard all earlier review-completion and quiet-period evidence" in text
     assert (
         "fetch the head SHA, checks, merge state, review decision, comments, reviews, "
