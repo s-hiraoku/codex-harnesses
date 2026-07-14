@@ -90,6 +90,15 @@ query($owner:String!, $name:String!, $number:Int!, $cursor:String) {
 
 If there are more than 100 threads, repeat the query with `-f cursor='<endCursor>'` until `pageInfo.hasNextPage` is false.
 
+Fetch review-to-head evidence separately from the REST reviews endpoint; `gh pr view --json reviews` does not expose a reliable review commit SHA:
+
+```sh
+"$GH_BIN" api "repos/<owner>/<repo>/pulls/<pr-number>/reviews?per_page=100" --paginate \
+  --jq '.[] | {id, reviewer: .user.login, state, submitted_at, commit_id}'
+```
+
+For each expected bot, use its latest terminal (`APPROVED`, `CHANGES_REQUESTED`, or `COMMENTED`) review and require `commit_id` to equal the pinned current head SHA. `PENDING`, `DISMISSED`, missing-SHA, and older-head reviews are not terminal evidence.
+
 ## Reply To And Resolve Review Threads
 
 Required conversation resolution is satisfied per review thread, not by a single aggregate PR comment. For every unresolved thread that you fix, answer, skip, or prove not applicable, including stale threads that became outdated after a fix:
@@ -137,6 +146,7 @@ Before reporting success, run:
 
 ```sh
 "$GH_BIN" pr view <pr> --json headRefOid,mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews
+"$GH_BIN" api "repos/<owner>/<repo>/pulls/<pr>/reviews?per_page=100" --paginate
 "$GH_BIN" pr checks <pr> --watch  # Use a 30-minute timeout, or poll with a 30-check cap if checks may hang.
 ```
 
