@@ -243,3 +243,10 @@ Use this file to record meaningful verification runs.
 - Scope: PR #33 review feedback fixes for durable guardian runner documentation and contract tests
 - Result: passed
 - Notes: `ruff check .`, 29 pytest tests, and `mkdocs build --strict` all passed using the existing repo-local virtualenv.
+
+### 2026-07-16 07:18 JST
+
+- Command: `PATH=/Volumes/SSD/ghq/github.com/s-hiraoku/codex-harnesses/.venv/bin:$PATH bash scripts/verify.sh`
+- Scope: deterministic Adviser model and reasoning-effort routing
+- Result: passed
+- Notes: `ruff check .`, 66 pytest tests, and `mkdocs build --strict` all passed after replacing an unsupported `codex exec --ask-for-approval` flag with `-c approval_policy="never"`. Adviser routing tests cover all defined routes, fail-closed inputs, rollout detection, argv-safe execution, process-group timeout cleanup, cross-process recursion prevention, and CLI failures.
