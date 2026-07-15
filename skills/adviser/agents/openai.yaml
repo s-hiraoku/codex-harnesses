@@ -1,4 +1,4 @@
 interface:
   display_name: "Adviser"
-  short_description: "Consult an independent reviewer at key decision points"
-  default_prompt: "Use $adviser to review my approach before I implement it."
+  short_description: "Route a stronger independent review at key decisions"
+  default_prompt: "Use $adviser to route a stronger review of my approach before implementation."

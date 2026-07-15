@@ -103,7 +103,7 @@ For consequential work that takes more than a few steps, consider the globally i
 
 Also consult Adviser when material ambiguity blocks a decision, failures recur, the approach stops converging, or a materially different direction is under consideration. Skip ritual consultations for short reactive work whose next action is already dictated by fresh tool output.
 
-Keep the main agent responsible for execution and weigh Adviser output against repository evidence, primary sources, and empirical verification. Do not assume the fallback reviewer received a complete transcript or uses a stronger model; report those capabilities only when verified.
+Keep the main agent responsible for execution and weigh Adviser output against repository evidence, primary sources, and empirical verification. The skill deterministically requests Sol at the caller's effort for Luna/Terra, or Sol at the next effort for Sol. It fails closed at Sol/Ultra or when caller metadata is unavailable. Report a requested route as effective only when the runtime verifies it.
 ```
 
 This reproduces the native Advisor timing pattern more closely while keeping timing model-driven and short mechanical tasks free of unnecessary consultations. The skill emulates the workflow, not native server-side transcript delivery, billing, caching, or UI.

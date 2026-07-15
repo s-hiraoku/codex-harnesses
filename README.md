@@ -143,7 +143,7 @@ npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill adviser
 ```
 
-Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `adviser`, `bug-fix`, `review`, `security-review`, `tdd`, `fix-ci`, `simplify`, `deslop`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `adviser` for Claude Code `/advisor`-style independent consultations around important decisions and completion. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
+Use `--global` for user-wide installation. Repeat the chosen command for other skills such as `goal-manager`, `adviser`, `bug-fix`, `review`, `security-review`, `tdd`, `fix-ci`, `simplify`, `deslop`, `jina-reader`, `jina-read-url`, `ui-imagegen-director`, `refactor-safely`, `release-check`, `docs-updater`, `pr-guardian`, and `meta-packager`. Use `adviser` for Claude Code `/advisor`-style independent consultations around important decisions and completion; it routes Luna/Terra to Sol and raises Sol to the next reasoning effort. Use `kaizen-loop` when Codex should evaluate a product, propose improvements, and implement only user-approved changes.
 
 Installing `adviser` makes it available but does not make every task invoke it. To reproduce native Advisor-style timing automatically, add the standing instruction shown in [docs/usage.md](docs/usage.md#enable-automatic-adviser-timing) to the user-global `~/.codex/AGENTS.md`.
 
