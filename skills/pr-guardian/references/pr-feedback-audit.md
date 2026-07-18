@@ -94,7 +94,17 @@ query($owner:String!, $name:String!, $number:Int!, $cursor:String) {
   if [[ -n "${cursor}" ]]; then
     args+=(-f "cursor=${cursor}")
   fi
-  page="$("$GH_BIN" "${args[@]}")"
+  if ! page="$("$GH_BIN" "${args[@]}")"; then
+    echo 'failed to fetch a reviewThreads page' >&2
+    exit 1
+  fi
+  if ! jq -e '
+    .errors == null and
+    (.data.repository.pullRequest.reviewThreads.pageInfo.hasNextPage | type == "boolean")
+  ' <<<"${page}" >/dev/null; then
+    echo 'reviewThreads response is missing valid pageInfo' >&2
+    exit 1
+  fi
   jq -c '.data.repository.pullRequest.reviewThreads.nodes[]' <<<"${page}"
   if [[ "$(jq -r '.data.repository.pullRequest.reviewThreads.pageInfo.hasNextPage' <<<"${page}")" != true ]]; then
     break
@@ -131,7 +141,17 @@ query($threadId:ID!, $cursor:String) {
   if [[ -n "${cursor}" ]]; then
     args+=(-f "cursor=${cursor}")
   fi
-  page="$("$GH_BIN" "${args[@]}")"
+  if ! page="$("$GH_BIN" "${args[@]}")"; then
+    echo 'failed to fetch a review-comments page' >&2
+    exit 1
+  fi
+  if ! jq -e '
+    .errors == null and
+    (.data.node.comments.pageInfo.hasNextPage | type == "boolean")
+  ' <<<"${page}" >/dev/null; then
+    echo 'review-comments response is missing valid pageInfo' >&2
+    exit 1
+  fi
   jq -c '.data.node.comments.nodes[]' <<<"${page}"
   if [[ "$(jq -r '.data.node.comments.pageInfo.hasNextPage' <<<"${page}")" != true ]]; then
     break

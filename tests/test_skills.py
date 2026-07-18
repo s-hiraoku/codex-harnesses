@@ -83,6 +83,9 @@ def assert_pr_guardian_executable_audit(skill_path: Path) -> None:
         "reviewThreads(first:100, after:$cursor)",
         "comments(first:100, after:$cursor)",
         'args+=(-f "cursor=${cursor}")',
+        'if ! page="$("$GH_BIN" "${args[@]}")"; then',
+        "jq -e",
+        ".errors == null",
         "hasNextPage",
         "endCursor",
         "--paginate",
@@ -96,6 +99,8 @@ def assert_pr_guardian_executable_audit(skill_path: Path) -> None:
         "resolveReviewThread(input:{threadId:$threadId})",
     )
     assert shell.count("while :; do") >= 2
+    assert shell.count('if ! page="$("$GH_BIN" "${args[@]}")"; then') >= 2
+    assert shell.count("jq -e") >= 2
     for marker in required:
         assert marker in shell
     assert shell.index("--method POST") < shell.index("resolveReviewThread")
