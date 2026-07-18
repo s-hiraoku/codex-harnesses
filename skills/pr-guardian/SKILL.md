@@ -32,7 +32,7 @@ Use this workflow by default after opening a pull request, and when an existing 
    - Read `mergeStateStatus`, `mergeable`, `reviewDecision`, `statusCheckRollup`, `reviews`, `latestReviews`, review requests, PR comments, and `gh pr checks`.
    - Always fetch thread-aware review data before claiming success. Flat PR comments are not enough because CodeRabbit, Codex, and human actionable feedback is often in inline review threads.
    - Do not treat an earlier PR Guardian summary comment as current evidence. A bot review can arrive after that comment, so every resume must re-fetch PR state, comments, reviews, latest reviews, and review threads from GitHub.
-   - Read `references/pr-feedback-audit.md` and execute its thread-aware GraphQL query on every target PR before deciding that no feedback remains. Paginate `reviewThreads`, REST review comments, issue comments, check runs, and check-run annotations until every `hasNextPage`/`Link: rel="next"` is exhausted. Summaries and the first 100 nodes are not a complete audit.
+   - Read `references/pr-feedback-audit.md` and run its executable GraphQL cursor loops and REST `--paginate` commands on every target PR before deciding that no feedback remains. Paginate every connection until `hasNextPage=false` by feeding each `endCursor` into the next request, including nested review comments, and exhaust REST reviews, review comments, issue comments, check runs, and annotations. Summaries and first pages are not complete evidence.
 5. Classify every feedback item.
    - `fix`: code, docs, tests, CI, or config change is needed.
    - `respond`: a reviewer asked for clarification and no code change is appropriate.

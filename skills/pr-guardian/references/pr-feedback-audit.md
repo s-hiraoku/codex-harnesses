@@ -42,14 +42,17 @@ Inspect failing logs:
 
 ## Fetch Thread-Aware Review Data
 
-Flat PR comments are not enough for CodeRabbit or Codex because actionable feedback is often in inline review threads. Use GraphQL:
+Flat PR comments are not enough for CodeRabbit or Codex because actionable feedback is often in inline review threads. This loop feeds every `endCursor` into the next GraphQL request:
 
 ```sh
-"$GH_BIN" api graphql \
-  -f owner='<owner>' \
-  -f name='<repo>' \
-  -F number=<number> \
-  -f query='
+cursor=
+while :; do
+  args=(
+    api graphql
+    -f owner='<owner>'
+    -f name='<repo>'
+    -F number=<number>
+    -f query='
 query($owner:String!, $name:String!, $number:Int!, $cursor:String) {
   repository(owner:$owner, name:$name) {
     pullRequest(number:$number) {
@@ -69,7 +72,8 @@ query($owner:String!, $name:String!, $number:Int!, $cursor:String) {
           path
           line
           startLine
-          comments(first:20) {
+          comments(first:100) {
+            pageInfo { hasNextPage endCursor }
             nodes {
               id
               fullDatabaseId
@@ -86,9 +90,69 @@ query($owner:String!, $name:String!, $number:Int!, $cursor:String) {
     }
   }
 }'
+  )
+  if [[ -n "${cursor}" ]]; then
+    args+=(-f "cursor=${cursor}")
+  fi
+  page="$("$GH_BIN" "${args[@]}")"
+  jq -c '.data.repository.pullRequest.reviewThreads.nodes[]' <<<"${page}"
+  if [[ "$(jq -r '.data.repository.pullRequest.reviewThreads.pageInfo.hasNextPage' <<<"${page}")" != true ]]; then
+    break
+  fi
+  cursor="$(jq -r '.data.repository.pullRequest.reviewThreads.pageInfo.endCursor' <<<"${page}")"
+  if [[ -z "${cursor}" || "${cursor}" == null ]]; then
+    echo 'reviewThreads reported another page without an endCursor' >&2
+    exit 1
+  fi
+done
 ```
 
-If there are more than 100 threads, repeat the query with `-f cursor='<endCursor>'` until `pageInfo.hasNextPage` is false.
+For every thread whose nested comment connection has another page, run the matching cursor loop with its GraphQL `id`:
+
+```sh
+thread_id='<review-thread-id>'
+cursor=
+while :; do
+  args=(
+    api graphql
+    -f threadId="${thread_id}"
+    -f query='
+query($threadId:ID!, $cursor:String) {
+  node(id:$threadId) {
+    ... on PullRequestReviewThread {
+      comments(first:100, after:$cursor) {
+        pageInfo { hasNextPage endCursor }
+        nodes { fullDatabaseId url author { login } body createdAt outdated }
+      }
+    }
+  }
+}'
+  )
+  if [[ -n "${cursor}" ]]; then
+    args+=(-f "cursor=${cursor}")
+  fi
+  page="$("$GH_BIN" "${args[@]}")"
+  jq -c '.data.node.comments.nodes[]' <<<"${page}"
+  if [[ "$(jq -r '.data.node.comments.pageInfo.hasNextPage' <<<"${page}")" != true ]]; then
+    break
+  fi
+  cursor="$(jq -r '.data.node.comments.pageInfo.endCursor' <<<"${page}")"
+  if [[ -z "${cursor}" || "${cursor}" == null ]]; then
+    echo 'review comments reported another page without an endCursor' >&2
+    exit 1
+  fi
+done
+```
+
+Exhaust each REST endpoint; summaries and first pages are incomplete evidence:
+
+```sh
+"$GH_BIN" api --paginate 'repos/<owner>/<repo>/pulls/<pr>/reviews?per_page=100'
+"$GH_BIN" api --paginate 'repos/<owner>/<repo>/pulls/<pr>/comments?per_page=100'
+"$GH_BIN" api --paginate 'repos/<owner>/<repo>/issues/<pr>/comments?per_page=100'
+"$GH_BIN" api --paginate 'repos/<owner>/<repo>/commits/<head-sha>/check-runs?per_page=100'
+"$GH_BIN" api --paginate 'repos/<owner>/<repo>/check-runs/<check-run-id>/annotations?per_page=100'
+```
 
 Fetch review-to-head evidence separately from the REST reviews endpoint; `gh pr view --json reviews` does not expose a reliable review commit SHA:
 

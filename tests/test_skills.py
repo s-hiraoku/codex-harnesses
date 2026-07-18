@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -72,8 +73,38 @@ def test_skills_contain_workflow_and_final_report() -> None:
         assert "## Final Report" in text
 
 
+def assert_pr_guardian_executable_audit(skill_path: Path) -> None:
+    audit_path = skill_path.parent / "references" / "pr-feedback-audit.md"
+    audit = audit_path.read_text()
+    shell = "\n".join(
+        re.findall(r"```(?:sh|bash|shell)\n(.*?)\n```", audit, re.DOTALL)
+    )
+    required = (
+        "reviewThreads(first:100, after:$cursor)",
+        "comments(first:100, after:$cursor)",
+        'args+=(-f "cursor=${cursor}")',
+        "hasNextPage",
+        "endCursor",
+        "--paginate",
+        "pulls/<pr>/reviews?per_page=100",
+        "pulls/<pr>/comments?per_page=100",
+        "issues/<pr>/comments?per_page=100",
+        "commits/<head-sha>/check-runs?per_page=100",
+        "check-runs/<check-run-id>/annotations?per_page=100",
+        "--method POST",
+        "/replies",
+        "resolveReviewThread(input:{threadId:$threadId})",
+    )
+    assert shell.count("while :; do") >= 2
+    for marker in required:
+        assert marker in shell
+    assert shell.index("--method POST") < shell.index("resolveReviewThread")
+
+
 def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
-    text = (SKILLS / "pr-guardian" / "SKILL.md").read_text()
+    skill = SKILLS / "pr-guardian" / "SKILL.md"
+    text = skill.read_text()
+    assert_pr_guardian_executable_audit(skill)
 
     assert "terminal review `commit_id` equals the pinned head SHA" in text
     assert "`gh pr view --json reviews` is not commit-SHA evidence" in text
