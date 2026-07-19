@@ -18,6 +18,18 @@ Referenced from step 5 of `SKILL.md`. Keep the section order and headings stable
 2. `<path>` — <consumer / ripple of 1>
 3. (skimmable: <mechanical changes, e.g. rename fallout across 12 files>)
 
+## 🧭 Review-lens guide — how to look
+
+### Design map
+<responsibilities and dependency direction of the added/changed modules, and the data flow, in 5 lines or fewer — the map to load before reading the diff>
+
+### Per-spot lens
+- `<path>` — <how to read it, e.g. re-render impact / authorization boundary / error paths / consistency with the existing X pattern>
+
+### Spec cross-check
+- Criterion <n> "<summary>" ↔ `<path>:<line>` — <how to confirm>
+- **Ambiguous interpretation to confirm**: `<path>:<line>` <the interpretation the code took> — <what part of the spec is ambiguous; what to check it against (issue comments / design file / spec doc)>
+
 ## ✅ Machine-checked — safe to skim
 - [spec] <what was verified and the result>
 - [risk] <e.g. types, null-safety, a11y floor: no findings>
@@ -46,6 +58,11 @@ Referenced from step 5 of `SKILL.md`. Keep the section order and headings stable
 ### Reading order
 - "Essential" is decided by **dependency direction**, not line count (new types/abstractions → their consumers → tests).
 - Always quarantine mechanical changes (rename fallout, import shuffles, generated artifacts) as skimmable. Keeping the human from close-reading these is the single biggest time saver.
+
+### 🧭 Review-lens guide
+- The **design map** describes *responsibilities and dependency direction*, not file locations — "new type → who consumes it → where it renders" should be graspable in one read.
+- Keep the **per-spot lens** to one lens per spot. If you want to list three or more lenses for a file, it belongs in ⚠️ instead — it has outgrown lens-guided reading and needs judgment.
+- The **spec cross-check** maps *every* acceptance criterion to its implementing location. A criterion with no matching location is itself important information — escalate it to 🔴 or ❓. For ambiguous interpretations, state the interpretation the code took as a fact and always name what to check it against (issue comments / design file / spec doc).
 
 ### ✅ Machine-checked
 - **Distinguish "no findings" from "verified"**: list the perspectives applied, every time. A property that no perspective covers (e.g. load behavior) is *not* verified and must not appear here.

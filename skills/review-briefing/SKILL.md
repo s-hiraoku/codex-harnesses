@@ -57,13 +57,15 @@ Output contract for every reviewer — this drives the briefing's triage:
 
 > Tag every finding with **confidence: high / low** ("provable from the diff and the perspective" = high; "depends on runtime conditions, unclear reproduction, or spec interpretation" = low).
 
-### 4. Judgment-area extraction (one subagent, orthogonal to step 3)
+### 4. Judgment-area and review-lens extraction (one subagent, orthogonal to step 3)
 
-This is *not* another bug hunt. Ask a separate read-only subagent:
+This is *not* another bug hunt. Ask a separate read-only subagent for three things:
 
-> List the places in this diff where a **design decision, trade-off, or spec interpretation** was made. Do not look for bugs or violations — look for *places where the author chose something*: a new abstraction, a deliberate deviation from an existing pattern, an error-handling behavior, a performance/readability trade, a data-model shape. For each, one line on *what was chosen* and *what it was traded against*. Do NOT evaluate whether the choice is good — that is the human's job.
+> 1. **Design map**: the responsibilities and dependency direction of the modules/components this diff adds or changes, and the data flow — in 5 lines or fewer. This is the mental map the reviewer loads before reading the diff.
+> 2. **Judgment areas**: list the places where a **design decision, trade-off, or spec interpretation** was made. Do not look for bugs or violations — look for *places where the author chose something*: a new abstraction, a deliberate deviation from an existing pattern, an error-handling behavior, a performance/readability trade, a data-model shape. For each, one line on *what was chosen* and *what it was traded against*. Do NOT evaluate whether the choice is good — that is the human's job.
+> 3. **Per-spot review lens**: for each major changed file and judgment area, one line on *how to read it* (e.g. "read for re-render impact", "trace the authorization boundary", "walk the error paths only", "compare against the existing X pattern").
 
-This map is where the human's time should go.
+Then the main agent builds a **spec cross-check table** from the step-1 acceptance criteria and the step-3 spec findings: acceptance criterion ↔ implementing location (`file:line`), plus **spec interpretations that are ambiguous and need human confirmation** (include the spec perspective's low-confidence items). Item 2 tells the human *where* to look; item 3 and the cross-check table tell them *how*.
 
 ### 5. Output the briefing (terminal only)
 
@@ -71,11 +73,12 @@ Use the format in [`references/briefing-format.md`](references/briefing-format.m
 
 1. **TL;DR** — purpose / size / CI status / overall risk feel / estimated review time
 2. **Reading-order guide** — essential changes first; quarantine mechanical changes (renames, generated files) as "skimmable"
-3. **✅ Machine-checked — safe to skim** — perspectives that came back clean at high confidence. **Always list which perspectives were applied** (what wasn't checked isn't verified)
-4. **⚠️ Needs human judgment** — the step-4 map. This is where the reviewer should spend time
-5. **❓ Verify — low-confidence findings** — the human decides true/false
-6. **🔴 High-confidence findings** — if any, by severity
-7. **Comment drafts** — paste-ready, explicitly marked as **not posted**
+3. **🧭 Review-lens guide** — the step-4 artifacts: design map / per-spot review lens (how to read each spot) / spec cross-check table (acceptance criteria ↔ implementing locations, ambiguous interpretations to confirm)
+4. **✅ Machine-checked — safe to skim** — perspectives that came back clean at high confidence. **Always list which perspectives were applied** (what wasn't checked isn't verified)
+5. **⚠️ Needs human judgment** — the step-4 map. This is where the reviewer should spend time
+6. **❓ Verify — low-confidence findings** — the human decides true/false
+7. **🔴 High-confidence findings** — if any, by severity
+8. **Comment drafts** — paste-ready, explicitly marked as **not posted**
 
 ## After the review (must-fire, once)
 
