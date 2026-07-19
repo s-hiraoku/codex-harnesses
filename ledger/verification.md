@@ -13,6 +13,14 @@ Use this file to record meaningful verification runs.
 
 ## Runs
 
+### 2026-07-19 11:46 JST
+
+- Command: `. .venv/bin/activate && bash scripts/verify.sh`
+- Scope: PR #37 CI and review-feedback fixes for the `review-briefing` skill
+- Result: passed
+- Notes: `ruff check .`, 66 pytest tests, and `mkdocs build --strict` passed. The initial
+  system-Python run failed on the known incompatible `rpds` architecture issue, so verification
+  was repeated in an isolated virtual environment with `requirements-dev.txt` installed.
 ### 2026-07-19 12:19 JST
 
 - Command: `. .venv/bin/activate && bash scripts/verify.sh`
