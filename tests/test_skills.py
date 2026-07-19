@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,8 +74,65 @@ def test_skills_contain_workflow_and_final_report() -> None:
         assert "## Final Report" in text
 
 
+def markdown_shell_blocks(text: str) -> list[str]:
+    pattern = re.compile(
+        r"^(?P<indent>[ \t]*)```(?:sh|bash|shell)[ \t]*\n"
+        r"(?P<body>.*?)\n(?P=indent)```[ \t]*$",
+        re.DOTALL | re.MULTILINE,
+    )
+    return [match.group("body") for match in pattern.finditer(text)]
+
+
+def test_markdown_shell_blocks_require_matching_fence_indentation() -> None:
+    text = """1. Example:
+
+   ```sh
+   echo nested
+   ```
+
+```bash
+echo root
+```
+"""
+    assert markdown_shell_blocks(text) == ["   echo nested", "echo root"]
+    assert markdown_shell_blocks("   ```sh\n   echo malformed\n```\n") == []
+
+
+def assert_pr_guardian_executable_audit(skill_path: Path) -> None:
+    audit_path = skill_path.parent / "references" / "pr-feedback-audit.md"
+    audit = audit_path.read_text()
+    shell = "\n".join(markdown_shell_blocks(audit))
+    required = (
+        "reviewThreads(first:100, after:$cursor)",
+        "comments(first:100, after:$cursor)",
+        'args+=(-f "cursor=${cursor}")',
+        'if ! page="$("$GH_BIN" "${args[@]}")"; then',
+        "jq -e",
+        ".errors == null",
+        "hasNextPage",
+        "endCursor",
+        "--paginate",
+        "pulls/<pr>/reviews?per_page=100",
+        "pulls/<pr>/comments?per_page=100",
+        "issues/<pr>/comments?per_page=100",
+        "commits/<head-sha>/check-runs?per_page=100",
+        "check-runs/<check-run-id>/annotations?per_page=100",
+        "--method POST",
+        "/replies",
+        "resolveReviewThread(input:{threadId:$threadId})",
+    )
+    assert shell.count("while :; do") >= 2
+    assert shell.count('if ! page="$("$GH_BIN" "${args[@]}")"; then') >= 2
+    assert shell.count("jq -e") >= 2
+    for marker in required:
+        assert marker in shell
+    assert shell.index("--method POST") < shell.index("resolveReviewThread")
+
+
 def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
-    text = (SKILLS / "pr-guardian" / "SKILL.md").read_text()
+    skill = SKILLS / "pr-guardian" / "SKILL.md"
+    text = skill.read_text()
+    assert_pr_guardian_executable_audit(skill)
 
     assert "terminal review `commit_id` equals the pinned head SHA" in text
     assert "`gh pr view --json reviews` is not commit-SHA evidence" in text

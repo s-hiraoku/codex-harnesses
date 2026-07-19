@@ -21,6 +21,13 @@ Use this file to record meaningful verification runs.
 - Notes: `ruff check .`, 66 pytest tests, and `mkdocs build --strict` passed. The initial
   system-Python run failed on the known incompatible `rpds` architecture issue, so verification
   was repeated in an isolated virtual environment with `requirements-dev.txt` installed.
+### 2026-07-19 12:19 JST
+
+- Command: `. .venv/bin/activate && bash scripts/verify.sh`
+- Scope: PR #36 fenced-shell-block parser fix after current-head Codex review
+- Result: passed
+- Notes: `ruff check .`, 67 pytest tests, and `mkdocs build --strict` passed. The parser
+  regression test covers both matching indented fences and a mismatched closing indentation.
 
 ### 2026-06-27 16:05 JST
 
@@ -259,3 +266,10 @@ Use this file to record meaningful verification runs.
 - Scope: deterministic Adviser model and reasoning-effort routing
 - Result: passed
 - Notes: `ruff check .`, 66 pytest tests, and `mkdocs build --strict` all passed after replacing an unsupported `codex exec --ask-for-approval` flag with `-c approval_policy="never"`. Adviser routing tests cover all defined routes, fail-closed inputs, rollout detection, argv-safe execution, process-group timeout cleanup, cross-process recursion prevention, and CLI failures.
+
+### 2026-07-18 10:05 JST
+
+- Command: `uv run --no-project --with-requirements requirements-dev.txt bash scripts/verify.sh`
+- Scope: executable PR Guardian GraphQL/REST pagination audit, adjacent-reference contract checks, tests, and usage documentation.
+- Result: passed
+- Notes: `ruff check .`, 66 pytest tests, and `mkdocs build --strict` passed. A preceding plain `bash scripts/verify.sh` run stopped during collection because the system Python loaded an incompatible x86_64 `rpds` wheel under arm64e; the isolated requirements environment removed that host-only failure.
