@@ -19,7 +19,7 @@ Put the human reviewer in the best position to review quickly and well. The skil
 ## Principles (must-fire)
 
 - **Strictly read-only**: never write to GitHub (no comments, reviews, labels). Comment drafts are terminal output only. The human's judgment is never pre-empted.
-- **Review subagents get a clean brief**: pass only the diff, the acceptance criteria (from the linked issue, if any), and the perspective to check. Do not pass existing review comments into the reviewers — that creates confirmation bias. Deduplication against existing comments happens afterwards, in the main agent.
+- **Review subagents get a clean brief**: pass only the diff, the acceptance criteria (from the linked issue, if any), relevant factual conclusions from background research, and the perspective to check. Do not pass existing review comments into the reviewers — that creates confirmation bias. Deduplication against existing comments happens afterwards, in the main agent.
 - **Route reviewers to a stronger model tier or higher reasoning effort** per your runtime's escalation policy (e.g. the routing table used by the `adviser` skill); disclose a downgrade if one occurs. Consistent judgment quality is the point of the machine-check layer.
 - **If your project maintains a verbalized perspective file** (accumulated review checklists, "missed-finding" perspectives), pass it to the reviewers as the canonical perspective set instead of inventing one — and never fork a second copy of it.
 
@@ -43,11 +43,16 @@ Collect what the human needs to judge "does this follow the codebase's existing 
 - Agent A: existing patterns, similar implementations, naming conventions in the touched area
 - Agent B: the specs/conventions that govern the touched feature (project docs, AGENTS.md sections)
 
+Return factual conclusions with their source locations. The main agent routes each conclusion only
+to the machine-check reviewers whose perspective needs it, especially the spec reviewer.
+
 **Tier**: skip this step for small PRs (roughly under ~100 changed lines).
 
 ### 3. Machine-check layer (parallel review-only subagents)
 
-Spawn independent review-only subagents, one per perspective, each with a clean brief (diff + acceptance criteria + that perspective only — separate lenses catch what a single merged reviewer misses):
+Spawn independent review-only subagents, one per perspective, each with a clean brief (diff +
+acceptance criteria + relevant factual conclusions from step 2 + that perspective only — separate
+lenses catch what a single merged reviewer misses). Never include existing review comments.
 
 - **spec**: does the change satisfy the acceptance criteria / stated intent; does it follow existing patterns
 - **risk**: bugs, type mismatches, runtime errors, security, accessibility, performance
@@ -77,8 +82,9 @@ Use the format in [`references/briefing-format.md`](references/briefing-format.m
 4. **✅ Machine-checked — safe to skim** — perspectives that came back clean at high confidence. **Always list which perspectives were applied** (what wasn't checked isn't verified)
 5. **⚠️ Needs human judgment** — the step-4 map. This is where the reviewer should spend time
 6. **❓ Verify — low-confidence findings** — the human decides true/false
-7. **🔴 High-confidence findings** — if any, by severity
-8. **Comment drafts** — paste-ready, explicitly marked as **not posted**
+7. **🔴 Findings (high confidence)** — if any, by severity
+8. **Comment drafts** — paste-ready, explicitly marked as **not posted**; close by stating that
+   whether and how to post them is the human reviewer's call
 
 ## After the review (must-fire, once)
 
@@ -97,4 +103,5 @@ This closes the loop the skill is built on: the human's new job is discovering a
 
 Return the terminal-only briefing in the canonical format, including the PR URL, CI status,
 perspectives applied, confidence-tagged findings, and estimated review time. State explicitly that
-no GitHub comments, reviews, labels, or other remote changes were made.
+no GitHub comments, reviews, labels, or other remote changes were made, and that whether and how to
+post any comment drafts is the human reviewer's call.
