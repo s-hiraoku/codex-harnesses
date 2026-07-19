@@ -30,7 +30,7 @@ Put the human reviewer in the best position to review quickly and well. The skil
 ```bash
 gh pr view <PR> --json number,title,body,url,author,baseRefName,files,additions,deletions,statusCheckRollup
 gh pr view <PR> --json comments,reviews          # existing findings (for dedup)
-gh api repos/<owner>/<repo>/pulls/<PR>/comments  # inline comments
+gh api --paginate --slurp repos/<owner>/<repo>/pulls/<PR>/comments  # all inline comments
 gh pr diff <PR>
 ```
 
@@ -92,3 +92,9 @@ This closes the loop the skill is built on: the human's new job is discovering a
 
 - `gh` CLI authenticated with read access to the target PR
 - A subagent mechanism for the parallel reviewers. Without one, run the three perspectives sequentially in the main agent with the same clean-brief and confidence contract (slower, still valid)
+
+## Final Report
+
+Return the terminal-only briefing in the canonical format, including the PR URL, CI status,
+perspectives applied, confidence-tagged findings, and estimated review time. State explicitly that
+no GitHub comments, reviews, labels, or other remote changes were made.

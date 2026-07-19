@@ -19,6 +19,7 @@ REQUIRED_SKILL_NAMES = {
     "release-check",
     "docs-updater",
     "review",
+    "review-briefing",
     "pr-guardian",
     "empirical-prompt-tuning",
     "meta-packager",
