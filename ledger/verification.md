@@ -13,6 +13,14 @@ Use this file to record meaningful verification runs.
 
 ## Runs
 
+### 2026-07-19 12:19 JST
+
+- Command: `. .venv/bin/activate && bash scripts/verify.sh`
+- Scope: PR #36 fenced-shell-block parser fix after current-head Codex review
+- Result: passed
+- Notes: `ruff check .`, 67 pytest tests, and `mkdocs build --strict` passed. The parser
+  regression test covers both matching indented fences and a mismatched closing indentation.
+
 ### 2026-06-27 16:05 JST
 
 - Command: `PATH=.venv/bin:$PATH bash scripts/verify.sh`

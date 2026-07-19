@@ -73,12 +73,34 @@ def test_skills_contain_workflow_and_final_report() -> None:
         assert "## Final Report" in text
 
 
+def markdown_shell_blocks(text: str) -> list[str]:
+    pattern = re.compile(
+        r"^(?P<indent>[ \t]*)```(?:sh|bash|shell)[ \t]*\n"
+        r"(?P<body>.*?)\n(?P=indent)```[ \t]*$",
+        re.DOTALL | re.MULTILINE,
+    )
+    return [match.group("body") for match in pattern.finditer(text)]
+
+
+def test_markdown_shell_blocks_require_matching_fence_indentation() -> None:
+    text = """1. Example:
+
+   ```sh
+   echo nested
+   ```
+
+```bash
+echo root
+```
+"""
+    assert markdown_shell_blocks(text) == ["   echo nested", "echo root"]
+    assert markdown_shell_blocks("   ```sh\n   echo malformed\n```\n") == []
+
+
 def assert_pr_guardian_executable_audit(skill_path: Path) -> None:
     audit_path = skill_path.parent / "references" / "pr-feedback-audit.md"
     audit = audit_path.read_text()
-    shell = "\n".join(
-        re.findall(r"```(?:sh|bash|shell)\n(.*?)\n```", audit, re.DOTALL)
-    )
+    shell = "\n".join(markdown_shell_blocks(audit))
     required = (
         "reviewThreads(first:100, after:$cursor)",
         "comments(first:100, after:$cursor)",
