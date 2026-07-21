@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Review Briefing: PR #{{PR_NUMBER}} {{PR_TITLE}}</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: light-dark(#fafafa, #16181d);
+    --surface: light-dark(#ffffff, #1e2128);
+    --text: light-dark(#1f2328, #d5dae2);
+    --muted: light-dark(#59636e, #8b949e);
+    --border: light-dark(#d9dee3, #30363d);
+    --accent: light-dark(#5b3df5, #a795ff);
+    --ok: light-dark(#1a7f37, #57d97a);
+    --warn: light-dark(#9a6700, #e3b341);
+    --danger: light-dark(#cf222e, #ff7b72);
+    --code-bg: light-dark(#f0f1f3, #2b303a);
+    scrollbar-color: light-dark(#b3b9c0, #4b515b) transparent;
+    accent-color: var(--accent);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin: 0 0 .25rem; }
+  h1 .pr-number { color: var(--accent); }
+  h2 {
+    font-size: 1.15rem;
+    margin: 2.25rem 0 .75rem;
+    padding-bottom: .35rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 { font-size: 1rem; margin: 1.25rem 0 .5rem; }
+  a { color: var(--accent); }
+  code {
+    font: .875em/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: .1em .35em;
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+  }
+  .meta { color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+  .chip {
+    display: inline-block;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 999px;
+    padding: .15rem .7rem;
+    font-size: .85rem;
+  }
+  .chip strong { font-weight: 600; }
+  .chip.risk-low strong { color: var(--ok); }
+  .chip.risk-medium strong { color: var(--warn); }
+  .chip.risk-high strong { color: var(--danger); }
+  .chip.ci-failing strong { color: var(--danger); }
+  .chip.ci-passing strong { color: var(--ok); }
+  section.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .25rem 1.25rem 1rem;
+    margin: 1rem 0;
+  }
+  section.card > h2 { margin-top: 1rem; }
+  ul, ol { padding-left: 1.4rem; }
+  li { margin: .4rem 0; }
+  li::marker { color: var(--muted); }
+  .skimmable { color: var(--muted); }
+  .tag {
+    font-size: .75rem;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: .05rem .4rem;
+    margin-right: .35rem;
+    white-space: nowrap;
+  }
+  .tag.perspective { background: var(--code-bg); color: var(--muted); }
+  .tag.low  { background: color-mix(in oklab, var(--warn) 15%, transparent); color: var(--warn); }
+  .tag.high { background: color-mix(in oklab, var(--danger) 15%, transparent); color: var(--danger); }
+  .judgment li { margin: .75rem 0; }
+  .judgment .trade { display: block; color: var(--muted); font-size: .9rem; }
+  .draft {
+    position: relative;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .85rem 1rem;
+    margin: .85rem 0;
+  }
+  .draft .target { font-size: .85rem; color: var(--muted); margin-bottom: .35rem; }
+  .draft p { margin: 0; white-space: pre-wrap; }
+  .copy-btn {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: .2rem .6rem;
+    font-size: .8rem;
+    cursor: pointer;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+  .copy-btn.copied { color: var(--ok); border-color: var(--ok); }
+  .footer-note {
+    margin-top: 3rem;
+    padding: .75rem 1rem;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: .9rem;
+  }
+</style>
+</head>
+<body>
+<!-- HTML-escape every {{PLACEHOLDER}} value that comes from the PR/repo (title, body, branch, author, paths, findings, drafts): &->&amp; first, then <->&lt; >->&gt; "->&quot;. A malicious PR could otherwise inject markup/script (local XSS). -->
+<main>
+  <h1><span class="pr-number">PR #{{PR_NUMBER}}</span> {{PR_TITLE}}</h1>
+  <p class="meta">{{AUTHOR}} → {{BASE_BRANCH}} · <a href="{{PR_URL}}">{{PR_URL}}</a></p>
+
+  <!-- ===== TL;DR ===== -->
+  <div class="chips">
+    <span class="chip">{{N_FILES}} files · +{{ADDITIONS}}/−{{DELETIONS}}</span>
+    <!-- ci-passing / ci-failing / ci-pending -->
+    <span class="chip ci-passing">CI: <strong>{{CI_STATUS}}</strong></span>
+    <!-- risk-low / risk-medium / risk-high -->
+    <span class="chip risk-medium">Risk: <strong>{{RISK_FEEL}}</strong></span>
+    <span class="chip">~{{REVIEW_MINUTES}} min ({{N_JUDGMENT_SPOTS}} judgment spots)</span>
+  </div>
+  <p>{{PURPOSE_ONE_OR_TWO_LINES}}</p>
+
+  <h2>Reading order</h2>
+  <ol>
+    <li><code>{{PATH}}</code> — {{WHY_FIRST}}</li>
+    <li class="skimmable">Skimmable: {{MECHANICAL_CHANGES}}</li>
+  </ol>
+
+  <h2>🧭 Review-lens guide — how to look</h2>
+  <h3>Design map</h3>
+  <p>{{DESIGN_MAP_FIVE_LINES_MAX}}</p>
+  <h3>Per-spot lens</h3>
+  <ul>
+    <li><code>{{PATH}}</code> — {{HOW_TO_READ_IT}}</li>
+  </ul>
+  <h3>Spec cross-check</h3>
+  <ul>
+    <li>Criterion {{N}} “{{SUMMARY}}” ↔ <code>{{PATH}}:{{LINE}}</code> — {{HOW_TO_CONFIRM}}</li>
+    <li><strong>Ambiguous interpretation to confirm</strong>: <code>{{PATH}}:{{LINE}}</code> {{INTERPRETATION}} — {{WHAT_TO_CHECK_AGAINST}}</li>
+  </ul>
+
+  <section class="card">
+    <h2>✅ Machine-checked — safe to skim</h2>
+    <ul>
+      <li><span class="tag perspective">spec</span>{{WHAT_WAS_VERIFIED}}</li>
+      <li><span class="tag perspective">risk</span>{{WHAT_WAS_VERIFIED}}</li>
+    </ul>
+    <p class="meta">Perspectives applied: {{PERSPECTIVES_LIST}}</p>
+  </section>
+
+  <section class="card">
+    <h2>⚠️ Needs human judgment — spend your time here</h2>
+    <ul class="judgment">
+      <li>
+        <code>{{PATH}}:{{LINE}}</code> {{WHAT_WAS_CHOSEN}}
+        <span class="trade">↔ {{WHAT_IT_TRADES_AGAINST_OR_QUESTION}}</span>
+      </li>
+    </ul>
+  </section>
+
+  <h2>❓ Verify — low-confidence findings</h2>
+  <ul>
+    <li><span class="tag low">{{PERSPECTIVE}}/low</span><code>{{PATH}}:{{LINE}}</code> {{FINDING}} ({{WHY_LOW_CONFIDENCE}})</li>
+  </ul>
+
+  <!-- Delete this section entirely if there are no high-confidence findings -->
+  <h2>🔴 Findings (high confidence)</h2>
+  <ul>
+    <li><span class="tag high">{{SEVERITY}}·{{PERSPECTIVE}}</span><code>{{PATH}}:{{LINE}}</code> {{FINDING}}</li>
+  </ul>
+
+  <h2>Comment drafts <span class="meta">(paste-ready — nothing has been posted)</span></h2>
+  <div class="draft">
+    <div class="target"><code>{{PATH}}:{{LINE}}</code></div>
+    <p>{{DRAFT_TEXT_DEFAULT_TO_ASKING_INTENT}}</p>
+    <button class="copy-btn" type="button">Copy</button>
+  </div>
+
+  <p class="footer-note">
+    Generated by <code>review-briefing</code>. Read-only: nothing was posted to GitHub.
+    Whether and how to post the comment drafts is your call.
+  </p>
+</main>
+<script>
+  document.querySelectorAll(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const text = btn.closest(".draft").querySelector("p").innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(btn.closest(".draft").querySelector("p"));
+        getSelection().removeAllRanges();
+        getSelection().addRange(range);
+        document.execCommand("copy");
+        getSelection().removeAllRanges();
+      }
+      btn.textContent = "Copied";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.textContent = "Copy";
+        btn.classList.remove("copied");
+      }, 1500);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # Briefing output format (canonical)
 
-Referenced from step 5 of `SKILL.md`. Keep the section order and headings stable — a reviewer's tool earns its value by putting the same information in the same place every time. Delete sections that don't apply entirely (don't write "none") — **except** ✅ and ⚠️, which are the core of this skill: keep them even when empty, stating explicitly that nothing applies.
+Referenced from step 5 of `SKILL.md`. This defines the content and section order for both outputs: the HTML briefing (rendered via `briefing-template.html`, whose sections mirror this template one-to-one) and the terminal fallback. Keep the section order and headings stable — a reviewer's tool earns its value by putting the same information in the same place every time. Delete sections that don't apply entirely (don't write "none") — **except** ✅ and ⚠️, which are the core of this skill: keep them even when empty, stating explicitly that nothing applies.
 
 ## Template
 
