@@ -1,77 +1,78 @@
 # Briefing output format (canonical)
 
-Referenced from step 5 of `SKILL.md`. This defines the content and section order for both outputs: the HTML briefing (rendered via `briefing-template.html`, whose sections mirror this template one-to-one) and the terminal fallback. Keep the section order and headings stable — a reviewer's tool earns its value by putting the same information in the same place every time. Delete sections that don't apply entirely (don't write "none") — **except** ✅ and ⚠️, which are the core of this skill: keep them even when empty, stating explicitly that nothing applies.
+Referenced from step 5 of `SKILL.md`. This defines the content and section order for both outputs: the HTML briefing (rendered via `briefing-template.html`, whose sections mirror this template one-to-one) and the terminal fallback. Keep the section order and headings stable — a reviewer's tool earns its value by putting the same information in the same place every time.
+
+**This format exists to lower the reviewer's cognitive load.** An earlier layout listed every section (reading order, lens guide, machine-checked, judgment, verify, findings, drafts) at equal weight, which forced the human to triage the briefing before they could triage the PR. This format inverts that: it leads with a **conclusion**, gives the **basis** for trusting it, then the **points** the human must actually decide, and folds the supporting detail (design trade-offs, what-was-verified) into collapsed sections. The reviewer reads top-to-bottom and stops as soon as they have what they need — conclusion, then what to fix/decide, then how to look, with everything else one click away. Do not reorder to a findings-first or all-sections-equal layout; that reintroduces the load this format removes.
+
+Mapping to the older lens vocabulary, so nothing is lost:
+
+| This format | Absorbs |
+|---|---|
+| **Verdict** | TL;DR (purpose / size / CI / risk feel / time) |
+| **Basis** | ✅ Machine-checked — safe to skim (the trust signal, in prose) |
+| **Points** | ⚠️ Needs human judgment + ❓ Verify (low-confidence) + 🔴 Findings (high-confidence) — one list, ordered by importance, each tagged by a badge |
+| **Trade-offs (collapsed)** | 🧭 Design map + the deliberate design choices that are neither bugs nor blockers + per-spot lenses that belong to no point |
+| **Points / Basis** | 🧭 Per-spot lens (as each point's how-to-look line) + spec cross-check (met criteria → basis lines; unmet/ambiguous → `check` points) |
+| **What was verified (collapsed)** | The ✅ "perspectives applied vs. not verified" discipline + existing-review dedup note |
 
 ## Template
 
 ```markdown
-# Review Briefing: PR #<number> <title>
+# PR #<number> — <verdict headline> (<repo>)
+<eyebrow: PR link · repo · N files +A/−D · CI status>
 
-## TL;DR
-- **Purpose**: <1–2 lines; include the linked issue's gist if any>
-- **Size**: <N> files, +<A>/-<D> | **CI**: <passing / failing (what) / pending>
-- **Risk feel**: low / medium / high — <one-line reason>
-- **Estimated review time**: <X min> (<Y> spots in the ⚠️ section)
+## <Verdict>  ← ok / caution / block
+<headline: the one-line conclusion>
+<body: what the conclusion rests on, 2–4 lines>
+<caveat: the one thing that is true despite the verdict — e.g. "code is fine, but does it meet the goal?">
 
-## Reading order
-1. `<path>` — <why first: the essential change>
-2. `<path>` — <consumer / ripple of 1>
-3. (skimmable: <mechanical changes, e.g. rename fallout across 12 files>)
+## Basis — why you can trust the verdict
+- ✓ <what holds> — <how it was confirmed, in prose (spec met, nothing breaks, bot fixes are real, …)>
+- (repeat per basis line; keep to ~3)
 
-## 🧭 Review-lens guide — how to look
+## <Points to decide>  ← ordered by importance
+badges (once for the section): blocker = 🔴 high-confidence finding · check = ❓ verify / low-confidence · design = ⚠️ design judgment
+- [badge] <headline> (`<path>` / <location>)
+  <body: what was chosen / found and why it matters>
+  ask: <the decision the human must make — intent? oversight? acceptable?>
+  draft: <paste-ready comment, only for points that warrant one>
+  <repeat this point block, in importance order, for each point>
 
-### Design map
-<responsibilities and dependency direction of the added/changed modules, and the data flow, in 5 lines or fewer — the map to load before reading the diff>
+## ▸ Trade-offs (collapsed) — what the author chose, and against what
+<intro: these are choices, not right/wrong; independent of correctness>
+### <trade-off heading>
+- <what was chosen and what it was traded against — no evaluation>
 
-### Per-spot lens
-- `<path>` — <how to read it, e.g. re-render impact / authorization boundary / error paths / consistency with the existing X pattern>
-
-### Spec cross-check
-- Criterion <n> "<summary>" ↔ `<path>:<line>` — <how to confirm>
-- **Ambiguous interpretation to confirm**: `<path>:<line>` <the interpretation the code took> — <what part of the spec is ambiguous; what to check it against (issue comments / design file / spec doc)>
-
-## ✅ Machine-checked — safe to skim
-- [spec] <what was verified and the result>
-- [risk] <e.g. types, null-safety, a11y floor: no findings>
-- [completeness] <only if the perspective ran>
-- Perspectives applied: <list them — generic set + any project perspective file sections>
-
-## ⚠️ Needs human judgment — spend your time here
-- `<path>:<line>` <what was chosen> — <what it trades against / what to confirm>
-
-## ❓ Verify — low-confidence findings
-- [<perspective>/low] `<path>:<line>` <finding> (<why confidence is low>)
-
-## 🔴 Findings (high confidence) — <delete section if none>
-- [<severity>][<perspective>] `<path>:<line>` <finding>
-
-## Comment drafts (paste-ready — nothing has been posted)
-> `<path>:<line>` <draft. Default to asking intent rather than asserting>
+## ▸ What this review checked (collapsed)
+- Perspectives applied: <list — generic set + any project perspective file sections>
+- **Not verified**: <what was NOT checked — runtime behavior, load/perf, untouched areas>. "Not verified" ≠ "no findings".
+- Existing review threads: <resolved count / how they were deduped into the basis>
 ```
 
 ## Section guidance
 
-### TL;DR
-- "Risk feel" is not just the finding count — weigh the nature of the change (data-model changes, authz, wide ripple).
-- Estimated review time is a rough function of ⚠️ spots and size (round to 5 minutes). Its purpose is to seed the human's time budgeting.
+### Verdict (the conclusion, up front)
+- Pick the block colour by outcome: **ok** (merge-able / nothing broken), **caution** (confirm-first / conditional), **block** (a real blocker exists). The `class` on `.verdict` and the headline must agree.
+- Fold the old TL;DR facts into the eyebrow line (size / CI) and the body (purpose / risk feel). Do not add a separate chips row.
+- The **caveat** is the highest-value sentence: state the thing that is true *despite* the verdict (most often "the code is correct, but whether it achieves the goal needs judgment"). Skip it only when there genuinely is none.
 
-### Reading order
-- "Essential" is decided by **dependency direction**, not line count (new types/abstractions → their consumers → tests).
-- Always quarantine mechanical changes (rename fallout, import shuffles, generated artifacts) as skimmable. Keeping the human from close-reading these is the single biggest time saver.
+### Basis (why the verdict is trustworthy)
+- This is the ✅ machine-checked layer in prose. **Distinguish "no findings" from "verified"**: a property no perspective covered is not a basis line.
+- Keep it to roughly three lines. Each line names *what holds* and *how it was confirmed* — including, when relevant, that existing bot fixes were re-verified as real rather than taken on trust.
 
-### 🧭 Review-lens guide
-- The **design map** describes *responsibilities and dependency direction*, not file locations — "new type → who consumes it → where it renders" should be graspable in one read.
-- Keep the **per-spot lens** to one lens per spot. If you want to list three or more lenses for a file, it belongs in ⚠️ instead — it has outgrown lens-guided reading and needs judgment.
-- The **spec cross-check** maps *every* acceptance criterion to its implementing location. A criterion with no matching location is itself important information — escalate it to 🔴 or ❓. For ambiguous interpretations, state the interpretation the code took as a fact and always name what to check it against (issue comments / design file / spec doc).
+### Points (what the human must decide)
+- One merged, importance-ordered list replacing the separate ⚠️/❓/🔴 sections. The **badge** carries the old distinction: `blocker` (high-confidence finding), `check` (low-confidence / verify), `design` (judgment call).
+- For each point: state *what was chosen or found*, then a one-line **ask** — the decision the human owns (intended scope-cut? oversight? acceptable trade?). Do not evaluate the choice yourself.
+- Attach a **draft** comment only to points where a paste-ready comment helps; default to intent-seeking phrasing ("what was the intent behind …"), assert only high-confidence findings.
+- If there are genuinely no points to decide, say so in one line rather than deleting the section — an empty points list is itself a time saver.
 
-### ✅ Machine-checked
-- **Distinguish "no findings" from "verified"**: list the perspectives applied, every time. A property that no perspective covers (e.g. load behavior) is *not* verified and must not appear here.
-- Low-confidence "clean" results don't belong here (nor in ❓ — simply omit them).
+### Trade-offs (collapsed)
+- The 🧭 design map plus the deliberate choices that are *neither bugs nor blockers*. No evaluations: state *what was chosen* and *what it trades against*.
+- Collapsed because it is reference material — the reviewer opens it only if a point sends them there.
 
-### ⚠️ Needs human judgment
-- No evaluations. State *what was chosen*, *what it trades against*, and the question to ask — the judgment itself belongs to the human.
-- If empty, say "none — mechanical change only": knowing the section is empty is itself a time saver.
+### What this review checked (collapsed)
+- Always list the perspectives applied, every time, and always state what was **not** verified (runtime behavior, load/perf, untouched areas). "Not verified" ≠ "no findings".
+- Note how existing review threads were resolved and deduped, so the reviewer doesn't re-litigate comments already folded into the basis.
 
-### Comment drafts
-- Default to intent-seeking phrasing ("what was the intent behind …"); assert only high-confidence findings.
-- Make them paste-ready, and end the briefing by noting that **whether and how to post them is the human's call**.
+### Footer
+- End by noting nothing was posted to GitHub and that **whether and how to post the comment drafts is the human's call**.
