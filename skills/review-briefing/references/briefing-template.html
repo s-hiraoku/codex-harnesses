@@ -1,0 +1,305 @@
+<!doctype html>
+<!-- 全 {{PLACEHOLDER}} を置換してから保存する (置換漏れ厳禁):
+     {{LANG}} = html lang コード ("ja" / "en" など、ブリーフィングの言語)
+     {{VERDICT_TITLE}} = <title> 用の一言の結論 (例: "要確認" / "caution")
+     {{VERDICT_CLASS}} / {{BADGE_CLASS}} は本文コメントの許容値から選ぶ -->
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>PR #{{PR_NUMBER}} {{VERDICT_TITLE}} — {{REPO}}</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: light-dark(#fafafa, #16181d);
+    --surface: light-dark(#ffffff, #1e2128);
+    --text: light-dark(#1f2328, #d5dae2);
+    --muted: light-dark(#59636e, #8b949e);
+    --border: light-dark(#d9dee3, #30363d);
+    --accent: light-dark(#5b3df5, #a795ff);
+    --ok: light-dark(#1a7f37, #57d97a);
+    --ok-bg: light-dark(#e8f5ec, #16291d);
+    --warn: light-dark(#9a6700, #e3b341);
+    --warn-bg: light-dark(#fdf6e3, #2a2413);
+    --danger: light-dark(#cf222e, #ff7b72);
+    --danger-bg: light-dark(#fdeceb, #2a1717);
+    --code-bg: light-dark(#f0f1f3, #2b303a);
+    scrollbar-color: light-dark(#b3b9c0, #4b515b) transparent;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.7 system-ui, -apple-system, "Hiragino Sans", "Segoe UI", sans-serif;
+  }
+  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  code {
+    font: .875em/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: .1em .35em;
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+  }
+  a { color: var(--accent); }
+
+  /* ---- 見出し ---- */
+  .eyebrow { color: var(--muted); font-size: .9rem; margin: 0 0 .4rem; }
+  h1 { font-size: 1.35rem; line-height: 1.4; margin: 0 0 1.75rem; font-weight: 600; }
+
+  /* ---- 結論ブロック ----
+     verdict の色は結論に合わせて class を付け替える:
+       .verdict.ok      = 問題なし / マージ可     (緑)
+       .verdict.caution = 確認事項あり / 条件付き  (黄)
+       .verdict.block   = ブロッカーあり          (赤) */
+  .verdict {
+    border-radius: 12px;
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .verdict.ok      { background: var(--ok-bg);     border: 1px solid color-mix(in oklab, var(--ok) 35%, transparent); }
+  .verdict.caution { background: var(--warn-bg);   border: 1px solid color-mix(in oklab, var(--warn) 35%, transparent); }
+  .verdict.block   { background: var(--danger-bg); border: 1px solid color-mix(in oklab, var(--danger) 35%, transparent); }
+  .verdict h2 {
+    margin: 0 0 .6rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+  }
+  .verdict.ok h2      { color: var(--ok); }
+  .verdict.caution h2 { color: var(--warn); }
+  .verdict.block h2   { color: var(--danger); }
+  .verdict p { margin: 0; }
+  .verdict .caveat { margin-top: .8rem; font-size: .95rem; color: var(--muted); }
+
+  /* ---- 根拠の行 (✅ machine-checked に相当) ---- */
+  .basis { list-style: none; padding: 0; margin: 0 0 2.5rem; }
+  .basis li {
+    display: grid;
+    grid-template-columns: 1.6rem 1fr;
+    gap: .1rem .6rem;
+    padding: .7rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  .basis li:first-child { border-top: 1px solid var(--border); }
+  .basis .mark { color: var(--ok); font-weight: 700; }
+  .basis .what { font-weight: 600; }
+  .basis .detail {
+    grid-column: 2;
+    color: var(--muted);
+    font-size: .92rem;
+    line-height: 1.6;
+  }
+
+  /* ---- 論点 (⚠️判断 / ❓確認 / 🔴指摘 を badge で区別) ---- */
+  h2.section {
+    font-size: 1.05rem;
+    margin: 0 0 .35rem;
+    font-weight: 600;
+  }
+  .section-note { color: var(--muted); font-size: .92rem; margin: 0 0 1.25rem; }
+
+  .point {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 1.1rem 1.3rem;
+    margin-bottom: .9rem;
+  }
+  .point h3 {
+    margin: 0 0 .5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .point .where {
+    display: block;
+    font-weight: 400;
+    font-size: .82rem;
+    color: var(--muted);
+    margin-top: .2rem;
+  }
+  .point p { margin: 0 0 .6rem; font-size: .95rem; }
+  .point p:last-child { margin-bottom: 0; }
+  .point .ask {
+    font-size: .92rem;
+    color: var(--muted);
+    border-left: 2px solid var(--border);
+    padding-left: .8rem;
+    margin-top: .7rem;
+  }
+  .badge {
+    display: inline-block;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    border-radius: 4px;
+    padding: .12rem .45rem;
+    vertical-align: .12em;
+    margin-right: .45rem;
+  }
+  /* .badge.blocker = 🔴 高確信度の指摘 / .badge.check = ❓要確認・低確信度 / .badge.design = ⚠️設計判断 */
+  .badge.blocker { background: color-mix(in oklab, var(--danger) 18%, transparent); color: var(--danger); }
+  .badge.check   { background: color-mix(in oklab, var(--warn) 20%, transparent); color: var(--warn); }
+  .badge.design  { background: var(--code-bg); color: var(--muted); }
+
+  /* ---- 折りたたみ ---- */
+  details {
+    border-top: 1px solid var(--border);
+    padding: 1rem 0 0;
+    margin-top: 2.5rem;
+  }
+  summary {
+    cursor: pointer;
+    color: var(--muted);
+    font-size: .92rem;
+    font-weight: 600;
+  }
+  summary::marker { color: var(--muted); }
+  details .body { padding-top: .9rem; font-size: .92rem; color: var(--muted); }
+  details h4 { margin: 1.1rem 0 .4rem; font-size: .92rem; color: var(--text); }
+  details ul { margin: .3rem 0; padding-left: 1.2rem; }
+  details li { margin: .3rem 0; }
+
+  /* ---- コメント草案 ---- */
+  .draft {
+    position: relative;
+    background: var(--code-bg);
+    border-radius: 8px;
+    padding: .8rem 3.5rem .8rem 1rem;
+    margin: .6rem 0 0;
+    font-size: .92rem;
+  }
+  .draft p { margin: 0; white-space: pre-wrap; }
+  .copy-btn {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: .18rem .55rem;
+    font-size: .78rem;
+    cursor: pointer;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+  .copy-btn.copied { color: var(--ok); border-color: var(--ok); }
+
+  .footer-note {
+    margin-top: 3rem;
+    color: var(--muted);
+    font-size: .88rem;
+  }
+</style>
+</head>
+<body>
+<!-- HTML-escape every {{ }} value that comes from the PR/repo (title, body, branch, author, paths, findings, drafts): &->&amp; first, then <->&lt; >->&gt; "->&quot;. A malicious PR could otherwise inject markup/script (local XSS). -->
+<main>
+  <!-- ===== ヘッダー ===== -->
+  <p class="eyebrow">
+    <a href="{{PR_URL}}">PR #{{PR_NUMBER}}</a>
+    · {{REPO}} · {{N_FILES}} files +{{ADDITIONS}}/−{{DELETIONS}} · CI {{CI_STATUS}}
+  </p>
+  <h1>{{PR_TITLE}}</h1>
+
+  <!-- ===== 結論ブロック (TL;DR を吸収) =====
+       {{VERDICT_CLASS}} は ok / caution / block のいずれか (h2 の結論と一致させる)。 -->
+  <div class="verdict {{VERDICT_CLASS}}">
+    <h2>{{VERDICT_HEADLINE}}</h2>
+    <p>{{VERDICT_BODY}}</p>
+    <p class="caveat">{{VERDICT_CAVEAT}}</p>
+  </div>
+
+  <!-- ===== 根拠 (✅ Machine-checked — safe to skim に相当) =====
+       「なぜこの結論を信じてよいか」を数行で。<li> を必要数だけ複製。
+       検証した観点そのものの列挙は下部の details「何を検証したか」に置く。 -->
+  <ul class="basis">
+    <li>
+      <span class="mark">✓</span>
+      <span class="what">{{BASIS_HEADLINE}}</span>
+      <span class="detail">{{BASIS_DETAIL}}</span>
+    </li>
+    <!-- 根拠が続くぶんだけ <li> を複製 -->
+  </ul>
+
+  <!-- ===== 論点 (⚠️判断 + ❓確認 + 🔴指摘 を1本のリストに統合) =====
+       重要な順に並べる。各 .point の badge をタイプに合わせて付ける:
+         {{BADGE_CLASS}} は blocker / check / design のいずれか
+         (blocker = 🔴 高確信度の指摘   check = ❓要確認 / 低確信度   design = ⚠️設計判断)。
+         {{BADGE_LABEL}} は表示文字列 (通常は class と同じ語。ローカライズ可)。
+       コメント草案があるものだけ .draft を入れる(判断のみの点には不要)。 -->
+  <h2 class="section">{{POINTS_SECTION_TITLE}}</h2>
+  <p class="section-note">{{POINTS_SECTION_NOTE}}</p>
+
+  <div class="point">
+    <h3>
+      <span class="badge {{BADGE_CLASS}}">{{BADGE_LABEL}}</span>
+      {{POINT_HEADLINE}}
+      <span class="where">{{PATH_OR_LOCATION}}</span>
+    </h3>
+    <p>{{POINT_BODY}}</p>
+    <p class="ask">{{POINT_ASK}}</p>
+    <!-- コメント草案がある点だけ、この .draft を残す。無ければ削除。 -->
+    <div class="draft">
+      <p>{{DRAFT_TEXT}}</p>
+      <button class="copy-btn" type="button">Copy</button>
+    </div>
+  </div>
+  <!-- 論点が続くぶんだけ .point を複製 -->
+
+  <!-- ===== 折りたたみ①: 設計トレードオフ (🧭 design map + 良し悪しでない選択) =====
+       良し悪しの評価ではなく「著者が何と引き換えに何を選んだか」。h4 で小見出し、ul で列挙。 -->
+  <details>
+    <summary>{{TRADEOFFS_SUMMARY}}</summary>
+    <div class="body">
+      <p>{{TRADEOFFS_INTRO}}</p>
+      <h4>{{TRADEOFF_HEADING}}</h4>
+      <ul>
+        <li>{{TRADEOFF_ITEM}}</li>
+      </ul>
+      <!-- h4 + ul を必要数だけ複製 -->
+    </div>
+  </details>
+
+  <!-- ===== 折りたたみ②: 何を検証したか (✅ perspectives-applied の規律) =====
+       適用した観点と、明示的に「未検証」の領域を必ず書く。「指摘なし」と「未検証」を混同しない。 -->
+  <details>
+    <summary>{{VERIFIED_SUMMARY}}</summary>
+    <div class="body">
+      <p>{{PERSPECTIVES_APPLIED}}</p>
+      <p><strong>{{NOT_VERIFIED_LABEL}}</strong>: {{NOT_VERIFIED_LIST}}</p>
+      <p>{{EXISTING_REVIEWS_NOTE}}</p>
+    </div>
+  </details>
+
+  <p class="footer-note">{{FOOTER_NOTE}}</p>
+</main>
+<script>
+  document.querySelectorAll(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const text = btn.closest(".draft").querySelector("p").innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(btn.closest(".draft").querySelector("p"));
+        getSelection().removeAllRanges();
+        getSelection().addRange(range);
+        document.execCommand("copy");
+        getSelection().removeAllRanges();
+      }
+      btn.textContent = "Copied";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.textContent = "Copy";
+        btn.classList.remove("copied");
+      }, 1500);
+    });
+  });
+</script>
+</body>
+</html>
