@@ -13,6 +13,17 @@ Use this file to record meaningful verification runs.
 
 ## Runs
 
+### 2026-07-23 21:43 JST
+
+- Command: `PATH=/private/tmp/codex-pr46-venv/bin:$PATH CODEX_HARNESSES_STRICT=1 bash scripts/verify.sh`
+- Scope: PR #46 CI and Codex review fixes for the `no-slop` skill
+- Result: passed
+- Notes: `ruff check .`, 67 pytest tests, and `mkdocs build --strict` passed. The initial
+  system-Python run hit the known incompatible `rpds` architecture issue, so verification
+  was repeated in an isolated virtual environment with `requirements-dev.txt` installed.
+  The same command passed again after the current-head Codex review made the calibration
+  examples source-bound.
+
 ### 2026-07-19 11:46 JST
 
 - Command: `. .venv/bin/activate && bash scripts/verify.sh`
