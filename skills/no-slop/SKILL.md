@@ -1,13 +1,16 @@
 ---
 name: no-slop
-description: Strip AI slop from prose output and raise its information density — filler openings/closings, restated questions, contentless emphasis, stacked hedges, repeated points, structure that outweighs substance — while preserving every fact, number, caveat, and reason (compression, never omission). This is a MODIFIER skill; it changes how output is written, not what work is done. Invoke it alongside any other skill or task ("write the report, no-slop", "PR 本文を no-slop で"), on its own to rewrite existing text ("deslop this paragraph"), or as a standing session rule ("no-slop for this whole session"). Use whenever the user asks for concise, dense, non-AI-sounding writing, complains that output is verbose/thin/padded, or invokes any writing-heavy task where quality matters. For removing slop from CODE (comments, defensive try/except), use the deslop skill instead — this one is for prose.
+description: Strip AI slop from prose output and raise its information density — filler openings/closings, restated questions, contentless emphasis, stacked hedges, repeated points, structure that outweighs substance — while preserving every fact, number, caveat, and reason (compression, never omission). This is a composable modifier workflow; it changes how prose is written for the current task, not what work is done. Invoke it alongside another skill or task ("write the report, no-slop", "PR 本文を no-slop で") or on its own to rewrite existing text ("deslop this paragraph"). Use whenever the user asks for concise, dense, non-AI-sounding writing or complains that output is verbose, thin, or padded. For removing slop from code (comments, defensive try/except), use the deslop skill instead.
 ---
 
 # no-slop — dense prose, nothing lost
 
 AI prose fails in two directions at once: it is verbose (filler, restatement, decoration) and thin (claims without specifics). This skill fixes both. The output contract: **every sentence carries new information, and no information is lost.**
 
-This is a **modifier**, not a workflow. Once invoked, its rules apply to all user-facing prose you produce for the current task — reports, summaries, PR bodies, README sections, briefings, explanations. It does not change what work you do; it changes how you write the result.
+This is a reusable prose-transform workflow that composes with task workflows.
+Once invoked, its rules apply to user-facing prose produced for the current task
+— reports, summaries, PR bodies, README sections, briefings, and explanations.
+It does not change what work you do; it changes how you write the result.
 
 ## Workflow
 
@@ -20,7 +23,9 @@ drafting, then run both self-verification passes before returning prose.
 |---|---|
 | Alongside another skill or task ("write X, no-slop") | Do the task per its own skill/instructions; apply these rules to every prose deliverable it produces |
 | Standalone with existing text ("deslop this") | Rewrite the given text under these rules; show the result (and, if asked, what was cut and why) |
-| Standing ("no-slop for this session") | Apply to all subsequent prose until the user turns it off. Re-read this file if you notice drift in long sessions |
+
+Skill activation is scoped to the current task. For a durable style rule across
+tasks, put equivalent guidance in the applicable `AGENTS.md`.
 
 ## The three rules
 
