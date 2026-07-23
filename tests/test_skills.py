@@ -29,6 +29,7 @@ REQUIRED_SKILL_NAMES = {
     "tdd",
     "simplify",
     "deslop",
+    "no-slop",
     "fix-ci",
 }
 

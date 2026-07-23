@@ -26,7 +26,7 @@ Put the human reviewer in the best position to review quickly and well. The skil
 - **Route reviewers to a stronger model tier or higher reasoning effort** per your runtime's escalation policy (e.g. the routing table used by the `adviser` skill); disclose a downgrade if one occurs. Consistent judgment quality is the point of the machine-check layer.
 - **If your project maintains a verbalized perspective file** (accumulated review checklists, "missed-finding" perspectives), pass it to the reviewers as the canonical perspective set instead of inventing one — and never fork a second copy of it.
 
-## Workflow (5 steps)
+## Workflow (4 preparation steps)
 
 ### 1. Fetch PR context (main agent, `gh`)
 
@@ -69,6 +69,8 @@ This is *not* another bug hunt. Ask a separate read-only subagent for three thin
 > 3. **Per-spot review lens**: for each major changed file and judgment area, one line on *how to read it* (e.g. "read for re-render impact", "trace the authorization boundary", "walk the error paths only", "compare against the existing X pattern").
 
 Then the main agent cross-checks the step-1 acceptance criteria against the step-3 spec findings and routes everything into the output sections: **criteria that hold become basis lines** ("spec met — confirmed at `file:line`"), **criteria that are unmet or ambiguously interpreted become points** (badge `check`, with the ambiguity as the *ask*), the **design map goes into the collapsed Trade-offs section**, and each **per-spot lens becomes the how-to-look line inside the point it belongs to** (lenses for spots with no point go into Trade-offs). Nothing from this step gets its own section — it feeds the verdict-first layout.
+
+## Final Report
 
 ### 5. Output the briefing (HTML in the browser + terminal summary)
 

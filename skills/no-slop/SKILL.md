@@ -9,7 +9,12 @@ AI prose fails in two directions at once: it is verbose (filler, restatement, de
 
 This is a **modifier**, not a workflow. Once invoked, its rules apply to all user-facing prose you produce for the current task — reports, summaries, PR bodies, README sections, briefings, explanations. It does not change what work you do; it changes how you write the result.
 
-## Invocation modes
+## Workflow
+
+Activate the modifier for the invocation mode below, apply the three rules while
+drafting, then run both self-verification passes before returning prose.
+
+### Invocation modes
 
 | How it was invoked | What to do |
 |---|---|
@@ -66,3 +71,9 @@ Do not skip pass 2 to save time — over-cutting is this skill's primary failure
 - Match the reader: an expert needs less scaffolding, a newcomer needs more explanation — explanation for a reader who needs it is information, not slop.
 - Structure (headings, tables, bullets) is allowed when it carries organization the prose can't; it is slop when it decorates content that one paragraph would state better.
 - Worked before/after examples: [`references/examples.md`](references/examples.md). Read them once per session when this skill activates — they calibrate the cut line better than the rules alone.
+
+## Final Report
+
+Return the requested deliverable after the density and preservation passes. Do
+not add a separate summary of cuts unless the user asks for one. When they do,
+name what was removed or merged and why, without restating the rewritten text.
