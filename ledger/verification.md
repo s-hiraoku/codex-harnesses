@@ -21,6 +21,8 @@ Use this file to record meaningful verification runs.
 - Notes: `ruff check .`, 67 pytest tests, and `mkdocs build --strict` passed. The initial
   system-Python run hit the known incompatible `rpds` architecture issue, so verification
   was repeated in an isolated virtual environment with `requirements-dev.txt` installed.
+  The same command passed again after the current-head Codex review made the calibration
+  examples source-bound.
 
 ### 2026-07-19 11:46 JST
 
