@@ -47,6 +47,6 @@ Why: the hedge-stack hid a real caveat. Deleting it would be omission; the after
 > In conclusion, this refactoring improves the readability of the code.
 
 **After:**
-> Split `processData` (was 120 lines, cyclomatic complexity 14) into `parse`, `validate`, and `persist`; behavior unchanged, covered by the existing 12 tests.
+> To improve readability, split `processData` (was 120 lines, cyclomatic complexity 14) into `parse`, `validate`, and `persist`; behavior unchanged, covered by the existing 12 tests.
 
-Why: four headings, three bullets, and a conclusion obscure facts that fit in one sentence. The after preserves the size, complexity, split, behavior, and test coverage without the scaffold.
+Why: four headings, three bullets, and a conclusion obscure facts that fit in one sentence. The after preserves the rationale, size, complexity, split, behavior, and test coverage without the scaffold.
