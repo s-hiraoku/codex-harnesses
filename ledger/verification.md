@@ -284,3 +284,10 @@ Use this file to record meaningful verification runs.
 - Scope: executable PR Guardian GraphQL/REST pagination audit, adjacent-reference contract checks, tests, and usage documentation.
 - Result: passed
 - Notes: `ruff check .`, 66 pytest tests, and `mkdocs build --strict` passed. A preceding plain `bash scripts/verify.sh` run stopped during collection because the system Python loaded an incompatible x86_64 `rpds` wheel under arm64e; the isolated requirements environment removed that host-only failure.
+
+### 2026-08-14 06:58 JST
+
+- Command: `uv run --no-project --with-requirements requirements-dev.txt bash scripts/verify.sh`
+- Scope: Issue #50 process-owned PR Guardian waiting, terminal-event contract and validator, telemetry, regression tests, and documentation.
+- Result: passed
+- Notes: The final pass ran after adding target/sequence/head freshness checks and concrete review, check, pagination, thread, comment, and stabilization evidence validation. `ruff check .`, 77 pytest tests, and `mkdocs build --strict` passed. `quick_validate.py skills/pr-guardian` and the documented terminal-event example also passed separately.

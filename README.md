@@ -159,13 +159,13 @@ kaizen-loop init --agent codex
 kaizen-loop list --json
 ```
 
-Confirm that `kaizen-loop guardian run --help` is available, then start PR monitoring with the PR number and the slug returned as a key under `projects`:
+Confirm that `kaizen-loop guardian run --help` is available and that `kaizen-loop guardian capabilities --json` advertises terminal-event schema version 1 plus durable completion notification support, as defined in `skills/pr-guardian/references/guardian-event-contract.md`. Then start PR monitoring once with the PR number and the slug returned as a key under `projects`:
 
 ```sh
 kaizen-loop guardian run <pr-number> --project <project-slug> --json
 ```
 
-Keep the command attached and poll until it exits. It monitors CI and review activity across repeated fix-and-push cycles; `gh pr checks --watch` covers CI only and is not a substitute.
+Run it through a host completion notification or as a detached durable job. Do not keep Codex active to poll the command or GitHub. The runner owns CI/review polling, head resets, and stabilization, and wakes Codex only with an actionable, merge-ready, timeout, or blocked terminal event. Its telemetry separates actual GitHub request counts and passive wait time from Codex reasoning/fix time. `gh pr checks --watch` covers CI only and is not a substitute. If the execution host cannot notify completion and cannot detach the job durably, report that capability as a blocker instead of falling back to an LLM-driven polling loop.
 
 For Vercel or Next.js frontend projects, pair this harness with Vercel's official frontend skills instead of copying them into this repository:
 

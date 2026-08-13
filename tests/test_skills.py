@@ -141,7 +141,7 @@ def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
     assert "reactivate a same-head PR" in text
     assert "discard all earlier review-completion and quiet-period evidence" in text
     assert (
-        "fetch the head SHA, checks, merge state, review decision, comments, reviews, "
+        "fetches the head SHA, checks, merge state, review decision, comments, reviews, "
         "and all review threads twice"
     ) in text
     assert (
@@ -155,7 +155,52 @@ def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
         "kaizen-loop guardian run <pr-number> --project <project-slug> --json"
         in text
     )
-    assert "Keep that session open and poll it until the guardian exits" in text
-    assert "immediately starts the next monitor/review cycle in the same guardian run" in text
-    assert "Never leave a guardian child process running" in text
+    assert "Do not repeatedly call a tool to poll the guardian process" in text
+    assert "resume only from a terminal event" in text
+    assert "blocked: passive guardian runner unavailable" in text
+    assert "Every push resets runner-side review evidence" in text
     assert "`gh pr checks --watch` is only a CI watcher" in text
+
+
+def test_pr_guardian_terminal_event_contract_is_process_owned() -> None:
+    skill = (SKILLS / "pr-guardian" / "SKILL.md").read_text()
+    readme = (ROOT / "README.md").read_text()
+    audit = (
+        SKILLS / "pr-guardian" / "references" / "pr-feedback-audit.md"
+    ).read_text()
+    contract = (
+        SKILLS / "pr-guardian" / "references" / "guardian-event-contract.md"
+    ).read_text()
+
+    forbidden_agent_polling = (
+        "Keep that session open and poll it until the guardian exits",
+        "30 polling checks at 60-second intervals",
+        "perform the loop below in the current turn through the full wait window",
+    )
+    for instruction in forbidden_agent_polling:
+        assert instruction not in skill
+        assert instruction not in readme
+
+    assert "the durable runner owns passive waiting" in audit
+    assert "scripts/validate_guardian_event.py" in skill
+    assert "kaizen-loop guardian capabilities --json" in skill
+
+    required_contract = (
+        '"schema_version": 1',
+        '"event": "actionable"',
+        '"job_id"',
+        '"sequence"',
+        '"head_sha"',
+        '"is_draft"',
+        '"actionable_comment_count"',
+        '"pagination_complete"',
+        '"stabilization_snapshots"',
+        '"head_resets"',
+        '"github_requests"',
+        '"passive_wait_ms"',
+        '"active_runner_ms"',
+        "actual HTTP/API requests",
+        "successful exit without an event",
+    )
+    for marker in required_contract:
+        assert marker in contract

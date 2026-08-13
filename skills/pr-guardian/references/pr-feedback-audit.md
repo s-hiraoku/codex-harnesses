@@ -231,7 +231,7 @@ Before reporting success, run:
 ```sh
 "$GH_BIN" pr view <pr> --json headRefOid,mergeStateStatus,mergeable,reviewDecision,statusCheckRollup,reviews,comments,latestReviews
 "$GH_BIN" api "repos/<owner>/<repo>/pulls/<pr>/reviews?per_page=100" --paginate
-"$GH_BIN" pr checks <pr> --watch  # Use a 30-minute timeout, or poll with a 30-check cap if checks may hang.
+"$GH_BIN" pr checks <pr>  # Diagnose current state; the durable runner owns passive waiting.
 ```
 
 Then re-run the GraphQL thread query and count unresolved threads. The PR is not merge-ready if:
