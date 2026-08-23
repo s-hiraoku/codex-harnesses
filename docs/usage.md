@@ -61,6 +61,8 @@ gh skill preview s-hiraoku/codex-harnesses feature-implementation
 gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses frontend-design --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses implement-to-merge-ready --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses pr-guardian --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses autopilot --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses kaizen-loop --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses ui-imagegen-director --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses bug-fix --agent codex --scope project
@@ -78,6 +80,8 @@ npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill frontend-design
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merge-ready
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill pr-guardian
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill autopilot
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill ui-imagegen-director
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill bug-fix
@@ -125,6 +129,7 @@ If your environment cannot use these installers, copy selected skill directories
 cp -R skills/feature-implementation /path/to/codex-skills/
 cp -R skills/frontend-design /path/to/codex-skills/
 cp -R skills/implement-to-merge-ready /path/to/codex-skills/
+cp -R skills/autopilot /path/to/codex-skills/
 cp -R skills/kaizen-loop /path/to/codex-skills/
 cp -R skills/ui-imagegen-director /path/to/codex-skills/
 cp -R skills/goal-manager /path/to/codex-skills/
@@ -136,7 +141,7 @@ cp -R skills/pr-guardian /path/to/codex-skills/
 cp -R skills/meta-packager /path/to/codex-skills/
 ```
 
-Install or copy only the skills that match repeated workflows. Use `implement-to-merge-ready` when an implementation request should run from plan and goal setup through tests, review, PR creation, and merge-readiness follow-up. Use `kaizen-loop` when Codex should evaluate a product, propose prioritized improvements, wait for user approval, then implement approved changes through merge-ready PRs. Use `frontend-design` for substantial UI layout, typography, color, usability, or responsive work, and `ui-imagegen-director` when image-generated UI direction should guide frontend implementation. Use `jina-reader` when public URLs need Jina Reader to recover LLM-friendly Markdown from pages normal tools cannot parse cleanly, and `jina-read-url` when the repeated task is simply to turn one public URL into readable Markdown and a concise summary in a ChatGPT-like workflow. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work, propose the smallest useful reusable asset, and package only explicitly approved high-confidence repeated patterns as skills, subagents, hooks, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
+Install or copy only the skills that match repeated workflows. Use `implement-to-merge-ready` when an implementation request should run from plan and goal setup through tests, review, PR creation, and merge-readiness follow-up. Install `pr-guardian` before `autopilot`; `$autopilot` is an explicit-only convenience entry point for the same durable review, CI, thread-audit, and stabilization contract, not a second polling implementation. Use `kaizen-loop` when Codex should evaluate a product, propose prioritized improvements, wait for user approval, then implement approved changes through merge-ready PRs. Use `frontend-design` for substantial UI layout, typography, color, usability, or responsive work, and `ui-imagegen-director` when image-generated UI direction should guide frontend implementation. Use `jina-reader` when public URLs need Jina Reader to recover LLM-friendly Markdown from pages normal tools cannot parse cleanly, and `jina-read-url` when the repeated task is simply to turn one public URL into readable Markdown and a concise summary in a ChatGPT-like workflow. Use `goal-manager` when a task needs explicit objective tracking across implementation, verification, or PR creation. Use `meta-packager` to mine recent Codex work, propose the smallest useful reusable asset, and package only explicitly approved high-confidence repeated patterns as skills, subagents, hooks, or automations. Do not put repository-specific secrets, credentials, or temporary task state in a skill.
 
 The `pr-guardian` directory must be copied with its adjacent `references/pr-feedback-audit.md`. That reference contains executable cursor loops for outer review threads and nested comments, plus paginated REST audits for reviews, comments, checks, and annotations; first-page summaries are not merge-readiness evidence.
 

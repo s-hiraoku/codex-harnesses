@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
 REQUIRED_SKILL_NAMES = {
     "adviser",
+    "autopilot",
     "feature-implementation",
     "frontend-design",
     "implement-to-merge-ready",
@@ -160,6 +161,22 @@ def test_pr_guardian_waits_for_current_head_review_stabilization() -> None:
     assert "blocked: passive guardian runner unavailable" in text
     assert "Every push resets runner-side review evidence" in text
     assert "`gh pr checks --watch` is only a CI watcher" in text
+
+
+def test_autopilot_preserves_merge_authority_and_current_head_evidence() -> None:
+    text = (SKILLS / "autopilot" / "SKILL.md").read_text()
+    metadata = (SKILLS / "autopilot" / "agents" / "openai.yaml").read_text()
+
+    assert "Do not select this skill implicitly" in text
+    assert "allow_implicit_invocation: false" in metadata
+    assert "Read its complete `SKILL.md` and every reference" in text
+    assert "headRepositoryOwner" in text
+    assert "push to that exact head repository and ref" in text
+    assert "Do not create or update a same-named branch in the base repository" in text
+    assert "Never replace the runner with sleeps, repeated GitHub snapshots" in text
+    assert "`gh pr checks --watch`" in text
+    assert "validated terminal event" in text
+    assert "Never merge the PR" in text
 
 
 def test_pr_guardian_terminal_event_contract_is_process_owned() -> None:
