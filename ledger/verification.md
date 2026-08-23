@@ -291,3 +291,10 @@ Use this file to record meaningful verification runs.
 - Scope: Issue #50 process-owned PR Guardian waiting, terminal-event contract and validator, telemetry, regression tests, and documentation.
 - Result: passed
 - Notes: The final pass ran after adding target/sequence/head freshness checks and concrete review, check, pagination, thread, comment, and stabilization evidence validation. `ruff check .`, 77 pytest tests, and `mkdocs build --strict` passed. `quick_validate.py skills/pr-guardian` and the documented terminal-event example also passed separately.
+
+### 2026-08-23 14:53 JST
+
+- Command: `PATH=/private/tmp/codex-harnesses-autopilot-venv/bin:$PATH bash scripts/verify.sh`
+- Scope: explicit-only Autopilot skill, PR Guardian delegation contract, fork-head push targeting, installation documentation, and regression checks
+- Result: passed
+- Notes: `ruff check .`, 78 pytest tests, and `mkdocs build --strict` passed in an isolated Python 3.14 environment. `quick_validate.py skills/autopilot` and an independent portability/contract review also passed.

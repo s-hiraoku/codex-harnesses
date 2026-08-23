@@ -75,6 +75,8 @@ GitHub CLI is useful when installing one skill at a time:
 gh skill preview s-hiraoku/codex-harnesses feature-implementation
 gh skill install s-hiraoku/codex-harnesses feature-implementation --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses implement-to-merge-ready --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses pr-guardian --agent codex --scope project
+gh skill install s-hiraoku/codex-harnesses autopilot --agent codex --scope project
 gh skill install s-hiraoku/codex-harnesses kaizen-loop --agent codex --scope project
 ```
 
@@ -86,10 +88,12 @@ The Skills CLI is useful when an npm-based command is easier in the environment:
 npx skills add s-hiraoku/codex-harnesses --list
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill feature-implementation
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill implement-to-merge-ready
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill pr-guardian
+npx skills add s-hiraoku/codex-harnesses --agent codex --skill autopilot
 npx skills add s-hiraoku/codex-harnesses --agent codex --skill kaizen-loop
 ```
 
-Use `--global` for user-wide installation. Install only the skills that match repeated work, such as `implement-to-merge-ready` for implementation tasks that should continue through PR creation and merge-readiness follow-up, or `kaizen-loop` for product evaluation followed by approved improvement PRs.
+Use `--global` for user-wide installation. Install only the skills that match repeated work, such as `implement-to-merge-ready` for implementation tasks that should continue through PR creation and merge-readiness follow-up, or `kaizen-loop` for product evaluation followed by approved improvement PRs. Install `pr-guardian` before `autopilot`; invoke `$autopilot` explicitly when the same durable Guardian workflow should keep a PR moving without merging it.
 
 ## Daily Workflow
 
